@@ -489,7 +489,7 @@ def seed_books():
         db.session.add(book)
 
     db.session.commit()
-
+    print("Books have been seeded!")
 
 
 

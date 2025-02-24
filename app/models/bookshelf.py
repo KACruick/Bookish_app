@@ -11,7 +11,7 @@ class Bookshelf(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # Many-to-many relationship with books
-    books = db.relationship('Book', secondary='bookshelves_books', back_populates='bookshelves')
+    books = db.relationship('Book', secondary='bookshelf_books', back_populates='bookshelves')
 
     def __repr__(self):
         return f"<Bookshelf id={self.id}, name='{self.name}', userId={self.userId}>"

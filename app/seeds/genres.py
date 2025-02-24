@@ -19,9 +19,7 @@ def seed_genres():
             db.session.add(genre)
 
     db.session.commit()
-
-
-
+    print("Genres have been seeded!")
 
 def undo_genres():
     if environment == "production":

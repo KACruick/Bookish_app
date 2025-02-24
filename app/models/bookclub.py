@@ -16,9 +16,11 @@ class Bookclub(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # relationships
-    owner = db.relationship('User', backref='bookclubs', lazy=True)
-    book = db.relationship('Book', backref='bookclubs', lazy=True)
-    members = db.relationship('User', secondary=add_prefix_for_prod("bookclub_members"), back_populates='bookclubs')
+    owner = db.relationship('User', backref='bookclubs_owned', lazy=True)
+    book = db.relationship('Book', backref='bookclub_books', lazy=True)
+    members = db.relationship('User', secondary=add_prefix_for_prod('bookclub_members'), back_populates='bookclubs')
+    comments = db.relationship('BookclubComment', backref='bookclub_comments', lazy=True)
+
     
     def __repr__(self):
         return f"<Bookclub id={self.id}, name='{self.name}', ownerId={self.ownerId}, createdAt={self.createdAt}>"

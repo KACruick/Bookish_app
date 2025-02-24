@@ -22,12 +22,14 @@ class Book(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # relationships here
-    user = db.relationship('User', backref='books', lazy=True)
-    genre = db.relationship('Genre', backref='books', lazy=True)
-    bookclubs = db.relationship('Bookclub', backref='book', lazy=True)
-    bookshelves = db.relationship('Bookshelf', secondary='bookshelves_books', back_populates='books')
+    user = db.relationship('User', backref='book_owner', lazy=True)
+    genre = db.relationship('Genre', backref='genre_relationship', lazy=True)
+    bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
+    bookshelves = db.relationship('Bookshelf', secondary='bookshelf_books', back_populates='books')
     reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
     community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
+    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
+
 
     def __repr__(self):
         return f"<Book id={self.id}, title='{self.title}', author=`{self.author}`, description=`{self.description}`, userId=`{self.userId}`, genreId=`{self.genreId}`, isbn=`{self.isbn}`, pages=`{self.pages}`, chapters=`{self.chapters}`, coverPicture=`{self.coverPicture}`, yearPublished=`{self.yearPublished}` >"

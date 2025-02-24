@@ -20,8 +20,10 @@ class CommunityComment(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
     # Relationships
-    user = db.relationship('User', backref=db.backref('community_comments', lazy=True))
-    community_post = db.relationship('CommunityPost', backref=db.backref('comments', lazy=True))
+    # bookclub = db.relationship('Bookclub', backref='comments', lazy=True)
+    # book = db.relationship('Book', backref='bookclub_comments_ref', lazy=True)
+    community_post = db.relationship('CommunityPost', backref='post_comments_reverse', lazy=True)
+    user = db.relationship('User', backref='user_comments_bookclubs', lazy=True)
 
     def __repr__(self):
         return f"<CommunityComment(id={self.id}, userId={self.userId}, activityId={self.activityId}, reactionType={self.reactionType})>"

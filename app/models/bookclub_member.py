@@ -14,7 +14,7 @@ class BookclubMember(db.Model):
 
     # relationships
     bookclub = db.relationship('Bookclub', backref='memberships', lazy=True)
-    user = db.relationship('User', backref='bookclub_memberships', lazy=True)
+    user = db.relationship('User', backref='bookclub_members', lazy=True)
 
     def __repr__(self):
         return f"<BookclubMember id={self.id}, bookclubId={self.bookclubId}, userId={self.userId}>"
