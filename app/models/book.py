@@ -27,7 +27,7 @@ class Book(db.Model):
     bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
     bookshelves = db.relationship('Bookshelf', secondary='bookshelf_books', back_populates='books')
     reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
-    community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
+    # community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
     bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
 
 

@@ -9,8 +9,8 @@ from .bookshelf_books import seed_bookshelf_books, undo_bookshelf_books
 from .bookclubs import seed_bookclubs, undo_bookclubs
 from .bookclub_members import seed_bookclub_members, undo_bookclub_members
 from .bookclub_comments import seed_bookclub_comments, undo_bookclub_comments
-from .community_posts import seed_community_posts, undo_community_posts
-from .community_comments import seed_community_comments, undo_community_comments
+# from .community_posts import seed_community_posts, undo_community_posts
+# from .community_comments import seed_community_comments, undo_community_comments
 
 from app.models.db import db, environment, SCHEMA
 
@@ -37,8 +37,8 @@ def seed():
         undo_bookclubs()
         undo_bookclub_members()
         undo_bookclub_comments()
-        undo_community_posts()
-        undo_community_comments()
+        # undo_community_posts()
+        # undo_community_comments()
 
 
     seed_users()
@@ -51,8 +51,8 @@ def seed():
     seed_bookclubs()
     seed_bookclub_members()
     seed_bookclub_comments()
-    seed_community_posts()
-    seed_community_comments()
+    # seed_community_posts()
+    # seed_community_comments()
     # Add other seed functions here
 
 
@@ -69,6 +69,6 @@ def undo():
     undo_bookclubs()
     undo_bookclub_members()
     undo_bookclub_comments()
-    undo_community_posts()
-    undo_community_comments()
+    # undo_community_posts()
+    # undo_community_comments()
     # Add other undo functions here
