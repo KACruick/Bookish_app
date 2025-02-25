@@ -9,6 +9,6 @@ from .bookshelf_book import BookshelfBook
 from .bookclub import Bookclub
 from .bookclub_member import BookclubMember
 from .bookclub_comments import BookclubComment
-from .community_post import CommunityPost
-from .community_comment import CommunityComment
+# from .community_post import CommunityPost
+# from .community_comment import CommunityComment
 from .friend import Friend

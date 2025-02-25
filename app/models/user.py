@@ -25,8 +25,8 @@ class User(db.Model, UserMixin):
     reviews = db.relationship('Review', backref='review_author', lazy=True)  # One-to-Many with Reviews
     books = db.relationship('Book', backref='book_owner', lazy=True)  # One-to-Many with Books
     bookshelves = db.relationship('Bookshelf', backref='user_shelves', lazy=True)  # One-to-Many with Bookshelves
-    community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
-    community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments
+    # community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
+    # community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments
     bookclub_comments = db.relationship('BookclubComment', backref='bookclub_commentor', lazy=True)
 
 
@@ -49,5 +49,8 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'firstName': self.firstName,
+            'lastName': self.lastName,
+            'profilePicture': self.profilePicture
         }

@@ -1,8 +1,8 @@
-"""Added all other models
+"""Initial migration
 
-Revision ID: 4fdb34d3c817
-Revises: 47c2ca6546ea
-Create Date: 2025-02-22 14:24:54.439936
+Revision ID: daa6d614e209
+Revises: 
+Create Date: 2025-02-24 20:16:22.879864
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4fdb34d3c817'
-down_revision = '47c2ca6546ea'
+revision = 'daa6d614e209'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -24,6 +24,20 @@ def upgrade():
     sa.Column('createdAt', sa.DateTime(), nullable=False),
     sa.Column('updatedAt', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('firstName', sa.String(length=255), nullable=False),
+    sa.Column('lastName', sa.String(length=255), nullable=False),
+    sa.Column('username', sa.String(length=40), nullable=False),
+    sa.Column('email', sa.String(length=255), nullable=False),
+    sa.Column('hashed_password', sa.String(length=255), nullable=False),
+    sa.Column('createdAt', sa.DateTime(), nullable=False),
+    sa.Column('updatedAt', sa.DateTime(), nullable=False),
+    sa.Column('profilePicture', sa.String(length=500), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('username')
     )
     op.create_table('books',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -52,6 +66,17 @@ def upgrade():
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('friends',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.Column('friendId', sa.Integer(), nullable=False),
+    sa.Column('status', sa.Enum('pending', 'accepted', 'rejected', name='friend_status'), nullable=False),
+    sa.Column('createdAt', sa.DateTime(), nullable=False),
+    sa.Column('updatedAt', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['friendId'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('bookclubs',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('ownerId', sa.Integer(), nullable=False),
@@ -74,15 +99,29 @@ def upgrade():
     sa.ForeignKeyConstraint(['bookshelfId'], ['bookshelves.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('community_posts',
+    op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('userId', sa.Integer(), nullable=False),
-    sa.Column('activityType', sa.Enum('add_tbr', 'add_reading', 'add_read', 'rate', 'review', 'update_status', name='activitytypeenum'), nullable=False),
     sa.Column('bookId', sa.Integer(), nullable=False),
-    sa.Column('rating', sa.Integer(), nullable=True),
-    sa.Column('reviewText', sa.Text(), nullable=True),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.Column('review', sa.String(), nullable=False),
+    sa.Column('rating', sa.Integer(), nullable=False),
     sa.Column('createdAt', sa.DateTime(), nullable=False),
+    sa.Column('updatedAt', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['bookId'], ['books.id'], ),
+    sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('bookclub_comments',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('bookclubId', sa.Integer(), nullable=False),
+    sa.Column('bookId', sa.Integer(), nullable=False),
+    sa.Column('userId', sa.Integer(), nullable=False),
+    sa.Column('comment', sa.Text(), nullable=False),
+    sa.Column('chapter', sa.Integer(), nullable=True),
+    sa.Column('createdAt', sa.DateTime(), nullable=False),
+    sa.Column('updatedAt', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['bookId'], ['books.id'], ),
+    sa.ForeignKeyConstraint(['bookclubId'], ['bookclubs.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -95,29 +134,19 @@ def upgrade():
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('community_comments',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('userId', sa.Integer(), nullable=False),
-    sa.Column('activityId', sa.Integer(), nullable=False),
-    sa.Column('reactionType', sa.Enum('LIKE', 'COMMENT', name='reactiontypeenum'), nullable=False),
-    sa.Column('comment', sa.Text(), nullable=True),
-    sa.Column('createdAt', sa.DateTime(), nullable=False),
-    sa.Column('updatedAt', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['activityId'], ['community_posts.id'], ),
-    sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('community_comments')
     op.drop_table('bookclub_members')
-    op.drop_table('community_posts')
+    op.drop_table('bookclub_comments')
+    op.drop_table('reviews')
     op.drop_table('bookshelf_books')
     op.drop_table('bookclubs')
+    op.drop_table('friends')
     op.drop_table('bookshelves')
     op.drop_table('books')
+    op.drop_table('users')
     op.drop_table('genres')
     # ### end Alembic commands ###
