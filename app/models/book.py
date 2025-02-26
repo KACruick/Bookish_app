@@ -22,13 +22,19 @@ class Book(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # relationships here
-    user = db.relationship('User', backref='book_owner', lazy=True)
-    genre = db.relationship('Genre', backref='genre_relationship', lazy=True)
-    bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
-    bookshelves = db.relationship('Bookshelf', secondary='bookshelf_books', back_populates='books')
-    reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
-    # community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
-    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
+    # user = db.relationship('User', backref='book_owner', lazy=True, overlaps="books")
+    # genre = db.relationship('Genre', backref='genre_relationship', lazy=True)
+    # bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
+    # bookshelves = db.relationship(
+    #     'Bookshelf',
+    #     secondary='bookshelf_books',  # association table
+    #     back_populates='books',  # Use back_populates to make it bidirectional
+    #     primaryjoin="Book.id == bookshelf_books.bookId",  # Join condition between Book and BookshelfBook
+    #     secondaryjoin="Bookshelf.id == bookshelf_books.bookshelfId"  # Join condition between Bookshelf and BookshelfBook
+    # )
+    # reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
+    # # community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
+    # bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
 
 
     def __repr__(self):
