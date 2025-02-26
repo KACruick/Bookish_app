@@ -16,8 +16,8 @@ class Review(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
 
     # relationships here
-    book = db.relationship('Book', back_populates='reviews')
-    user = db.relationship('User', backref='review_author', lazy=True)
+    # book = db.relationship('Book', back_populates='reviews')
+    # user = db.relationship('User', backref='review_author', lazy=True)
 
     def __repr__(self):
         return f"<Review id={self.id}, bookId={self.bookId}, userId={self.userId}, review='{self.review}', rating={self.rating}, createdAt={self.createdAt}>"
