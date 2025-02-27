@@ -13,7 +13,7 @@ class Book(db.Model):
     description = db.Column(db.Text, nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     genreId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("genres.id")), nullable=False)
-    isbn = db.Column(db.Integer, nullable=False)
+    isbn = db.Column(db.BigInteger, nullable=False)
     pages = db.Column(db.Integer, nullable=False)
     chapters = db.Column(db.Integer, nullable=False)
     coverPicture = db.Column(db.String(500), nullable=False)
