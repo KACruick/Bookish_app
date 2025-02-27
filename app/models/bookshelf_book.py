@@ -10,12 +10,6 @@ class BookshelfBook(db.Model):
     addedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
     orderInShelf = db.Column(db.Integer)
 
-    # Add ForeignKeyConstraint to ensure the relationship between bookshelfId and bookId
-    __table_args__ = (
-        db.ForeignKeyConstraint([bookshelfId, bookId],
-            [add_prefix_for_prod('bookshelves.id'), add_prefix_for_prod('books.id')]),
-    )
-
     # Relationships
     bookshelf = db.relationship('Bookshelf', backref='bookshelf_books')
     book = db.relationship('Book', backref='bookshelves_books')
