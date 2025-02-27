@@ -22,9 +22,9 @@ class Book(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # relationships here
-    # user = db.relationship('User', backref='book_owner', lazy=True, overlaps="books")
-    # genre = db.relationship('Genre', backref='genre_relationship', lazy=True)
-    # bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
+    user = db.relationship('User', backref='book_owner', lazy=True, overlaps="books")
+    genre = db.relationship('Genre', backref='genre_relationship', lazy=True)
+    bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
     # bookshelves = db.relationship(
     #     'Bookshelf',
     #     secondary='bookshelf_books',  # association table
@@ -32,10 +32,9 @@ class Book(db.Model):
     #     primaryjoin="Book.id == bookshelf_books.bookId",  # Join condition between Book and BookshelfBook
     #     secondaryjoin="Bookshelf.id == bookshelf_books.bookshelfId"  # Join condition between Bookshelf and BookshelfBook
     # )
-    # reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
+    reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
+    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
     # # community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
-    # bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
-
 
     def __repr__(self):
         return f"<Book id={self.id}, title='{self.title}', author=`{self.author}`, description=`{self.description}`, userId=`{self.userId}`, genreId=`{self.genreId}`, isbn=`{self.isbn}`, pages=`{self.pages}`, chapters=`{self.chapters}`, coverPicture=`{self.coverPicture}`, yearPublished=`{self.yearPublished}` >"

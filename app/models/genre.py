@@ -14,7 +14,7 @@ class Genre(db.Model):
 
 
     # relationships here
-    # books = db.relationship('Book', backref='genre_relationship', lazy=True, overlaps="genre_relationship")
+    books = db.relationship('Book', backref='genre_relationship', lazy=True, overlaps="genre_relationship")
 
     def __repr__(self):
         return f"<Genre id={self.id}, name='{self.name}'>"
