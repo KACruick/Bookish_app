@@ -25,14 +25,15 @@ class User(db.Model, UserMixin):
     reviews = db.relationship('Review', backref='review_author', lazy=True)  # One-to-Many with Reviews
     book_owner = db.relationship('Book', back_populates='user', cascade='all, delete-orphan')
     bookshelves = db.relationship('Bookshelf', backref='user_shelves', lazy=True)  # One-to-Many with Bookshelves
-    # # community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
-    # # community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments
     bookclub_comments = db.relationship('BookclubComment', backref='bookclub_commentor', lazy=True)
 
 
-    # # One-to-Many Relationship with Friends: Handle friendships
+    # # One-to-Many Relationship with Friends
     sent_friends = db.relationship('Friend', foreign_keys='Friend.userId', backref='user_sender', lazy='dynamic')  # One-to-Many with Sent Friends
     received_friends = db.relationship('Friend', foreign_keys='Friend.friendId', backref='user_receiver', lazy='dynamic')  # One-to-Many with Received Friends
+
+    # # community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
+    # # community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments
 
 
     @property
