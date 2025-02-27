@@ -30,9 +30,9 @@ class Book(db.Model):
     bookshelves = db.relationship(
         'Bookshelf',
         secondary='bookshelf_books',  # This refers to the join table
-        back_populates='books',  # The Bookshelf model must also have this defined
+        back_populates='books',
     )
-    
+
     reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
     bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
     # # community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
