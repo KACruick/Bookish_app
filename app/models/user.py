@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
     # relationships below
     bookclubs = db.relationship('Bookclub', secondary=add_prefix_for_prod("bookclub_members"), back_populates='members')  # Many-to-Many
     reviews = db.relationship('Review', backref='review_author', lazy=True)  # One-to-Many with Reviews
-    books = db.relationship('Book', backref='book_owner', lazy=True, overlaps="book_owner")  # One-to-Many with Books
+    book_owner = db.relationship('Book', back_populates='user', cascade='all, delete-orphan')
     bookshelves = db.relationship('Bookshelf', backref='user_shelves', lazy=True)  # One-to-Many with Bookshelves
     # # community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
     # # community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments

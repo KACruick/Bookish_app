@@ -22,8 +22,8 @@ class Book(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # relationships here
-    user = db.relationship('User', backref='book_owner', lazy=True, overlaps="books")
-    genre = db.relationship('Genre', backref='genre_relationship', lazy=True)
+    user = db.relationship('User', back_populates='book_owner')
+    genre = db.relationship('Genre', back_populates='genre_relationship')
     bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
     bookshelves = db.relationship(
         'Bookshelf',
