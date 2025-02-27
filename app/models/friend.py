@@ -16,8 +16,8 @@ class Friend(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
 
     # Relationships
-    # user = db.relationship('User', foreign_keys=[userId], backref='friends_as_user')
-    # friend = db.relationship('User', foreign_keys=[friendId], backref='friends_as_friend')
+    user = db.relationship('User', foreign_keys=[userId], backref='friends_as_user')
+    friend = db.relationship('User', foreign_keys=[friendId], backref='friends_as_friend')
 
     def __repr__(self):
         return f"<Friend id={self.id}, userId={self.userId}, friendId={self.friendId}, status={self.status}>"
