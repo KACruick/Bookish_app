@@ -11,8 +11,8 @@ class BookshelfBook(db.Model):
     orderInShelf = db.Column(db.Integer)
 
     # Relationships
-    # bookshelf = db.relationship('Bookshelf', backref='bookshelf_books')
-    # book = db.relationship('Book', backref='bookshelves_books')
+    bookshelf = db.relationship('Bookshelf', backref='bookshelf_books')
+    book = db.relationship('Book', backref='bookshelves_books')
 
     def __repr__(self):
         return f"<BookshelfBooks id={self.id}, bookshelfId={self.bookshelfId}, bookId={self.bookId}>"
