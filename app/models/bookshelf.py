@@ -11,12 +11,11 @@ class Bookshelf(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # Many-to-many relationship with books
+    user = db.relationship('User', backref='bookshelves', lazy=True)  # One-to-many with User
     books = db.relationship(
         'Book',
-        secondary='bookshelf_books',
-        back_populates='bookshelves',
-        primaryjoin="Bookshelf.id == bookshelf_books.bookshelfId",  # Join condition for Bookshelf and BookshelfBook
-        secondaryjoin="Book.id == bookshelf_books.bookId"  # Join condition for Book and BookshelfBook
+        secondary='bookshelf_books',  # This refers to the join table
+        back_populates='bookshelves',  # The Book model must also have this defined
     )
 
     def __repr__(self):
