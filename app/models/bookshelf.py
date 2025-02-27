@@ -16,7 +16,7 @@ class Bookshelf(db.Model):
         'Book',
         secondary='bookshelf_books',  # This refers to the join table
         back_populates='bookshelves',  # The Book model must also have this defined
-        lazy='select'  # Lazy load books for this bookshelf
+
     )
 
     def __repr__(self):
