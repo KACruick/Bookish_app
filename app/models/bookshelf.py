@@ -11,11 +11,12 @@ class Bookshelf(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # Many-to-many relationship with books
-    user = db.relationship('User', backref='bookshelves')  # One-to-many with User
+    user = db.relationship('User', backref='user_bookshelves')  # One-to-many with User
     books = db.relationship(
         'Book',
         secondary='bookshelf_books',  # This refers to the join table
         back_populates='bookshelves',  # The Book model must also have this defined
+        lazy='select'  # Lazy load books for this bookshelf
     )
 
     def __repr__(self):
