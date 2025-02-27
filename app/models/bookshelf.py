@@ -15,8 +15,8 @@ class Bookshelf(db.Model):
         'Book',
         secondary='bookshelf_books',
         back_populates='bookshelves',
-        # primaryjoin="Bookshelf.id == bookshelf_books.bookshelfId",  # Join condition for Bookshelf and BookshelfBook
-        # secondaryjoin="Book.id == bookshelf_books.bookId"  # Join condition for Book and BookshelfBook
+        primaryjoin="Bookshelf.id == bookshelf_books.bookshelfId",  # Join condition for Bookshelf and BookshelfBook
+        secondaryjoin="Book.id == bookshelf_books.bookId"  # Join condition for Book and BookshelfBook
     )
 
     def __repr__(self):
