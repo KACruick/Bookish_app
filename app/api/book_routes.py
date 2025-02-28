@@ -6,16 +6,39 @@ from datetime import datetime
 book_routes = Blueprint('books', __name__)
 # They all get '/api/books'
 
+
+# helper function for calculating the average rating
+def calculate_avg_rating(book_id):
+    # Query all reviews for the given book_id
+    reviews = Review.query.filter_by(bookId=book_id).all()
+
+    if reviews:
+        # Calculate the sum of all ratings and divide by the number of reviews
+        total_rating = sum(review.rating for review in reviews)
+        avg_rating = total_rating / len(reviews)
+        return round(avg_rating, 1)  # Round to 1 decimal place
+    return 0  # Return 0 if no reviews exist
+
+
 # Get all books
 @book_routes.route('/', methods=['GET'])
 def get_books():
     """
-    Returns all books in the system.
+    Returns all books
     """
-    books = Book.query.all()
+    page = request.args.get('page', 1, type=int)
+    size = request.args.get('size', 20, type= int)
+    
+    # Query all books and paginate the result
+    books_query = Book.query
+
+    # Paginate the books
+    books_paginated = books_query.paginate(page=page, per_page=size, error_out=False)
+    
+    # Prepare list of books to return
     book_list = []
     
-    for book in books:
+    for book in books_paginated.items:
         reviews = Review.query.filter_by(bookId=book.id).all()
         review_data = [
             {
@@ -29,6 +52,9 @@ def get_books():
             }
             for review in reviews
         ]
+
+        # Calculate average rating using the helper function
+        avg_rating = calculate_avg_rating(book.id)
         
         book_data = {
             "id": book.id,
@@ -41,17 +67,21 @@ def get_books():
             "pages": book.pages,
             "chapters": book.chapters,
             "coverPicture": book.coverPicture,
-            "published": book.published,
+            "published": book.yearPublished,
             "createdAt": book.createdAt,
             "updatedAt": book.updatedAt,
-            "avgRating": book.avgRating,
+            "avgRating": avg_rating,
             "numReviews": len(reviews),
             "reviews": review_data
         }
         
         book_list.append(book_data)
     
-    return jsonify({'books': book_list})
+    return jsonify({
+        'Books': book_list,
+        'page': page,
+        'size': size,
+        })
 
 
 
