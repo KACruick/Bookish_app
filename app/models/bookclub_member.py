@@ -13,8 +13,8 @@ class BookclubMember(db.Model):
     joinedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # relationships
-    bookclub = db.relationship('Bookclub', backref='memberships', lazy=True)
-    user = db.relationship('User', backref='bookclub_members', lazy=True)
+    bookclub = db.relationship('Bookclub', backref='memberships')
+    user = db.relationship('User', backref='bookclub_members')
 
     def __repr__(self):
         return f"<BookclubMember id={self.id}, bookclubId={self.bookclubId}, userId={self.userId}>"
