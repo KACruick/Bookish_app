@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import db, Bookclub, User, BookclubMember
 from flask_login import current_user, login_required
+from datetime import datetime
 
 bookclub_routes = Blueprint('bookclubs', __name__)
 
@@ -24,7 +25,9 @@ def create_bookclub():
     new_bookclub = Bookclub(
         name=data['name'],
         description=data['description'],
-        userId=current_user.id  # Associate the bookclub with the current user (the creator)
+        ownerId=current_user.id,  # Associate the bookclub with the current user (the creator)
+        createdAt=datetime.utcnow(),
+        updatedAt=datetime.utcnow()
     )
 
     db.session.add(new_bookclub)
@@ -34,10 +37,13 @@ def create_bookclub():
         "id": new_bookclub.id,
         "name": new_bookclub.name,
         "description": new_bookclub.description,
-        "userId": new_bookclub.userId,
-        "createdAt": new_bookclub.createdAt.isoformat(),
-        "updatedAt": new_bookclub.updatedAt.isoformat()
+        "ownerId": new_bookclub.ownerId,
+        "createdAt": new_bookclub.createdAt,
+        "updatedAt": new_bookclub.updatedAt
     }), 201
+
+
+# View all bookclubs user owns 
 
 
 
@@ -58,7 +64,7 @@ def view_bookclub(id):
         "id": bookclub.id,
         "name": bookclub.name,
         "description": bookclub.description,
-        "userId": bookclub.userId,
+        "ownerId": bookclub.ownerId,
         "createdAt": bookclub.createdAt.isoformat(),
         "updatedAt": bookclub.updatedAt.isoformat()
     }), 200
@@ -95,7 +101,7 @@ def edit_bookclub(id):
         "id": bookclub.id,
         "name": bookclub.name,
         "description": bookclub.description,
-        "userId": bookclub.userId,
+        "ownerId": bookclub.ownerId,
         "createdAt": bookclub.createdAt.isoformat(),
         "updatedAt": bookclub.updatedAt.isoformat()
     }), 200
@@ -116,7 +122,7 @@ def delete_bookclub(id):
         return jsonify({"message": "Book club not found"}), 404
 
     # Only the creator (owner) of the book club can delete it
-    if bookclub.userId != current_user.id:
+    if bookclub.ownerId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
 
     db.session.delete(bookclub)
@@ -151,7 +157,7 @@ def add_member_to_bookclub(id):
     if not user:
         return jsonify({"message": "User not found"}), 404
 
-    # Check if the user is already a member
+    # Check if the user is already a member #need to access bookclub_members table instead
     existing_member = BookclubMember.query.filter_by(bookclubId=id, userId=user_id).first()
     if existing_member:
         return jsonify({"message": "User is already a member of this book club"}), 400
