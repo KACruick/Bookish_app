@@ -30,8 +30,8 @@ class User(db.Model, UserMixin):
 
 
     # # One-to-Many Relationship with Friends
-    sent_friends = db.relationship('Friend', foreign_keys='Friend.userId', backref='user_sender', lazy='dynamic')  # One-to-Many with Sent Friends
-    received_friends = db.relationship('Friend', foreign_keys='Friend.friendId', backref='user_receiver', lazy='dynamic')  # One-to-Many with Received Friends
+    sent_friends = db.relationship('Friend', foreign_keys='Friend.userId', backref='user_sender')  # One-to-Many with Sent Friends
+    received_friends = db.relationship('Friend', foreign_keys='Friend.friendId', backref='user_receiver')  # One-to-Many with Received Friends
 
     # # community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
     # # community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments

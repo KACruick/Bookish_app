@@ -24,17 +24,17 @@ class Book(db.Model):
     # relationships here
     user = db.relationship('User', back_populates='book_owner')
     genre = db.relationship('Genre', back_populates='genre_relationship')
-    bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
+    bookclubs = db.relationship('Bookclub', backref='book_instance')
 
     # Relationship through BookshelfBooks
     bookshelves = db.relationship(
         'Bookshelf',
-        secondary='bookshelf_books',  # This refers to the join table
+        secondary='bookshelf_books',
         back_populates='books',
     )
 
-    reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
-    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
+    reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan") 
+    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment')
     # # community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
 
     def __repr__(self):
