@@ -4,8 +4,10 @@ from flask_login import current_user, login_required
 
 friend_routes = Blueprint('friends', __name__)
 
+
+
 # Send a Friend Request
-@friend_routes.route('/api/friends/<int:userId>', methods=['POST'])
+@friend_routes.route('/<int:userId>', methods=['POST'])
 @login_required
 def send_friend_request(userId):
     """
@@ -40,8 +42,11 @@ def send_friend_request(userId):
 
     return jsonify({"message": "Friend request sent"}), 201
 
+
+
+
 # Accept a Friend Request
-@friend_routes.route('/api/friends/<int:userId>/accept', methods=['PATCH'])
+@friend_routes.route('/<int:userId>/accept', methods=['PATCH'])
 @login_required
 def accept_friend_request(userId):
     """
@@ -59,8 +64,11 @@ def accept_friend_request(userId):
 
     return jsonify({"message": "Friend request accepted"}), 200
 
+
+
+
 # Delete a Friend
-@friend_routes.route('/api/friends/<int:userId>', methods=['DELETE'])
+@friend_routes.route('/<int:userId>', methods=['DELETE'])
 @login_required
 def remove_friend(userId):
     """

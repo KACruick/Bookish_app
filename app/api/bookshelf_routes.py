@@ -6,7 +6,7 @@ from datetime import datetime
 bookshelf_routes = Blueprint('bookshelves', __name__)
 
 # Create a Bookshelf
-@bookshelf_routes.route('/api/bookshelves', methods=['POST'])
+@bookshelf_routes.route('/', methods=['POST'])
 @login_required
 def create_bookshelf():
     """
@@ -41,8 +41,10 @@ def create_bookshelf():
     }), 201
 
 
+
+
 # View a Bookshelf
-@bookshelf_routes.route('/api/bookshelves/<int:id>', methods=['GET'])
+@bookshelf_routes.route('/<int:id>', methods=['GET'])
 @login_required
 def get_bookshelf(id):
     """
@@ -66,8 +68,10 @@ def get_bookshelf(id):
     }), 200
 
 
+
+
 # Edit a Bookshelf
-@bookshelf_routes.route('/api/bookshelves/<int:id>', methods=['PUT'])
+@bookshelf_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def edit_bookshelf(id):
     """
@@ -110,8 +114,10 @@ def edit_bookshelf(id):
     }), 200
 
 
+
+
 # Update the order of books in a Bookshelf
-@bookshelf_routes.route('/api/bookshelves/<int:id>/update-order', methods=['PUT'])
+@bookshelf_routes.route('/<int:id>/update-order', methods=['PUT'])
 @login_required
 def update_bookshelf_order(id):
     """
@@ -153,8 +159,10 @@ def update_bookshelf_order(id):
 
     return jsonify({"message": "Bookshelf order updated successfully"}), 200
 
+
+
 # Remove a book from a Bookshelf
-@bookshelf_routes.route('/api/bookshelves/<int:id>/books/<int:book_id>', methods=['DELETE'])
+@bookshelf_routes.route('/<int:id>/books/<int:book_id>', methods=['DELETE'])
 @login_required
 def remove_book_from_bookshelf(id, book_id):
     """
@@ -179,8 +187,10 @@ def remove_book_from_bookshelf(id, book_id):
     return jsonify({"message": "Book successfully removed from bookshelf"}), 200
 
 
+
+
 # Delete a Bookshelf
-@bookshelf_routes.route('/api/bookshelves/<int:id>', methods=['DELETE'])
+@bookshelf_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_bookshelf(id):
     """

@@ -4,9 +4,10 @@ from flask_login import current_user, login_required
 from datetime import datetime
 
 book_routes = Blueprint('books', __name__)
+# They all get '/api/books'
 
 # Get all books
-@book_routes.route('/api/books', methods=['GET'])
+@book_routes.route('/', methods=['GET'])
 def get_books():
     """
     Returns all books in the system.
@@ -53,8 +54,9 @@ def get_books():
     return jsonify({'books': book_list})
 
 
+
 # Get a specific book
-@book_routes.route('/api/books/<int:id>', methods=['GET'])
+@book_routes.route('<int:id>', methods=['GET'])
 def get_book_details(id):
     """
     Returns details of a specific book by its id.
@@ -99,8 +101,9 @@ def get_book_details(id):
     return jsonify(book_data)
 
 
+
 # Create a new book
-@book_routes.route('/api/books', methods=['POST'])
+@book_routes.route('/', methods=['POST'])
 @login_required
 def create_book():
     """
@@ -167,8 +170,9 @@ def create_book():
     }), 201
 
 
+
 # Update a book
-@book_routes.route('/api/books/<int:id>', methods=['PUT'])
+@book_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_book(id):
     """
@@ -214,8 +218,9 @@ def update_book(id):
     }), 200
 
 
+
 # Delete a book
-@book_routes.route('/api/books/<int:id>', methods=['DELETE'])
+@book_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_book(id):
     """

@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 bookclub_routes = Blueprint('bookclubs', __name__)
 
 # Create a Bookclub
-@bookclub_routes.route('/api/bookclubs', methods=['POST'])
+@bookclub_routes.route('/', methods=['POST'])
 @login_required
 def create_bookclub():
     """
@@ -39,8 +39,11 @@ def create_bookclub():
         "updatedAt": new_bookclub.updatedAt.isoformat()
     }), 201
 
+
+
+
 # View a Bookclub
-@bookclub_routes.route('/api/bookclubs/<int:id>', methods=['GET'])
+@bookclub_routes.route('/<int:id>', methods=['GET'])
 @login_required
 def view_bookclub(id):
     """
@@ -60,8 +63,10 @@ def view_bookclub(id):
         "updatedAt": bookclub.updatedAt.isoformat()
     }), 200
 
+
+
 # Edit a Bookclub
-@bookclub_routes.route('/api/bookclubs/<int:id>', methods=['PUT'])
+@bookclub_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def edit_bookclub(id):
     """
@@ -95,8 +100,11 @@ def edit_bookclub(id):
         "updatedAt": bookclub.updatedAt.isoformat()
     }), 200
 
+
+
+
 # Delete a Bookclub
-@bookclub_routes.route('/api/bookclubs/<int:id>', methods=['DELETE'])
+@bookclub_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_bookclub(id):
     """
@@ -116,8 +124,11 @@ def delete_bookclub(id):
 
     return jsonify({"message": "Book club successfully deleted"}), 200
 
+
+
+
 # Add a Member to a Bookclub
-@bookclub_routes.route('/api/bookclubs/<int:id>/members', methods=['POST'])
+@bookclub_routes.route('/<int:id>/members', methods=['POST'])
 @login_required
 def add_member_to_bookclub(id):
     """
@@ -152,8 +163,10 @@ def add_member_to_bookclub(id):
 
     return jsonify({"message": "User successfully added to the book club"}), 201
 
+
+
 # Remove a Member from a Bookclub
-@bookclub_routes.route('/api/bookclubs/<int:id>/members/<int:userId>', methods=['DELETE'])
+@bookclub_routes.route('/<int:id>/members/<int:userId>', methods=['DELETE'])
 @login_required
 def remove_member_from_bookclub(id, userId):
     """

@@ -25,7 +25,7 @@ def user(id):
     return user.to_dict()
 
 
-@user_routes.route('/api/user', methods=['PUT'])
+@user_routes.route('/', methods=['PUT'])
 @login_required
 def edit_user():
     """

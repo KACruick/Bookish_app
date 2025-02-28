@@ -5,8 +5,10 @@ from datetime import datetime
 
 review_routes = Blueprint('reviews', __name__)
 
+
+
 # Get all reviews of a book
-@review_routes.route('/api/reviews/<int:bookId>', methods=['GET'])
+@review_routes.route('/<int:bookId>', methods=['GET'])
 def get_reviews(bookId):
     """
     Returns all reviews written for a specific book.
@@ -32,8 +34,10 @@ def get_reviews(bookId):
     return jsonify({"reviews": review_data})
 
 
+
+
 # Add a review
-@review_routes.route('/api/reviews/<int:bookId>', methods=['POST'])
+@review_routes.route('/<int:bookId>', methods=['POST'])
 @login_required
 def add_review(bookId):
     """
@@ -84,8 +88,10 @@ def add_review(bookId):
     }), 201
 
 
+
+
 # Edit a review
-@review_routes.route('/api/reviews/<int:id>', methods=['PATCH'])
+@review_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def edit_review(id):
     """
@@ -128,8 +134,10 @@ def edit_review(id):
     }), 200
 
 
+
+
 # Delete a review
-@review_routes.route('/api/reviews/<int:id>', methods=['DELETE'])
+@review_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_review(id):
     """
