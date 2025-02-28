@@ -157,16 +157,19 @@ def create_book():
     if not data.get('isbn'):
         errors['isbn'] = 'ISBN is required'
     if not data.get('pages'):
-        errors['pages'] = 'Pages is required'
+        errors['pages'] = 'The number of pages is required'
     if not data.get('chapters'):
-        errors['chapters'] = 'Chapters is required'
+        errors['chapters'] = 'The number of chapters is required'
     if not data.get('coverPicture'):
         errors['coverPicture'] = 'Cover picture is required'
-    if not data.get('published'):
-        errors['published'] = 'Published date is required'
+    if not data.get('yearPublished'):
+        errors['yearPublished'] = 'Published date is required'
 
     if errors:
         return jsonify({'message': 'Bad Request', 'errors': errors}), 400
+
+    # Get id of current user
+    current_user_id = current_user.id
 
     # Create a new book
     book = Book(
@@ -178,10 +181,8 @@ def create_book():
         pages=data['pages'],
         chapters=data['chapters'],
         coverPicture=data['coverPicture'],
-        yearPublished=data['published'],
-        userId=current_user.id,  # The book is associated with the logged-in user
-        createdAt=datetime.utcnow(),
-        updatedAt=datetime.utcnow()
+        yearPublished=data['yearPublished'],
+        userId=current_user_id,  # The book is associated with the logged-in user
     )
     db.session.add(book)
     db.session.commit()
@@ -197,7 +198,7 @@ def create_book():
         "pages": book.pages,
         "chapters": book.chapters,
         "coverPicture": book.coverPicture,
-        "published": book.published,
+        "yearPublished": book.yearPublished,
         "createdAt": book.createdAt,
         "updatedAt": book.updatedAt
     }), 201
