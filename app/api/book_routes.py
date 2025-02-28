@@ -216,7 +216,10 @@ def update_book(id):
     if not book:
         return jsonify({"message": "Book not found"}), 404
 
-    if book.userId != current_user.id:
+    # Get id of current user
+    current_user_id = current_user.id
+    
+    if book.userId != current_user_id:
         return jsonify({"message": "Unauthorized to update this book"}), 403
 
     data = request.get_json()
@@ -230,7 +233,7 @@ def update_book(id):
     book.pages = data.get('pages', book.pages)
     book.chapters = data.get('chapters', book.chapters)
     book.coverPicture = data.get('coverPicture', book.coverPicture)
-    book.published = data.get('published', book.published)
+    book.yearPublished = data.get('yearPublished', book.yearPublished)
     book.updatedAt = datetime.utcnow()
 
     db.session.commit()
@@ -246,7 +249,7 @@ def update_book(id):
         "pages": book.pages,
         "chapters": book.chapters,
         "coverPicture": book.coverPicture,
-        "published": book.published,
+        "yearPublished": book.yearPublished,
         "createdAt": book.createdAt,
         "updatedAt": book.updatedAt
     }), 200
