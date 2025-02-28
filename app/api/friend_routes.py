@@ -25,18 +25,21 @@ def send_friend_request(userId):
 
     if not user_to_request:
         return jsonify({"message": "User not found"}), 404
+    
+    #userId sender
+    #friendId reciever
 
     # Check if a friend request already exists (either sent or received)
     existing_request = Friend.query.filter(
-        ((Friend.sender_id == current_user.id) & (Friend.receiver_id == userId)) |
-        ((Friend.sender_id == userId) & (Friend.receiver_id == current_user.id))
+        ((Friend.userId == current_user.id) & (Friend.friendId == userId)) |
+        ((Friend.userId == userId) & (Friend.friendId == current_user.id))
     ).first()
 
     if existing_request:
         return jsonify({"message": "A friend request already exists"}), 400
 
     # Create a new friend request
-    new_request = Friend(sender_id=current_user.id, receiver_id=userId)
+    new_request = Friend(userId=current_user.id, friendId=userId)
     db.session.add(new_request)
     db.session.commit()
 
@@ -53,7 +56,7 @@ def accept_friend_request(userId):
     Accept a pending friend request.
     """
     # Find the friend request
-    friend_request = Friend.query.filter_by(sender_id=userId, receiver_id=current_user.id).first()
+    friend_request = Friend.query.filter_by(userId=userId, friendId=current_user.id).first()
 
     if not friend_request:
         return jsonify({"message": "Friend request not found"}), 404
@@ -67,7 +70,7 @@ def accept_friend_request(userId):
 
 
 
-# Delete a Friend
+# Unfriend a Friend
 @friend_routes.route('/<int:userId>', methods=['DELETE'])
 @login_required
 def remove_friend(userId):
