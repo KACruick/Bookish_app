@@ -31,7 +31,7 @@ def get_reviews(bookId):
         for review in reviews
     ]
 
-    return jsonify({"reviews": review_data})
+    return jsonify({"Reviews": review_data})
 
 
 
@@ -44,6 +44,9 @@ def add_review(bookId):
     Allows a user to add a review for a book.
     """
     data = request.get_json()
+
+    # Get id of current user
+    current_user_id = current_user.id
     
     # Check if the book exists
     book = Book.query.get(bookId)
@@ -51,7 +54,7 @@ def add_review(bookId):
         return jsonify({"message": "Book not found"}), 404
 
     # Check if the user already has a review for the book
-    existing_review = Review.query.filter_by(bookId=bookId, userId=current_user.id).first()
+    existing_review = Review.query.filter_by(bookId=bookId, userId=current_user_id).first()
     if existing_review:
         return jsonify({"message": "User already has a review for this product"}), 500
 
@@ -68,7 +71,7 @@ def add_review(bookId):
     # Create the new review
     new_review = Review(
         bookId=bookId,
-        userId=current_user.id,
+        userId=current_user_id,
         review=data['review'],
         rating=data['rating'],
         createdAt=datetime.utcnow(),
