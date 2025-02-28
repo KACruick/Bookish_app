@@ -108,6 +108,9 @@ def get_book_details(id):
         }
         for review in reviews
     ]
+
+    # Calculate average rating using the helper function
+    avg_rating = calculate_avg_rating(book.id)
     
     book_data = {
         "id": book.id,
@@ -120,10 +123,10 @@ def get_book_details(id):
         "pages": book.pages,
         "chapters": book.chapters,
         "coverPicture": book.coverPicture,
-        "published": book.published,
+        "published": book.yearPublished,
         "createdAt": book.createdAt,
         "updatedAt": book.updatedAt,
-        "avgRating": book.avgRating,
+        "avgRating": avg_rating,
         "numReviews": len(reviews),
         "reviews": review_data
     }
