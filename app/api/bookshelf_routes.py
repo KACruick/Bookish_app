@@ -42,7 +42,7 @@ def create_bookshelf():
 
 
 
-# View a Bookshelf
+# View a Bookshelf and its books
 @bookshelf_routes.route('/<int:id>', methods=['GET'])
 @login_required
 def get_bookshelf(id):
@@ -57,13 +57,27 @@ def get_bookshelf(id):
     # Only the bookshelf owner can view it
     if bookshelf.userId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
+    
+    # Get all books associated with the bookshelf
+    bookshelf_books = BookshelfBook.query.filter_by(bookshelfId=id).all()
+
+    # Prepare the list of books
+    books = [{
+        "id": bookshelf_book.book.id,
+        "title": bookshelf_book.book.title,
+        "author": bookshelf_book.book.author,
+        "addedAt": bookshelf_book.addedAt.isoformat(),
+        "orderInShelf": bookshelf_book.orderInShelf
+    } for bookshelf_book in bookshelf_books]
+
 
     return jsonify({
         "id": bookshelf.id,
         "name": bookshelf.name,
         "userId": bookshelf.userId,
         "createdAt": bookshelf.createdAt,
-        "updatedAt": bookshelf.updatedAt
+        "updatedAt": bookshelf.updatedAt,
+        "Books": books 
     }), 200
 
 
@@ -110,10 +124,6 @@ def edit_bookshelf(id):
         "createdAt": bookshelf.createdAt,
         "updatedAt": bookshelf.updatedAt
     }), 200
-
-
-# Route to view Books in Bookshelf
-
 
 
 
@@ -163,7 +173,50 @@ def update_bookshelf_order(id):
 
 
 
-# Need a add book to bookshelf route in book_routes?
+# Add a Book to a Bookshelf
+@bookshelf_routes.route('/<int:bookshelf_id>/books/<int:book_id>', methods=['POST'])
+@login_required
+def add_book_to_bookshelf(bookshelf_id, book_id):
+    """
+    Adds a book to a specific bookshelf by its ID.
+    """
+    # Get the bookshelf by ID
+    bookshelf = Bookshelf.query.get(bookshelf_id)
+    if not bookshelf:
+        return jsonify({"message": "Bookshelf not found"}), 404
+
+    # Only the bookshelf owner can add books
+    if bookshelf.userId != current_user.id:
+        return jsonify({"message": "Unauthorized"}), 401
+
+    # Get the book by ID
+    book = Book.query.get(book_id)
+    if not book:
+        return jsonify({"message": "Book not found"}), 404
+
+    # Check if the book is already in the bookshelf
+    existing_entry = BookshelfBook.query.filter_by(bookshelfId=bookshelf_id, bookId=book_id).first()
+    if existing_entry:
+        return jsonify({"message": "Book is already in the bookshelf"}), 400
+
+    # Create a new BookshelfBook entry to associate the book with the bookshelf
+    new_bookshelf_book = BookshelfBook(
+        bookshelfId=bookshelf_id,
+        bookId=book_id,
+        addedAt=datetime.utcnow(),
+        orderInShelf=None  # You can leave this as None initially and update it later if needed
+    )
+    
+    db.session.add(new_bookshelf_book)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Book successfully added to the bookshelf",
+        "bookshelf_id": bookshelf.id,
+        "book_id": book.id
+    }), 201
+
+
 
 
 # Remove a book from a Bookshelf
