@@ -205,6 +205,76 @@ def create_book():
 
 
 
+# Get all books created by current user
+@book_routes.route('/current', methods=['GET'])
+@login_required
+def get_books_by_current_user():
+    """
+    Returns all books created by the currently logged-in user.
+    """
+    page = request.args.get('page', 1, type=int)
+    size = request.args.get('size', 20, type=int)
+
+    # Get the current user id
+    current_user_id = current_user.id
+
+    # Query books created by the current user and paginate the results
+    books_query = Book.query.filter_by(userId=current_user_id)
+
+    # Paginate the books
+    books_paginated = books_query.paginate(page=page, per_page=size, error_out=False)
+    
+    # Prepare the list of books to return
+    book_list = []
+
+    for book in books_paginated.items:
+        # Get reviews for the book
+        reviews = Review.query.filter_by(bookId=book.id).all()
+        review_data = [
+            {
+                "id": review.id,
+                "bookId": review.bookId,
+                "userId": review.userId,
+                "review": review.review,
+                "rating": review.rating,
+                "createdAt": review.createdAt,
+                "updatedAt": review.updatedAt
+            }
+            for review in reviews
+        ]
+
+        # Calculate average rating using the helper function
+        avg_rating = calculate_avg_rating(book.id)
+        
+        book_data = {
+            "id": book.id,
+            "title": book.title,
+            "author": book.author,
+            "description": book.description,
+            "userId": book.userId,
+            "genreId": book.genreId,
+            "isbn": book.isbn,
+            "pages": book.pages,
+            "chapters": book.chapters,
+            "coverPicture": book.coverPicture,
+            "published": book.yearPublished,
+            "createdAt": book.createdAt,
+            "updatedAt": book.updatedAt,
+            "avgRating": avg_rating,
+            "numReviews": len(reviews),
+            "reviews": review_data
+        }
+
+        book_list.append(book_data)
+    
+    # Return the paginated list of books created by the current user
+    return jsonify({
+        'Books': book_list,
+        'page': page,
+        'size': size,
+    })
+
+
 # Update a book
 @book_routes.route('/<int:id>', methods=['PUT'])
 @login_required
