@@ -42,9 +42,15 @@ function HomePage() {
           </form>
       </div>
 
-      <div className="bookclubs"></div>
-      
-      <div className="update-status"></div>
+      <div className="bookclubs">
+        <h2>bookclubs</h2>
+        <h3>will show tile with book cover, bookclub name</h3>
+      </div>
+
+      <div className="update-status">
+        <h2>update your reading status</h2>
+        <h3>will show a tile of the book cover, author, book title. mark as read button.</h3>
+      </div>
 
     </div>
   )
