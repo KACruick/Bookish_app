@@ -56,13 +56,13 @@ def accept_friend_request(userId):
     Accept a pending friend request.
     """
     # Find the friend request
-    friend_request = Friend.query.filter_by(userId=userId, friendId=current_user.id).first()
+    friend_request = Friend.query.filter_by(userId=userId, friendId=current_user.id, status='pending').first()
 
     if not friend_request:
         return jsonify({"message": "Friend request not found"}), 404
 
     # Accept the friend request and create a friendship
-    friend_request.accepted = True  # Assuming there's an 'accepted' field to mark the request as accepted
+    friend_request.status = 'accepted'
     db.session.commit()
 
     return jsonify({"message": "Friend request accepted"}), 200
@@ -79,8 +79,8 @@ def remove_friend(userId):
     """
     # Find the friendship to remove (either direction)
     friendship = Friend.query.filter(
-        ((Friend.sender_id == current_user.id) & (Friend.receiver_id == userId) & (Friend.accepted == True)) |
-        ((Friend.sender_id == userId) & (Friend.receiver_id == current_user.id) & (Friend.accepted == True))
+        ((Friend.userId == current_user.id) & (Friend.friendId == userId) & (Friend.status == 'accepted')) |
+        ((Friend.userId == userId) & (Friend.friendId == current_user.id) & (Friend.status == 'accepted'))
     ).first()
 
     if not friendship:

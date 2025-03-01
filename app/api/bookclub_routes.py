@@ -44,7 +44,65 @@ def create_bookclub():
 
 
 # View all bookclubs user owns 
+@bookclub_routes.route('/moderates', methods=['GET'])
+@login_required
+def get_owned_bookclubs():
+    """
+    Fetch all the bookclubs that the current user owns.
+    """
+    # Get the user id of the current logged-in user
+    user_id = current_user.id
 
+    # Query all bookclubs where the current user is the owner
+    owned_bookclubs = Bookclub.query.filter_by(ownerId=user_id).all()
+
+    if not owned_bookclubs:
+        return jsonify({"message": "No bookclubs found for this user."}), 404
+
+    # Prepare the list of bookclubs to return
+    bookclub_list = [{
+        "id": bookclub.id,
+        "name": bookclub.name,
+        "description": bookclub.description,
+        "ownerId": bookclub.ownerId,
+        "createdAt": bookclub.createdAt.isoformat(),
+        "updatedAt": bookclub.updatedAt.isoformat()
+    } for bookclub in owned_bookclubs]
+
+    return jsonify({"bookclubs": bookclub_list}), 200
+
+
+
+# Get all bookclubs the user is a member of
+@bookclub_routes.route('/member', methods=['GET'])
+@login_required
+def get_user_bookclub_memberships():
+    """
+    Fetch all the bookclubs that the current user is a member of.
+    """
+    user_id = current_user.id
+
+    # Query all bookclub memberships where the current user is a member
+    memberships = BookclubMember.query.filter_by(userId=user_id).all()
+
+    if not memberships:
+        return jsonify({"message": "No bookclubs found for this user."}), 404
+
+    # Fetch bookclub details for each membership
+    bookclub_list = []
+    for membership in memberships:
+        bookclub = Bookclub.query.get(membership.bookclubId)
+        if bookclub:
+            bookclub_list.append({
+                "id": bookclub.id,
+                "name": bookclub.name,
+                "description": bookclub.description,
+                "ownerId": bookclub.ownerId,
+                "createdAt": bookclub.createdAt.isoformat(),
+                "updatedAt": bookclub.updatedAt.isoformat()
+            })
+
+    return jsonify({"bookclubs": bookclub_list}), 200
 
 
 

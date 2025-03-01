@@ -24,7 +24,6 @@ class User(db.Model, UserMixin):
     bookclubs = db.relationship('Bookclub', secondary=add_prefix_for_prod("bookclub_members"), back_populates='members')  # Many-to-Many
     reviews = db.relationship('Review', backref='review_author', lazy=True)  # One-to-Many with Reviews
     book_owner = db.relationship('Book', back_populates='user', cascade='all, delete-orphan')
-    # bookshelves = db.relationship('Bookshelf', backref='user_shelves', lazy=True)  # One-to-Many with Bookshelves
     user_shelves = db.relationship('Bookshelf', backref='bookshelf_owner', lazy=True)
     bookclub_comments = db.relationship('BookclubComment', backref='bookclub_commentor', lazy=True)
 
@@ -33,8 +32,8 @@ class User(db.Model, UserMixin):
     sent_friends = db.relationship('Friend', foreign_keys='Friend.userId', backref='user_sender')  # One-to-Many with Sent Friends
     received_friends = db.relationship('Friend', foreign_keys='Friend.friendId', backref='user_receiver')  # One-to-Many with Received Friends
 
-    # # community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
-    # # community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments
+    community_posts = db.relationship('CommunityPost', backref='user_posts')  # One-to-Many with Community Posts
+    community_comments = db.relationship('CommunityComment', backref='community_comments')  # One-to-Many with Community Comments
 
 
     @property
