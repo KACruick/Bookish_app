@@ -23,7 +23,6 @@ def create_bookshelf():
 
     new_bookshelf = Bookshelf(
         name=data['name'],
-        description=data.get('description', ''),
         userId=current_user.id,
         createdAt=datetime.utcnow(),
         updatedAt=datetime.utcnow()
@@ -95,7 +94,6 @@ def edit_bookshelf(id):
         }), 400
 
     bookshelf.name = data['name']
-    bookshelf.description = data.get('description', bookshelf.description)
     
     # Handling books array (optional, but should validate if the books are valid book IDs)
     if 'books' in data:
@@ -112,6 +110,10 @@ def edit_bookshelf(id):
         "createdAt": bookshelf.createdAt,
         "updatedAt": bookshelf.updatedAt
     }), 200
+
+
+# Route to view Books in Bookshelf
+
 
 
 
@@ -159,6 +161,9 @@ def update_bookshelf_order(id):
 
     return jsonify({"message": "Bookshelf order updated successfully"}), 200
 
+
+
+# Need a add book to bookshelf route in book_routes?
 
 
 # Remove a book from a Bookshelf

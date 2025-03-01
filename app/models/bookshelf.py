@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 class Bookshelf(db.Model):
     __tablename__ = 'bookshelves'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     name = db.Column(db.String(255), nullable=False)
@@ -14,7 +17,7 @@ class Bookshelf(db.Model):
     user = db.relationship('User', backref='user_bookshelves')  
     books = db.relationship(
         'Book',
-        secondary='bookshelf_books', 
+        secondary=add_prefix_for_prod('bookshelf_books'), 
         back_populates='bookshelves',  
 
     )

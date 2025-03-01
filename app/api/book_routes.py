@@ -6,16 +6,39 @@ from datetime import datetime
 book_routes = Blueprint('books', __name__)
 # They all get '/api/books'
 
+
+# helper function for calculating the average rating
+def calculate_avg_rating(book_id):
+    # Query all reviews for the given book_id
+    reviews = Review.query.filter_by(bookId=book_id).all()
+
+    if reviews:
+        # Calculate the sum of all ratings and divide by the number of reviews
+        total_rating = sum(review.rating for review in reviews)
+        avg_rating = total_rating / len(reviews)
+        return round(avg_rating, 1)  # Round to 1 decimal place
+    return 0  # Return 0 if no reviews exist
+
+
 # Get all books
 @book_routes.route('/', methods=['GET'])
 def get_books():
     """
-    Returns all books in the system.
+    Returns all books
     """
-    books = Book.query.all()
+    page = request.args.get('page', 1, type=int)
+    size = request.args.get('size', 20, type= int)
+    
+    # Query all books and paginate the result
+    books_query = Book.query
+
+    # Paginate the books
+    books_paginated = books_query.paginate(page=page, per_page=size, error_out=False)
+    
+    # Prepare list of books to return
     book_list = []
     
-    for book in books:
+    for book in books_paginated.items:
         reviews = Review.query.filter_by(bookId=book.id).all()
         review_data = [
             {
@@ -29,6 +52,9 @@ def get_books():
             }
             for review in reviews
         ]
+
+        # Calculate average rating using the helper function
+        avg_rating = calculate_avg_rating(book.id)
         
         book_data = {
             "id": book.id,
@@ -41,17 +67,21 @@ def get_books():
             "pages": book.pages,
             "chapters": book.chapters,
             "coverPicture": book.coverPicture,
-            "published": book.published,
+            "published": book.yearPublished,
             "createdAt": book.createdAt,
             "updatedAt": book.updatedAt,
-            "avgRating": book.avgRating,
+            "avgRating": avg_rating,
             "numReviews": len(reviews),
             "reviews": review_data
         }
         
         book_list.append(book_data)
     
-    return jsonify({'books': book_list})
+    return jsonify({
+        'Books': book_list,
+        'page': page,
+        'size': size,
+        })
 
 
 
@@ -78,6 +108,9 @@ def get_book_details(id):
         }
         for review in reviews
     ]
+
+    # Calculate average rating using the helper function
+    avg_rating = calculate_avg_rating(book.id)
     
     book_data = {
         "id": book.id,
@@ -90,10 +123,10 @@ def get_book_details(id):
         "pages": book.pages,
         "chapters": book.chapters,
         "coverPicture": book.coverPicture,
-        "published": book.published,
+        "published": book.yearPublished,
         "createdAt": book.createdAt,
         "updatedAt": book.updatedAt,
-        "avgRating": book.avgRating,
+        "avgRating": avg_rating,
         "numReviews": len(reviews),
         "reviews": review_data
     }
@@ -124,16 +157,19 @@ def create_book():
     if not data.get('isbn'):
         errors['isbn'] = 'ISBN is required'
     if not data.get('pages'):
-        errors['pages'] = 'Pages is required'
+        errors['pages'] = 'The number of pages is required'
     if not data.get('chapters'):
-        errors['chapters'] = 'Chapters is required'
+        errors['chapters'] = 'The number of chapters is required'
     if not data.get('coverPicture'):
         errors['coverPicture'] = 'Cover picture is required'
-    if not data.get('published'):
-        errors['published'] = 'Published date is required'
+    if not data.get('yearPublished'):
+        errors['yearPublished'] = 'Published date is required'
 
     if errors:
         return jsonify({'message': 'Bad Request', 'errors': errors}), 400
+
+    # Get id of current user
+    current_user_id = current_user.id
 
     # Create a new book
     book = Book(
@@ -145,10 +181,8 @@ def create_book():
         pages=data['pages'],
         chapters=data['chapters'],
         coverPicture=data['coverPicture'],
-        yearPublished=data['published'],
-        userId=current_user.id,  # The book is associated with the logged-in user
-        createdAt=datetime.utcnow(),
-        updatedAt=datetime.utcnow()
+        yearPublished=data['yearPublished'],
+        userId=current_user_id,  # The book is associated with the logged-in user
     )
     db.session.add(book)
     db.session.commit()
@@ -164,7 +198,7 @@ def create_book():
         "pages": book.pages,
         "chapters": book.chapters,
         "coverPicture": book.coverPicture,
-        "published": book.published,
+        "yearPublished": book.yearPublished,
         "createdAt": book.createdAt,
         "updatedAt": book.updatedAt
     }), 201
@@ -182,7 +216,10 @@ def update_book(id):
     if not book:
         return jsonify({"message": "Book not found"}), 404
 
-    if book.userId != current_user.id:
+    # Get id of current user
+    current_user_id = current_user.id
+    
+    if book.userId != current_user_id:
         return jsonify({"message": "Unauthorized to update this book"}), 403
 
     data = request.get_json()
@@ -196,7 +233,7 @@ def update_book(id):
     book.pages = data.get('pages', book.pages)
     book.chapters = data.get('chapters', book.chapters)
     book.coverPicture = data.get('coverPicture', book.coverPicture)
-    book.published = data.get('published', book.published)
+    book.yearPublished = data.get('yearPublished', book.yearPublished)
     book.updatedAt = datetime.utcnow()
 
     db.session.commit()
@@ -212,7 +249,7 @@ def update_book(id):
         "pages": book.pages,
         "chapters": book.chapters,
         "coverPicture": book.coverPicture,
-        "published": book.published,
+        "yearPublished": book.yearPublished,
         "createdAt": book.createdAt,
         "updatedAt": book.updatedAt
     }), 200
