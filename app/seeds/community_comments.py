@@ -34,7 +34,7 @@ def seed_community_comments():
 
 def undo_community_comments():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.community comments RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.community_comments RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM community comments"))
       

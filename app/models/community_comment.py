@@ -27,4 +27,4 @@ class CommunityComment(db.Model):
     user = db.relationship('User', back_populates='community_comments')
 
     def __repr__(self):
-        return f"<CommunityComment(id={self.id}, userId={self.userId}, activityId={self.activityId}, reactionType={self.reactionType})>"
+        return f"<CommunityComment(id={self.id}, userId={self.userId}, activityId={self.activityId}, like={self.like}, comment={self.comment})>"

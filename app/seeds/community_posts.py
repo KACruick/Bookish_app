@@ -28,7 +28,7 @@ def seed_community_posts():
 
 def undo_community_posts():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.community posts RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.community_posts RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM community posts"))
       
