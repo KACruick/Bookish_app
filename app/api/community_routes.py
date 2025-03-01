@@ -37,7 +37,11 @@ def view_friends_activity():
     # Paginate results
     page = request.args.get('page', 1, type=int)
     size = request.args.get('size', 20, type=int)
-    posts = posts_query.paginate(page=page, per_page=size, error_out=False).items  # Get paginated items
+    posts = posts_query.paginate(page=page, per_page=size, error_out=False).items
+
+    # Fetch comments (and likes) for each post
+    comments = CommunityComment.query.filter(CommunityComment.activityId.in_([post.id for post in posts]))\
+        .all()
 
     # Prepare the activities response
     communityPosts = [
@@ -60,6 +64,20 @@ def view_friends_activity():
             'reviewText': post.reviewText,
             'bookshelfId': post.bookshelfId,
             'createdAt': post.createdAt,
+            'comments': [
+                {
+                    'id': comment.id,
+                    'userId': comment.userId,
+                    'username': comment.user.username,
+                    'profilePicture': comment.user.profilePicture, 
+                    'firstName': comment.user.firstName,  
+                    'lastName': comment.user.lastName, 
+                    'comment': comment.comment,
+                    'like': comment.like,  #
+                    'createdAt': comment.createdAt,
+                }
+                for comment in comments if comment.activityId == post.id
+            ]
         }
         for post in posts
     ]
