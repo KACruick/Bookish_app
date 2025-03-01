@@ -19,8 +19,8 @@ class Bookshelf(db.Model):
         'Book',
         secondary=add_prefix_for_prod('bookshelf_books'), 
         back_populates='bookshelves',  
-
     )
+    community_posts = db.relationship('CommunityPost', back_populates='bookshelf')
 
     def __repr__(self):
         return f"<Bookshelf id={self.id}, name='{self.name}', userId={self.userId}>"
