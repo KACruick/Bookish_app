@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, User, Bookshelf, Book, BookshelfBook
+from app.models import db, User, Bookshelf, Book, BookshelfBook, CommunityPost
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -209,6 +209,21 @@ def add_book_to_bookshelf(bookshelf_id, book_id):
     
     db.session.add(new_bookshelf_book)
     db.session.commit()
+
+    # If the book is added to the "read" shelf, create a community post
+    if bookshelf.name == "read":
+        # Create a default review text
+        post = CommunityPost(
+            userId=current_user.id,
+            bookId=book_id,
+            bookshelfId=bookshelf_id,
+            reviewText=f"I just finished reading '{book.title}' by {book.author}. Highly recommend!",
+            rating=5,  # Default rating
+            createdAt=datetime.utcnow(),
+            updatedAt=datetime.utcnow()
+        )
+        db.session.add(post)
+        db.session.commit()
 
     return jsonify({
         "message": "Book successfully added to the bookshelf",
