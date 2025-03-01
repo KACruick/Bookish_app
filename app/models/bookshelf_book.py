@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 class BookshelfBook(db.Model):
     __tablename__ = 'bookshelf_books'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     bookshelfId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('bookshelves.id')), nullable=False)
     bookId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('books.id')), nullable=False)

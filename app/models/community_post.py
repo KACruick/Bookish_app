@@ -14,6 +14,9 @@ class ActivityTypeEnum(Enum):
 class CommunityPost(db.Model):
     __tablename__ = 'community_posts'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     activityType = db.Column(SQLAlchemyEnum(ActivityTypeEnum), nullable=False)

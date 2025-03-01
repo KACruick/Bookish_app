@@ -29,7 +29,7 @@ class Book(db.Model):
     # Relationship through BookshelfBooks
     bookshelves = db.relationship(
         'Bookshelf',
-        secondary='bookshelf_books',
+        secondary=add_prefix_for_prod('bookshelf_books'),
         back_populates='books',
     )
 
