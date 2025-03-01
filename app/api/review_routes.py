@@ -182,8 +182,8 @@ def get_user_reviews():
             "userId": review.userId,
             "review": review.review,
             "rating": review.rating,
-            "createdAt": review.createdAt.isoformat(),
-            "updatedAt": review.updatedAt.isoformat()
+            "createdAt": review.createdAt,
+            "updatedAt": review.updatedAt
         }
         for review in reviews
     ]
