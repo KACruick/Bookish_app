@@ -158,3 +158,36 @@ def delete_review(id):
     db.session.commit()
 
     return jsonify({"message": "Successfully deleted"}), 200
+
+
+# Get all reviews written by the current user
+@review_routes.route('/current', methods=['GET'])
+@login_required
+def get_user_reviews():
+    """
+    Returns all reviews written by a specific user.
+    """
+    # Only allow the logged-in user to view their own reviews
+    current_user_id = current_user.id
+
+    reviews = Review.query.filter_by(userId=current_user_id).all()
+    
+    if not reviews:
+        return jsonify({"message": "No reviews found for this user"}), 404
+
+    review_data = [
+        {
+            "id": review.id,
+            "bookId": review.bookId,
+            "userId": review.userId,
+            "review": review.review,
+            "rating": review.rating,
+            "createdAt": review.createdAt.isoformat(),
+            "updatedAt": review.updatedAt.isoformat()
+        }
+        for review in reviews
+    ]
+
+    return jsonify({
+        "Reviews": review_data
+    }), 200
