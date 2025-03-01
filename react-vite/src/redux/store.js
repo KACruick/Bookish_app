@@ -6,9 +6,21 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import booksReducer from "./books";
+import reviewsReducer from "./reviews";
+import bookshelvesReducer from "./bookshelves";
+import bookclubsReducer from "./bookclubs";
+import friendsReducer from "./friends";
+import communityReducer from "./community";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  books: booksReducer,
+  reviews: reviewsReducer,
+  bookshelves: bookshelvesReducer,
+  bookclubs: bookclubsReducer,
+  friends: friendsReducer,
+  community: communityReducer
 });
 
 let enhancer;
