@@ -53,11 +53,11 @@ const addBookToShelfAction = (bookshelfId, bookId) => ({
 
 // Thunks
 export const getBookshelves = () => async (dispatch) => {
-  console.log("went into thunk action")
+  // console.log("went into thunk action")
   const response = await csrfFetch('/api/bookshelves');
   if (response.ok) {
     const data = await response.json();
-    console.log("Fetched bookshelves:", data.bookshelves);
+    // console.log("Fetched bookshelves:", data.bookshelves);
 
     // Normalize the bookshelves data (ensures we store them by ID)
     const normalizedBookshelves = data.bookshelves.reduce((acc, shelf) => {
