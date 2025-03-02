@@ -26,8 +26,8 @@ function HomePage() {
     const userBookshelves = bookshelves.length > 0 ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];
     console.log("userBookshelves: ", userBookshelves)
     // Find the "Currently Reading" bookshelf (typically the user's 2nd shelf)
-    const currentlyReadingShelf = Object.values(bookshelves).find(
-      (shelf) => shelf.name === "Currently reading"
+    const currentlyReadingShelf = bookshelves.find(
+      (shelf) => shelf.name === "Currently reading" && shelf.userId === sessionUser.id
     );
     const currentlyReadingShelfId = currentlyReadingShelf ? currentlyReadingShelf.id : null;
     console.log("currentlyReadingShelf: ", currentlyReadingShelf);
@@ -36,9 +36,16 @@ function HomePage() {
       dispatch(thunkAuthenticate());
       dispatch(getBookclubs());
       dispatch(getBookshelves());
-      dispatch(getBookshelfDetails(currentlyReadingShelfId))
+      // dispatch(getBookshelfDetails(currentlyReadingShelfId))
       setLoading(false);
-    }, [dispatch, currentlyReadingShelfId]);
+    }, [dispatch]);
+
+    useEffect(() => {
+      if (currentlyReadingShelfId) {
+          dispatch(getBookshelfDetails(currentlyReadingShelfId));
+      }
+      setLoading(false);
+  }, [dispatch, currentlyReadingShelfId]);
 
     if (loading) return <div>Loading...</div>;
     
@@ -47,8 +54,14 @@ function HomePage() {
     console.log("user id: ", sessionUser.id)
     console.log("bookshelves: ", bookshelves)
     
+    
+    console.log("currentBookshelf: ", currentBookshelf.Books)
+    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
+    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
 
- 
+    const getImageOrPlaceholder = (imageUrl) => {
+      return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -89,7 +102,7 @@ function HomePage() {
       </div>
 
       {/* Bookclubs Section */}
-      <div className="bookclubs">
+      <div className="bookclubs-div">
         <h2>Book Clubs</h2>
         <div className="bookclub-list">
           {bookClubs.length > 0 ? (
@@ -106,13 +119,17 @@ function HomePage() {
       </div>
 
       {/* Currently Reading Section */}
-      <div className="update-status">
+      <div className="update-status-div">
         <h2>Update Your Reading Status</h2>
         <div className="currently-reading-list">
           {currentBookshelf ? (
             currentBookshelf.Books.map((book) => (
               <div className="currently-reading-tile" key={book.id}>
-                <img src={book.coverImage} alt={book.title} className="book-cover" />
+                <img
+                    src={getImageOrPlaceholder(book.coverPicture)}
+                    alt={book.title}
+                    className="book-cover"
+                  />
                 <h3>{book.title}</h3>
                 <p>{book.author}</p>
                 <button className="mark-as-read" onClick={() => handleMarkAsRead(book.id)}>

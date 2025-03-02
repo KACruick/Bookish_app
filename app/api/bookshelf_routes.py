@@ -110,6 +110,7 @@ def get_bookshelf(id):
         "id": bookshelf_book.book.id,
         "title": bookshelf_book.book.title,
         "author": bookshelf_book.book.author,
+        "coverPicture": bookshelf_book.book.coverPicture,
         "addedAt": bookshelf_book.addedAt.isoformat(),
         "orderInShelf": bookshelf_book.orderInShelf
     } for bookshelf_book in bookshelf_books]
