@@ -5,6 +5,10 @@ import Layout from './Layout';
 import HomePage from '../components/HomePage/HomePage';
 import BookPage from '../components/BookPage/BookPage';
 import BookclubPage from '../components/BookclubPage';
+import Discover from '../components/Discover';
+import Community from '../components/Community';
+import YourBookclubs from '../components/YourBookclubs';
+import YourLibrary from '../components/YourLibrary';
 
 export const router = createBrowserRouter([
   {
@@ -22,13 +26,17 @@ export const router = createBrowserRouter([
         path: "signup",
         element: <SignupFormPage />,
       },
-      // {
-      //   path: ,
-      //   element: discover books page 
-      // },
+      {
+        path: "/books",
+        element: < Discover />
+      },
       {
         path: "/books/:bookId",
         element: <BookPage />
+      },
+      {
+        path: "/bookshelves/current",
+        element: < YourLibrary />
       },
       // {
       //   path: ,
@@ -51,13 +59,17 @@ export const router = createBrowserRouter([
       //   element: bookclub manage page 
       // },
       {
+        path: "/bookclubs/current",
+        element: < YourBookclubs />
+      },
+      {
         path: "/bookclubs/:bookclubId",
         element: < BookclubPage />
       },
-      // {
-      //   path: ,
-      //   element: community activity page 
-      // },
+      {
+        path: "/community",
+        element: < Community />
+      },
       // {
       //   path: ,
       //   element: user profile page

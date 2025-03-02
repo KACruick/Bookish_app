@@ -12,10 +12,10 @@ function Navigation() {
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
-      <li><NavLink to="/">Discover</NavLink></li>
-      <li><NavLink to="/">Bookclubs</NavLink></li>
-      <li><NavLink to="/">Your Library</NavLink></li>
-      <li><NavLink to="/">Community Activity</NavLink></li>
+      <li><NavLink to="/books">Discover</NavLink></li>
+      <li><NavLink to="/bookclubs/current">Your Bookclubs</NavLink></li>
+      <li><NavLink to="/bookshelves/current">Your Library</NavLink></li>
+      <li><NavLink to="/community">Community Activity</NavLink></li>
 
 
       {sessionUser && (
