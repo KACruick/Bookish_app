@@ -37,14 +37,32 @@ def get_all_bookshelves():
     """
     bookshelves = Bookshelf.query.filter_by(userId=current_user.id).all()
 
-    # Prepare the list of bookshelves
-    result = [{
-        "id": bookshelf.id,
-        "name": bookshelf.name,
-        "userId": bookshelf.userId,
-        "createdAt": bookshelf.createdAt,
-        "updatedAt": bookshelf.updatedAt
-    } for bookshelf in bookshelves]
+
+    # Prepare the list of bookshelves along with books inside each shelf
+    result = []
+    for bookshelf in bookshelves:
+        # Get all books associated with this bookshelf
+        bookshelf_books = BookshelfBook.query.filter_by(bookshelfId=bookshelf.id).all()
+
+        # Prepare the list of books for this bookshelf
+        books = [{
+            "id": bookshelf_book.book.id,
+            "title": bookshelf_book.book.title,
+            "author": bookshelf_book.book.author,
+            "coverPicture": bookshelf_book.book.coverPicture,
+            "addedAt": bookshelf_book.addedAt.isoformat(),
+            "orderInShelf": bookshelf_book.orderInShelf
+        } for bookshelf_book in bookshelf_books]
+
+        # Add the bookshelf details along with the books
+        result.append({
+            "id": bookshelf.id,
+            "name": bookshelf.name,
+            "userId": bookshelf.userId,
+            "createdAt": bookshelf.createdAt,
+            "updatedAt": bookshelf.updatedAt,
+            "Books": books  # Include the books inside the bookshelf
+        })
 
     return jsonify({"bookshelves": result}), 200
 
