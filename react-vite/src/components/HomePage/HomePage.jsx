@@ -17,7 +17,7 @@ function HomePage() {
     const sessionUser = useSelector((state) => state.session.user);
     const bookshelves = useSelector((state) => Object.values(state.bookshelves.allBookshelves));
     const currentBookshelf = useSelector((state) => state.bookshelves.currentBookshelf);
-    const bookClubs = useSelector((state) => Object.values(state.bookclubs.bookclubs));
+    const bookclubs = useSelector((state) => Object.values(state.bookclubs.bookclubs));
 
     const [loading, setLoading] = useState(true);
 
@@ -54,10 +54,12 @@ function HomePage() {
     console.log("user id: ", sessionUser.id)
     console.log("bookshelves: ", bookshelves)
     
+    console.log("bookclubs: ", bookclubs)
+    console.log("bookclubs[0]: ", bookclubs[0])
     
-    console.log("currentBookshelf: ", currentBookshelf.Books)
-    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
-    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
+    // console.log("currentBookshelf: ", currentBookshelf.Books)
+    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
+    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
 
     const getImageOrPlaceholder = (imageUrl) => {
       return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
@@ -105,11 +107,11 @@ function HomePage() {
       <div className="bookclubs-div">
         <h2>Book Clubs</h2>
         <div className="bookclub-list">
-          {bookClubs.length > 0 ? (
-            bookClubs.map((bookClub) => (
-              <div className="bookclub-tile" key={bookClub.id}>
-                <img src={bookClub.coverImage} alt={bookClub.name} className="bookclub-cover" />
-                <h3>{bookClub.name}</h3>
+          {bookclubs.length > 0 ? (
+            bookclubs.map((bookclub) => (
+              <div className="bookclub-tile" key={bookclub.id}>
+                <img src={bookclub.coverImage} alt={bookclub.name} className="bookclub-cover" />
+                <h3>{bookclub.name}</h3>
               </div>
             ))
           ) : (
@@ -119,7 +121,7 @@ function HomePage() {
       </div>
 
       {/* Currently Reading Section */}
-      <div className="update-status-div">
+      {/* <div className="update-status-div">
         <h2>Update Your Reading Status</h2>
         <div className="currently-reading-list">
           {currentBookshelf ? (
@@ -141,7 +143,7 @@ function HomePage() {
             <p>You are not currently reading any books.</p>
           )}
         </div>
-      </div>
+      </div> */}
 
     </div>
   )

@@ -65,8 +65,8 @@ def get_owned_bookclubs():
         "name": bookclub.name,
         "description": bookclub.description,
         "ownerId": bookclub.ownerId,
-        "createdAt": bookclub.createdAt.isoformat(),
-        "updatedAt": bookclub.updatedAt.isoformat()
+        "createdAt": bookclub.createdAt,
+        "updatedAt": bookclub.updatedAt
     } for bookclub in owned_bookclubs]
 
     return jsonify({"bookclubs": bookclub_list}), 200
