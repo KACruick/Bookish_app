@@ -4,7 +4,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { FaSearch } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBookclubs } from '../../redux/bookclubs'
-import { getBookshelves } from "../../redux/bookshelves";
+import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
 
 
@@ -16,16 +16,29 @@ function HomePage() {
 
     const sessionUser = useSelector((state) => state.session.user);
     const bookshelves = useSelector((state) => Object.values(state.bookshelves.allBookshelves));
+    const currentBookshelf = useSelector((state) => state.bookshelves.currentBookshelf);
     const bookClubs = useSelector((state) => Object.values(state.bookclubs.bookclubs));
 
     const [loading, setLoading] = useState(true);
+
+    console.log("currentBookshelf: ", currentBookshelf)
+
+    const userBookshelves = bookshelves.length > 0 ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];
+    console.log("userBookshelves: ", userBookshelves)
+    // Find the "Currently Reading" bookshelf (typically the user's 2nd shelf)
+    const currentlyReadingShelf = Object.values(bookshelves).find(
+      (shelf) => shelf.name === "Currently reading"
+    );
+    const currentlyReadingShelfId = currentlyReadingShelf ? currentlyReadingShelf.id : null;
+    console.log("currentlyReadingShelf: ", currentlyReadingShelf);
 
     useEffect(() => {
       dispatch(thunkAuthenticate());
       dispatch(getBookclubs());
       dispatch(getBookshelves());
+      dispatch(getBookshelfDetails(currentlyReadingShelfId))
       setLoading(false);
-    }, [dispatch]);
+    }, [dispatch, currentlyReadingShelfId]);
 
     if (loading) return <div>Loading...</div>;
     
@@ -33,14 +46,9 @@ function HomePage() {
     console.log("sessionUser: ", sessionUser)
     console.log("user id: ", sessionUser.id)
     console.log("bookshelves: ", bookshelves)
-    const userBookshelves = bookshelves.length > 0 ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];
+    
 
-    console.log("userBookshelves: ", userBookshelves)
-    // Find the "Currently Reading" bookshelf (typically the user's 2nd shelf)
-    const currentlyReadingShelf = Object.values(bookshelves).find(
-      (shelf) => shelf.name === "Currently reading"
-    );
-    console.log("currentlyReadingShelf: ", currentlyReadingShelf)
+ 
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -101,8 +109,8 @@ function HomePage() {
       <div className="update-status">
         <h2>Update Your Reading Status</h2>
         <div className="currently-reading-list">
-          {currentlyReadingShelf ? (
-            currentlyReadingShelf.books.map((book) => (
+          {currentBookshelf ? (
+            currentBookshelf.Books.map((book) => (
               <div className="currently-reading-tile" key={book.id}>
                 <img src={book.coverImage} alt={book.title} className="book-cover" />
                 <h3>{book.title}</h3>

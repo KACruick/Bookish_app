@@ -5,6 +5,50 @@ from datetime import datetime
 
 bookshelf_routes = Blueprint('bookshelves', __name__)
 
+# Get all bookshelves
+@bookshelf_routes.route('/', methods=['GET'])
+def get_bookshelves():
+    """
+    Returns all bookshelves in the system.
+    """
+    bookshelves = Bookshelf.query.all()  # Fetch all bookshelves
+
+    # If there are no bookshelves, return a 404
+    if not bookshelves:
+        return jsonify({"message": "No bookshelves found"}), 404
+
+    # Prepare the list of bookshelves
+    bookshelves_data = [{
+        "id": bookshelf.id,
+        "name": bookshelf.name,
+        "userId": bookshelf.userId,
+        "createdAt": bookshelf.createdAt.isoformat(),
+        "updatedAt": bookshelf.updatedAt.isoformat(),
+    } for bookshelf in bookshelves]
+
+    return jsonify({"bookshelves": bookshelves_data}), 200
+
+# Get all Bookshelves for the current user 
+@bookshelf_routes.route('/current', methods=['GET'])
+@login_required
+def get_all_bookshelves():
+    """
+    Returns all bookshelves for the currently logged-in user.
+    """
+    bookshelves = Bookshelf.query.filter_by(userId=current_user.id).all()
+
+    # Prepare the list of bookshelves
+    result = [{
+        "id": bookshelf.id,
+        "name": bookshelf.name,
+        "userId": bookshelf.userId,
+        "createdAt": bookshelf.createdAt,
+        "updatedAt": bookshelf.updatedAt
+    } for bookshelf in bookshelves]
+
+    return jsonify({"bookshelves": result}), 200
+
+
 # Create a Bookshelf
 @bookshelf_routes.route('/', methods=['POST'])
 @login_required

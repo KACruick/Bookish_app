@@ -53,14 +53,22 @@ const addBookToShelfAction = (bookshelfId, bookId) => ({
 
 // Thunks
 export const getBookshelves = () => async (dispatch) => {
+  console.log("went into thunk action")
   const response = await csrfFetch('/api/bookshelves');
   if (response.ok) {
     const data = await response.json();
+    console.log("Fetched bookshelves:", data.bookshelves);
+
+    // Normalize the bookshelves data (ensures we store them by ID)
     const normalizedBookshelves = data.bookshelves.reduce((acc, shelf) => {
       acc[shelf.id] = shelf;
       return acc;
     }, {});
+
+    // Dispatch the action to the reducer with the normalized data
     dispatch(getBookshelvesAction(normalizedBookshelves));
+  } else {
+    console.error("Failed to fetch bookshelves:", response);
   }
 };
 
@@ -171,6 +179,7 @@ const initialState = {
   // Reducer
   const bookshelvesReducer = (state = initialState, action) => {
     switch (action.type) {
+      
       case GET_BOOKSHELVES:
         return { ...state, allBookshelves: action.payload };
   
