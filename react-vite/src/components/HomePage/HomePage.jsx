@@ -37,7 +37,7 @@ function HomePage() {
       dispatch(getBookclubs());
       dispatch(getBookshelves());
       // dispatch(getBookshelfDetails(currentlyReadingShelfId))
-      setLoading(false);
+      // setLoading(false);
     }, [dispatch]);
 
     useEffect(() => {
@@ -47,6 +47,14 @@ function HomePage() {
       setLoading(false);
   }, [dispatch, currentlyReadingShelfId]);
 
+    // // Check if all necessary data is loaded
+    // useEffect(() => {
+    //   // Wait for sessionUser, bookshelves, bookclubs, and currentBookshelf to be available
+    //   if (sessionUser && bookshelves.length > 0 && bookclubs.length > 0) {
+    //     setLoading(false); // Set loading to false when data is available
+    //   }
+    // }, [sessionUser, bookshelves, bookclubs]);
+
     if (loading) return <div>Loading...</div>;
     
 
@@ -54,12 +62,12 @@ function HomePage() {
     console.log("user id: ", sessionUser.id)
     console.log("bookshelves: ", bookshelves)
     
-    console.log("bookclubs: ", bookclubs)
-    console.log("bookclubs[0]: ", bookclubs[0])
+    // console.log("bookclubs: ", bookclubs)
+    // console.log("bookclubs[0]: ", bookclubs[0])
     
-    console.log("currentBookshelf: ", currentBookshelf.Books)
-    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
-    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
+    // console.log("currentBookshelf: ", currentBookshelf.Books)
+    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
+    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
 
     const getImageOrPlaceholder = (imageUrl) => {
       return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
@@ -110,39 +118,43 @@ function HomePage() {
           {bookclubs.length > 0 ? (
             bookclubs.map((bookclub) => (
               <div className="bookclub-tile" key={bookclub.id}>
-            {/* Check if the book exists and if the cover image is available */}
-            {bookclub.book && bookclub.book.coverPicture ? (
-              <img
-                src={bookclub.book.coverPicture}
-                alt={bookclub.name}
-                className="bookclub-cover"
-              />
-            ) : (
-              <div className="no-cover-placeholder">No Cover</div>
-            )}
-            <h3>{bookclub.name}</h3>
-                </div>
-              ))
-            ) : (
-              <p>No book clubs available.</p>
-            )}
-          </div>
+                <Link to={`/bookclubs/${bookclub.id}`}>
+                  {/* Check if the book exists and if the cover image is available */}
+                  {bookclub.book && bookclub.book.coverPicture ? (
+                    <img
+                      src={bookclub.book.coverPicture}
+                      alt={bookclub.name}
+                      className="bookclub-cover"
+                    />
+                  ) : (
+                    <div className="no-cover-placeholder">No Cover</div>
+                  )}
+                  <h3>{bookclub.name}</h3>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p>No book clubs available.</p>
+          )}
+        </div>
       </div>
 
       {/* Currently Reading Section */}
       <div className="update-status-div">
         <h2>Update Your Reading Status</h2>
         <div className="currently-reading-list">
-          {currentBookshelf ? (
+          {currentBookshelf?.Books && currentBookshelf.Books.length > 0 ? (
             currentBookshelf.Books.map((book) => (
               <div className="currently-reading-tile" key={book.id}>
-                <img
-                    src={getImageOrPlaceholder(book.coverPicture)}
+                <Link to={`/books/${book.id}`}>
+                  <img
+                    src={book.coverPicture}
                     alt={book.title}
                     className="book-cover"
                   />
-                <h3>{book.title}</h3>
-                <p>{book.author}</p>
+                  <h3>{book.title}</h3>
+                  <p>{book.author}</p>
+                </Link>
                 <button className="mark-as-read" onClick={() => handleMarkAsRead(book.id)}>
                   Mark as Read
                 </button>

@@ -3,6 +3,8 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import HomePage from '../components/HomePage/HomePage';
+import BookPage from '../components/BookPage/BookPage';
+import BookclubPage from '../components/BookclubPage';
 
 export const router = createBrowserRouter([
   {
@@ -24,10 +26,10 @@ export const router = createBrowserRouter([
       //   path: ,
       //   element: discover books page 
       // },
-      // {
-      //   path: ,
-      //   element: books detail page with reviews
-      // },
+      {
+        path: "/books/:bookId",
+        element: <BookPage />
+      },
       // {
       //   path: ,
       //   element: manage books you created
@@ -48,10 +50,10 @@ export const router = createBrowserRouter([
       //   path: ,
       //   element: bookclub manage page 
       // },
-      // {
-      //   path: ,
-      //   element: bookclub details page
-      // },
+      {
+        path: "/bookclubs/:bookclubId",
+        element: < BookclubPage />
+      },
       // {
       //   path: ,
       //   element: community activity page 
