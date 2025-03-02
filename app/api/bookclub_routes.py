@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Bookclub, User, BookclubMember
+from app.models import db, Bookclub, User, BookclubMember, Book
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -93,13 +93,25 @@ def get_user_bookclub_memberships():
     for membership in memberships:
         bookclub = Bookclub.query.get(membership.bookclubId)
         if bookclub:
+            # Fetch the book associated with the bookclub
+            book = Book.query.get(bookclub.bookId)  # Fetch the single book using the bookId from bookclub
+
+            # Prepare book details, including coverPicture
+            book_details = {
+                "id": book.id,
+                "title": book.title,
+                "author": book.author,
+                "coverPicture": book.coverPicture,  # Add coverPicture to the book details
+            }
+
             bookclub_list.append({
                 "id": bookclub.id,
                 "name": bookclub.name,
                 "description": bookclub.description,
                 "ownerId": bookclub.ownerId,
-                "createdAt": bookclub.createdAt.isoformat(),
-                "updatedAt": bookclub.updatedAt.isoformat()
+                "createdAt": bookclub.createdAt,
+                "updatedAt": bookclub.updatedAt,
+                "book": book_details  # Include the associated book's details (including coverPicture)
             })
 
     return jsonify({"bookclubs": bookclub_list}), 200

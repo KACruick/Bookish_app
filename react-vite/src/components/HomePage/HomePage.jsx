@@ -57,9 +57,9 @@ function HomePage() {
     console.log("bookclubs: ", bookclubs)
     console.log("bookclubs[0]: ", bookclubs[0])
     
-    // console.log("currentBookshelf: ", currentBookshelf.Books)
-    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
-    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
+    console.log("currentBookshelf: ", currentBookshelf.Books)
+    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
+    console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
 
     const getImageOrPlaceholder = (imageUrl) => {
       return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
@@ -110,18 +110,27 @@ function HomePage() {
           {bookclubs.length > 0 ? (
             bookclubs.map((bookclub) => (
               <div className="bookclub-tile" key={bookclub.id}>
-                <img src={bookclub.coverImage} alt={bookclub.name} className="bookclub-cover" />
-                <h3>{bookclub.name}</h3>
-              </div>
-            ))
-          ) : (
-            <p>No book clubs available.</p>
-          )}
-        </div>
+            {/* Check if the book exists and if the cover image is available */}
+            {bookclub.book && bookclub.book.coverPicture ? (
+              <img
+                src={bookclub.book.coverPicture}
+                alt={bookclub.name}
+                className="bookclub-cover"
+              />
+            ) : (
+              <div className="no-cover-placeholder">No Cover</div>
+            )}
+            <h3>{bookclub.name}</h3>
+                </div>
+              ))
+            ) : (
+              <p>No book clubs available.</p>
+            )}
+          </div>
       </div>
 
       {/* Currently Reading Section */}
-      {/* <div className="update-status-div">
+      <div className="update-status-div">
         <h2>Update Your Reading Status</h2>
         <div className="currently-reading-list">
           {currentBookshelf ? (
@@ -143,7 +152,7 @@ function HomePage() {
             <p>You are not currently reading any books.</p>
           )}
         </div>
-      </div> */}
+      </div>
 
     </div>
   )

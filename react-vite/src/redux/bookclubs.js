@@ -47,7 +47,7 @@ const removeMemberFromBookclubAction = (userId) => ({
 
 // Thunks
 export const getBookclubs = () => async (dispatch) => {
-  const response = await csrfFetch('/api/bookclubs/moderates');
+  const response = await csrfFetch('/api/bookclubs/member');
   if (response.ok) {
     const data = await response.json();
     // Normalize the bookclubs by their ID
