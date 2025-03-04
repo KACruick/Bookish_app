@@ -6,6 +6,8 @@ import { getBook } from "../../redux/books";
 import { getReviews } from "../../redux/reviews";
 import ReviewModal from "../ReviewModal";
 import OpenModalButton from "../OpenModalButton";
+import UpdateReviewModal from "../UpdateReviewModal";
+import DeleteReviewModal from "../DeleteReviewModal";
 import { IoMdStar } from "react-icons/io";
 
 function BookPage() {
@@ -199,10 +201,10 @@ function BookPage() {
                   <div><IoMdStar /> </div>
 
                   {/* Check if the logged-in user is the same as the user who left the review */}
-                  {review.userId === loggedInUserId && (
+                  {review.userId === currentUserId && (
                     <div className="update-delete-div">
                       {/* Update Button */}
-                      <OpenModalButton
+                      {/* <OpenModalButton
                         buttonText="Update"
                         modalComponent={
                           <UpdateReviewModal 
@@ -212,14 +214,14 @@ function BookPage() {
                           />
                         }
                         className='update-modal'
-                      />
+                      /> */}
                       
                       {/* Delete Button */}
-                      <OpenModalButton
+                      {/* <OpenModalButton
                         buttonText="Delete"
                         modalComponent={<DeleteReviewModal reviewId={review.id} />}
                         className="delete-modal"
-                      />
+                      /> */}
                     </div>
                   )}
                 </div>
