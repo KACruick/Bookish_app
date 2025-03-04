@@ -6,6 +6,7 @@ import { getBook } from "../../redux/books";
 import { getReviews } from "../../redux/reviews";
 import ReviewModal from "../ReviewModal";
 import OpenModalButton from "../OpenModalButton";
+import { IoMdStar } from "react-icons/io";
 
 function BookPage() {
   const { bookId } = useParams();
@@ -174,11 +175,21 @@ function BookPage() {
                     <div className="no-profile-picture">No Profile Picture</div>
                   )} */}
                   <p>{review.user?.firstName}</p>
+                  {/* Render the formatted date */}
+                  <p>
+                    {/* Format the date as "Month Year" */}
+                    {new Date(review.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                    })}
+                  </p>
                 </div>
+                
 
                 <div className="review-content">
                   <p>{review.review}</p> {/* Review text */}
-                  <div className="rating">{review.rating}</div> {/* Rating */}
+                  <div className="rating">{review.rating.toFixed(1)}</div> {/* Rating */}
+                  <div> <IoMdStar/> </div>
                 </div>
               </div>
             ))
