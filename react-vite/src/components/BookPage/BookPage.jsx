@@ -12,6 +12,8 @@ function BookPage() {
   const { bookId } = useParams();
   const dispatch = useDispatch();
 
+  const currentUserId = useSelector((state) => state.session.user.id);
+
   const [isRead, setIsRead] = useState(false);  // Track if the user has marked the book as read
   const [rating, setRating] = useState(0);  // Track the user's rating
 
@@ -63,6 +65,11 @@ function BookPage() {
         ))}
       </div>
     );
+  };
+
+  const handleUpdateReview = (reviewId) => {
+    // Logic to show an update form or navigate to a page where the user can update their review
+    console.log("Update review with id:", reviewId);
   };
 
 
@@ -189,13 +196,38 @@ function BookPage() {
                 <div className="review-content">
                   <p>{review.review}</p> {/* Review text */}
                   <div className="rating">{review.rating.toFixed(1)}</div> {/* Rating */}
-                  <div> <IoMdStar/> </div>
+                  <div><IoMdStar /> </div>
+
+                  {/* Check if the logged-in user is the same as the user who left the review */}
+                  {review.userId === loggedInUserId && (
+                    <div className="update-delete-div">
+                      {/* Update Button */}
+                      <OpenModalButton
+                        buttonText="Update"
+                        modalComponent={
+                          <UpdateReviewModal 
+                            reviewId={review.id} 
+                            initialReview={review.review} 
+                            initialRating={review.rating} 
+                          />
+                        }
+                        className='update-modal'
+                      />
+                      
+                      {/* Delete Button */}
+                      <OpenModalButton
+                        buttonText="Delete"
+                        modalComponent={<DeleteReviewModal reviewId={review.id} />}
+                        className="delete-modal"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             ))
-          ) : (
-            <p>No reviews yet.</p>
-          )}
+        ) : (
+          <p>No reviews yet.</p>
+        )}
 
 
 
