@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getBook } from "../../redux/books";
 import { getReviews } from "../../redux/reviews";
+import ReviewModal from "../ReviewModal";
+import OpenModalButton from "../OpenModalButton";
 
 function BookPage() {
   const { bookId } = useParams();
@@ -61,6 +63,7 @@ function BookPage() {
       </div>
     );
   };
+
 
   // Make sure book is defined before rendering
   if (!book) {
@@ -144,7 +147,14 @@ function BookPage() {
           </div>
 
           {/* Button to Leave a Review */}
-          <button className="leave-review-btn">Leave a Review</button>
+          {/* write conditions for if it can be reviewed */}
+          <div className="leave-review-div">
+            <OpenModalButton
+            buttonText="Leave a Review"
+            modalComponent={<ReviewModal bookId={bookId} />}
+            className="leave-review-button"
+            />
+          </div>
 
           {/* Map through reviews */}
           {reviewList.length > 0 ? (

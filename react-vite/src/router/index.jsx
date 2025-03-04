@@ -9,6 +9,7 @@ import Discover from '../components/Discover';
 import Community from '../components/Community';
 import YourBookclubs from '../components/YourBookclubs';
 import YourLibrary from '../components/YourLibrary';
+import ReviewModal from '../components/ReviewModal';
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       //   path: ,
       //   element: bookclub manage page 
       // },
+      {
+        path: "/reviews/:bookId",
+        element: < ReviewModal />
+      },
       {
         path: "/bookclubs/current",
         element: < YourBookclubs />
