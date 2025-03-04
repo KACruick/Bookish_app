@@ -4,6 +4,8 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
+import OpenModalButton from "../OpenModalButton";
+import CreateBookshelf from '../CreateBookshelf';
 
 function YourLibrary() {
   const navigate = useNavigate();
@@ -38,7 +40,11 @@ function YourLibrary() {
       <h1>your library! show shelfs, add shelf button, etc. </h1>
 
       <div className="create-new-bookshelf">
-        <button>Create a new bookshelf</button>
+      <OpenModalButton
+        buttonText="Create a new bookshelf"
+        modalComponent={<CreateBookshelf onClose={() => {}} />} // Close function passed to modal
+        className="create-bookshelf-button"
+      />
       </div>
 
       {/* Render each bookshelf */}
