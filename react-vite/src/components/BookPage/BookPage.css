@@ -1,0 +1,29 @@
+.book-page {
+    border: solid red 1px;
+    display: flex;
+    flex-direction: row;
+}
+
+.book-left-div {
+    border: solid red 1px;
+}
+
+.book-cover {
+    /* width: 300px;  Container width */
+    height: 500px;
+    overflow: hidden;  /* Optional: Prevent overflow */
+}
+  
+.book-cover img {
+    width: 100%;  /* Make the image take up the full width of the container */
+    height: auto;  /* Keep the image's aspect ratio intact */
+    object-fit: cover;  /* Crop the image to fit the container without stretching */
+}
+
+.book-right-div {
+    border: solid red 1px;
+}
+
+.review-tiles {
+    border: solid red 1px;
+}

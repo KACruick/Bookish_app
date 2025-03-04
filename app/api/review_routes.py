@@ -26,7 +26,12 @@ def get_reviews(bookId):
             "review": review.review,
             "rating": review.rating,
             "createdAt": review.createdAt,
-            "updatedAt": review.updatedAt
+            "updatedAt": review.updatedAt,
+            "user": {
+                "firstName": review.user.firstName,
+                "lastName": review.user.lastName,
+                "profilePicture": review.user.profilePicture,
+            }
         }
         for review in reviews
     ]

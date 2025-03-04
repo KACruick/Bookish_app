@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Book, Review
+from app.models import db, Book, Review, Genre
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -53,6 +53,10 @@ def get_books():
             for review in reviews
         ]
 
+        # Get the genre data
+        genre = Genre.query.get(book.genreId)
+        genre_name = genre.name if genre else "Unknown"
+
         # Calculate average rating using the helper function
         avg_rating = calculate_avg_rating(book.id)
         
@@ -62,7 +66,7 @@ def get_books():
             "author": book.author,
             "description": book.description,
             "userId": book.userId,
-            "genreId": book.genreId,
+            "genreId": genre_name,
             "isbn": book.isbn,
             "pages": book.pages,
             "chapters": book.chapters,
@@ -109,6 +113,10 @@ def get_book_details(id):
         for review in reviews
     ]
 
+    # Get the genre data
+    genre = Genre.query.get(book.genreId)
+    genre_name = genre.name if genre else "Unknown"
+
     # Calculate average rating using the helper function
     avg_rating = calculate_avg_rating(book.id)
     
@@ -118,7 +126,7 @@ def get_book_details(id):
         "author": book.author,
         "description": book.description,
         "userId": book.userId,
-        "genreId": book.genreId,
+        "genreId": genre_name,
         "isbn": book.isbn,
         "pages": book.pages,
         "chapters": book.chapters,
