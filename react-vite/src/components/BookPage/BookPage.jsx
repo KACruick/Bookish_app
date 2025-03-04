@@ -158,7 +158,9 @@ function BookPage() {
 
           {/* Map through reviews */}
           {reviewList.length > 0 ? (
-            reviewList.map((review) => (
+            reviewList
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .map((review) => (
               <div key={review.id} className="review-tiles">
                 <div className="user-info">
                   
