@@ -6,8 +6,8 @@ import { useModal } from '../../context/Modal';
 
 function ChapterComments({ chapterId, bookclubId }) {
     const dispatch = useDispatch();
-    const comments = useSelector((state) => state.bookclubs.currentBookclub.chapterComments);
-
+    const comments = useSelector((state) => state.bookclubs.currentBookclub.chapterComments?.[chapterId] || []);
+    console.log("comments", comments)
     const { closeModal } = useModal();
 
     const [newComment, setNewComment] = useState('');
@@ -47,13 +47,18 @@ function ChapterComments({ chapterId, bookclubId }) {
           <h3>Chapter Comments</h3>
 
           <ul>
-            {comments.map((comment) => (
-              <li key={comment.id}>
-                <p>{comment.comment}</p>
-                <p>by {comment.user.firstName} {comment.user.lastName}</p>
-                <p>{new Date(comment.createdAt).toLocaleString()}</p>
-              </li>
-            ))}
+            {/* Render comments safely if they exist */}
+            {comments.length > 0 ? (
+              comments.map((comment) => (
+                <li key={comment.id}>
+                  <p>{comment.comment}</p>
+                  <p>by {comment.user.firstName} {comment.user.lastName}</p>
+                  <p>{new Date(comment.createdAt).toLocaleString()}</p>
+                </li>
+              ))
+            ) : (
+              <p>No comments yet.</p>
+            )}
           </ul>
 
             {/* Comment input form */}

@@ -167,7 +167,7 @@ export const getChapterComments = (bookclubId, chapterId) => async (dispatch) =>
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(getCommentsAction(data.comments));  // Dispatch the comments to the Redux store
+    dispatch(getCommentsAction({ chapterId, comments: data.comments }));  // Pass both chapterId and comments
   } else {
     const errorData = await response.json();
     throw errorData;  // Handle errors
@@ -273,11 +273,11 @@ const bookclubsReducer = (state = initialState, action) => {
         return {
           ...state,
           currentBookclub: {
-              ...state.currentBookclub,
-              chapterComments: {
-                  ...state.currentBookclub.chapterComments,
-                  [action.payload.chapterId]: action.payload.comments, 
-              },
+            ...state.currentBookclub,
+            chapterComments: {
+              ...state.currentBookclub.chapterComments,
+              [action.payload.chapterId]: action.payload.comments,
+            },
           },
         };
       }
