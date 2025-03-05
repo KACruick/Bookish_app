@@ -12,6 +12,7 @@ import YourBookclubs from '../components/YourBookclubs';
 import YourLibrary from '../components/YourLibrary';
 import ReviewModal from '../components/ReviewModal';
 import BookclubDetails from '../components/BookclubDetails';
+import ChapterComments from '../components/ChapterComments';
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path: "/bookclubs/:bookclubId",
         element: < BookclubDetails />
+      },
+      {
+        path: "bookclubs/:bookclubId/:chapterId/comments",
+        element: <ChapterComments />
       },
       {
         path: "/community",

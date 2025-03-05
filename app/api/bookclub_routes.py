@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Bookclub, User, BookclubMember, Book
+from app.models import db, Bookclub, User, BookclubMember, Book, BookclubComment
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -140,6 +140,7 @@ def view_bookclub(id):
         "title": book.title,
         "author": book.author,
         "coverPicture": book.coverPicture, 
+        "chapters": book.chapters,
     }
 
     bookclub_data = {
@@ -154,6 +155,70 @@ def view_bookclub(id):
     }
 
     return jsonify(bookclub_data), 200
+
+
+# viewing and adding comments to chapters
+@bookclub_routes.route('/<int:id>/<int:chapterId>/comments', methods=['GET', 'POST'])
+@login_required
+def manage_chapter_comments(id, chapterId):
+    # Fetch the bookclub
+    bookclub = Bookclub.query.get(id)
+    if not bookclub:
+        return jsonify({"message": "Bookclub not found"}), 404
+
+    # Handle POST (Add a new comment)
+    if request.method == 'POST':
+        data = request.get_json()
+        comment_text = data.get('comment')
+
+        # Validate comment input
+        if not comment_text:
+            return jsonify({"message": "Comment cannot be empty"}), 400
+
+        # Create the new chapter comment
+        new_comment = BookclubComment(
+            bookclubId=bookclub.id,
+            bookId=bookclub.bookId,  # Assuming bookId is available from the bookclub
+            userId=current_user.id,
+            comment=comment_text,
+            chapter=chapterId
+        )
+
+        db.session.add(new_comment)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Comment successfully added.",
+            "comment": {
+                "id": new_comment.id,
+                "comment": new_comment.comment,
+                "createdAt": new_comment.createdAt.isoformat(),
+                "user": {
+                    "id": new_comment.user.id,
+                    "firstName": new_comment.user.firstName,
+                    "lastName": new_comment.user.lastName
+                }
+            }
+        }), 201
+
+    # Handle GET (Fetch existing comments)
+    if request.method == 'GET':
+        comments = BookclubComment.query.filter_by(bookclubId=bookclub.id, chapter=chapterId).all()
+
+        # Prepare the comments data
+        comments_data = [{
+            "id": comment.id,
+            "comment": comment.comment,
+            "createdAt": comment.createdAt.isoformat(),
+            "user": {
+                "id": comment.user.id,
+                "firstName": comment.user.firstName,
+                "lastName": comment.user.lastName
+            }
+        } for comment in comments]
+
+        return jsonify({"comments": comments_data}), 200
+
 
 
 
