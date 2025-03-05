@@ -129,15 +129,31 @@ def view_bookclub(id):
 
     if not bookclub:
         return jsonify({"message": "Book club not found"}), 404
+    
+    book = Book.query.get(bookclub.bookId)
 
-    return jsonify({
+    # Get the members of the bookclub
+    members = User.query.join(BookclubMember).filter(BookclubMember.bookclubId == bookclub.id).all()
+
+    book_details = {
+        "id": book.id,
+        "title": book.title,
+        "author": book.author,
+        "coverPicture": book.coverPicture, 
+    }
+
+    bookclub_data = {
         "id": bookclub.id,
         "name": bookclub.name,
         "description": bookclub.description,
         "ownerId": bookclub.ownerId,
         "createdAt": bookclub.createdAt.isoformat(),
-        "updatedAt": bookclub.updatedAt.isoformat()
-    }), 200
+        "updatedAt": bookclub.updatedAt.isoformat(),
+        "book": book_details,  
+        "members": [{"id": member.id, "firstName": member.firstName, "lastName": member.lastName} for member in members]  # List of members
+    }
+
+    return jsonify(bookclub_data), 200
 
 
 

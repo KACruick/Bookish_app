@@ -4,12 +4,14 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import HomePage from '../components/HomePage/HomePage';
 import BookPage from '../components/BookPage/BookPage';
-import BookclubPage from '../components/BookclubPage';
+// import BookclubPage from '../components/BookclubPage';
+
 import Discover from '../components/Discover';
 import Community from '../components/Community';
 import YourBookclubs from '../components/YourBookclubs';
 import YourLibrary from '../components/YourLibrary';
 import ReviewModal from '../components/ReviewModal';
+import BookclubDetails from '../components/BookclubDetails';
 
 export const router = createBrowserRouter([
   {
@@ -67,9 +69,13 @@ export const router = createBrowserRouter([
         path: "/bookclubs/current",
         element: < YourBookclubs />
       },
+      // {
+      //   path: "/bookclubs",
+      //   element: < YourBookclubs />
+      // },
       {
         path: "/bookclubs/:bookclubId",
-        element: < BookclubPage />
+        element: < BookclubDetails />
       },
       {
         path: "/community",
