@@ -273,10 +273,13 @@ const bookclubsReducer = (state = initialState, action) => {
         return {
           ...state,
           currentBookclub: {
-            ...state.currentBookclub,
-            chapterComments: action.payload, 
-            },
-          };
+              ...state.currentBookclub,
+              chapterComments: {
+                  ...state.currentBookclub.chapterComments,
+                  [action.payload.chapterId]: action.payload.comments, 
+              },
+          },
+        };
       }
 
       case ADD_COMMENT: {
