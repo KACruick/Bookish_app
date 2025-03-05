@@ -8,6 +8,8 @@ const UPDATE_BOOKCLUB = 'bookclubs/UPDATE_BOOKCLUB';
 const DELETE_BOOKCLUB = 'bookclubs/DELETE_BOOKCLUB';
 const ADD_MEMBER_TO_BOOKCLUB = 'bookclubs/ADD_MEMBER_TO_BOOKCLUB';
 const REMOVE_MEMBER_FROM_BOOKCLUB = 'bookclubs/REMOVE_MEMBER_FROM_BOOKCLUB';
+const GET_COMMENTS = 'bookclubs/GET_COMMENTS';
+const ADD_COMMENT = 'bookclubs/ADD_COMMENT';
 
 // Action Creators
 const getBookclubsAction = (bookclubs) => ({
@@ -43,6 +45,16 @@ const addMemberToBookclubAction = (member) => ({
 const removeMemberFromBookclubAction = (userId) => ({
   type: REMOVE_MEMBER_FROM_BOOKCLUB,
   payload: userId,
+});
+
+const getCommentsAction = (comments) => ({
+  type: GET_COMMENTS,
+  payload: comments,
+});
+
+const addCommentAction = (comment) => ({
+  type: ADD_COMMENT,
+  payload: comment,
 });
 
 // Thunks
@@ -150,6 +162,37 @@ export const removeMemberFromBookclub = (bookclubId, userId) => async (dispatch)
   }
 };
 
+export const getChapterComments = (bookclubId, chapterId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookclubs/${bookclubId}/${chapterId}/comments`);
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(getCommentsAction(data.comments));  // Dispatch the comments to the Redux store
+  } else {
+    const errorData = await response.json();
+    throw errorData;  // Handle errors
+  }
+};
+
+export const addChapterComment = (bookclubId, chapterId, commentText) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookclubs/${bookclubId}/${chapterId}/comments`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ comment: commentText }),
+  });
+
+  if (response.ok) {
+      const data = await response.json();
+      dispatch(addCommentAction(data.comment)); // Dispatch the new comment
+      return response; // Return the response for further handling
+  } else {
+      const errorData = await response.json();
+      throw errorData;
+  }
+};
+
 // Initial State
 const initialState = {
     bookclubs: {},
@@ -225,6 +268,30 @@ const bookclubsReducer = (state = initialState, action) => {
           },
         };
       }
+
+      case GET_COMMENTS: {
+        return {
+          ...state,
+          currentBookclub: {
+            ...state.currentBookclub,
+            chapterComments: action.payload, 
+            },
+          };
+      }
+
+      case ADD_COMMENT: {
+        return {
+            ...state,
+            currentBookclub: {
+                ...state.currentBookclub,
+                chapterComments: [
+                    ...state.currentBookclub.chapterComments,
+                    action.payload,
+                ],
+            },
+        };
+      }
+
   
       default:
         return state;

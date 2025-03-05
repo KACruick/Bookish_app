@@ -33,8 +33,7 @@ function BookclubDetails() {
     console.log("bookclub.book: ", bookclub.book)
 
     const openChapterComments = (chapterId) => {
-      // Set the content of the modal to the ChapterComments component
-      setModalContent(<ChapterComments chapterId={chapterId} bookclubId={bookclubId} />);
+        setModalContent(<ChapterComments chapterId={chapterId} bookclubId={bookclubId} />);
     };
 
     return (

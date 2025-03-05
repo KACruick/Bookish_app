@@ -1,60 +1,73 @@
 import './ChapterComments.css'
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getChapterComments, addChapterComment } from '../../redux/bookclubs'; 
 import { useModal } from '../../context/Modal';
 
 function ChapterComments({ chapterId, bookclubId }) {
+    const dispatch = useDispatch();
+    const comments = useSelector((state) => state.bookclubs.currentBookclub.chapterComments);
+
     const { closeModal } = useModal();
-    const [comments, setComments] = useState([]);
+
     const [newComment, setNewComment] = useState('');
-
-    // Fetch comments for the given chapter and bookclub
+    
     useEffect(() => {
-        const fetchComments = async () => {
-        const response = await fetch(`/api/bookclubs/${bookclubId}/${chapterId}/comments`);
-        const data = await response.json();
-        setComments(data.comments);
-        };
+        dispatch(getChapterComments(bookclubId, chapterId)); 
+    }, [dispatch, bookclubId, chapterId]);
 
-        fetchComments();
-    }, [bookclubId, chapterId]);
-
-    // Handle comment submission
-    const handleCommentSubmit = async () => {
-        const response = await fetch(`/api/bookclubs/${bookclubId}/${chapterId}/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ comment: newComment }),
-        });
-        
-        if (response.ok) {
-        setNewComment('');
-        const data = await response.json();
-        setComments((prevComments) => [...prevComments, data.comment]);
-        }
+    const handleInputChange = (e) => {
+        setNewComment(e.target.value);
     };
 
-    return (
-        <div className="chapter-comments-modal">
-            
-            <h2>Comments for Chapter {chapterId}</h2>
-            <ul>
-                {comments.map((comment) => (
-                <li key={comment.id}>
-                    <p>{comment.comment}</p>
-                    <p>- {comment.user.firstName} {comment.user.lastName}</p>
-                </li>
-                ))}
-            </ul>
-            <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Add your comment here..."
-            />
-            <button onClick={handleCommentSubmit}>Post Comment</button>
-            <button onClick={closeModal}>Close</button>
+    // Handle comment submission
+    const handleCommentSubmit = async (e) => {
+        e.preventDefault();
 
+        // Dispatch the action to create a new comment
+        const response = await dispatch(addChapterComment(bookclubId, chapterId, newComment));
+
+        if (response.ok) {
+            setNewComment('');  // Clear the input field after submission
+            
+        } else {
+            // Handle any errors here (show message or logging)
+            console.error('Failed to add comment');
+        }
+    };
+    
+    if (!comments) {
+        return <p>Loading comments...</p>;
+    }
+
+
+
+    return (
+        <div className="chapter-comments">
+          <h3>Chapter Comments</h3>
+
+          <ul>
+            {comments.map((comment) => (
+              <li key={comment.id}>
+                <p>{comment.comment}</p>
+                <p>by {comment.user.firstName} {comment.user.lastName}</p>
+                <p>{new Date(comment.createdAt).toLocaleString()}</p>
+              </li>
+            ))}
+          </ul>
+
+            {/* Comment input form */}
+            <form onSubmit={handleCommentSubmit}>
+                <textarea
+                    value={newComment}
+                    onChange={handleInputChange}
+                    placeholder="Add a comment..."
+                    required
+                />
+                <button type="submit">Submit Comment</button>
+            </form>
         </div>
-    )
+    );
 }
 
 export default ChapterComments
