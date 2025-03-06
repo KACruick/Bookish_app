@@ -82,7 +82,7 @@ def get_books():
         book_list.append(book_data)
     
     return jsonify({
-        'Books': book_list,
+        'books': book_list,
         'page': page,
         'size': size,
         })

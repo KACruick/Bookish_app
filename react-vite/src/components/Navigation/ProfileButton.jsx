@@ -5,6 +5,8 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import ManageBooksAdded from "../ManageBooksAdded";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -52,6 +54,7 @@ function ProfileButton() {
               <li>{user.email}</li>
               <li>Friends</li>
               <li>Profile</li>
+              <Link to={'/books/current'}>Manage Books Added</Link>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

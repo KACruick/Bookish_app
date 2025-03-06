@@ -14,6 +14,7 @@ import ReviewModal from '../components/ReviewModal';
 import BookclubDetails from '../components/BookclubDetails';
 import ChapterComments from '../components/ChapterComments';
 import AddBookForm from '../components/AddBookForm';
+import ManageBooksAdded from '../components/ManageBooksAdded';
 
 export const router = createBrowserRouter([
   {
@@ -43,10 +44,10 @@ export const router = createBrowserRouter([
         path: "/bookshelves/current",
         element: < YourLibrary />
       },
-      // {
-      //   path: ,
-      //   element: manage books you created
-      // },
+      {
+        path: '/books/current',
+        element: < ManageBooksAdded />
+      },
       {
         path: '/books/add',
         element: <AddBookForm />

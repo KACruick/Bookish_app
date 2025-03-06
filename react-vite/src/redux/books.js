@@ -38,6 +38,7 @@ export const getBooks = () => async (dispatch) => {
   const response = await csrfFetch('/api/books');
   if (response.ok) {
     const data = await response.json();
+    console.log("Fetched books:", data.books);
     // Normalize the books by their ID
     const normalizedBooks = data.books.reduce((acc, book) => {
       acc[book.id] = book;
