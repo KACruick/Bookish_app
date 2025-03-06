@@ -144,7 +144,7 @@ def get_book_details(id):
 
 
 # Create a new book
-@book_routes.route('/', methods=['POST'])
+@book_routes.route('/add', methods=['POST'])
 @login_required
 def create_book():
     """

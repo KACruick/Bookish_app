@@ -13,6 +13,7 @@ import YourLibrary from '../components/YourLibrary';
 import ReviewModal from '../components/ReviewModal';
 import BookclubDetails from '../components/BookclubDetails';
 import ChapterComments from '../components/ChapterComments';
+import AddBookForm from '../components/AddBookForm';
 
 export const router = createBrowserRouter([
   {
@@ -46,10 +47,10 @@ export const router = createBrowserRouter([
       //   path: ,
       //   element: manage books you created
       // },
-      // {
-      //   path: ,
-      //   element: create/update a new book page 
-      // },
+      {
+        path: '/books/add',
+        element: <AddBookForm />
+      },
       // {
       //   path: ,
       //   element: bookshelf page 

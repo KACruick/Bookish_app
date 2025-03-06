@@ -69,9 +69,9 @@ function HomePage() {
     // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
     // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
 
-    const getImageOrPlaceholder = (imageUrl) => {
-      return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
-    };
+    // const getImageOrPlaceholder = (imageUrl) => {
+    //   return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
+    // };
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -109,6 +109,11 @@ function HomePage() {
               />
             </div>
           </form>
+      </div>
+
+      <div className="button-to-create-book">
+        <p>Can&apos;t find the book you&apos;re looking for?</p>
+        <Link to={`/books/add`}>Add a book</Link>
       </div>
 
       {/* Bookclubs Section */}
