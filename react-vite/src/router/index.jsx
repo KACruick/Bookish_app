@@ -52,6 +52,10 @@ export const router = createBrowserRouter([
         path: '/books/add',
         element: <AddBookForm />
       },
+      {
+        path: 'books/:bookId/edit',
+        element: < AddBookForm />
+      },
       // {
       //   path: ,
       //   element: bookshelf page 

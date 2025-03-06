@@ -51,8 +51,9 @@ export const getBooks = () => async (dispatch) => {
 export const getBook = (bookId) => async (dispatch) => {
   const response = await csrfFetch(`/api/books/${bookId}`);
   if (response.ok) {
-    const data = await response.json();
-    dispatch(getBookAction(data));
+      const data = await response.json();
+      dispatch(getBookAction(data));
+      return data;  // Return the data so that you can chain the promise
   }
 };
 

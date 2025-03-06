@@ -284,7 +284,7 @@ def get_books_by_current_user():
 
 
 # Update a book
-@book_routes.route('/<int:id>', methods=['PUT'])
+@book_routes.route('/<int:id>/edit', methods=['PUT'])
 @login_required
 def update_book(id):
     """

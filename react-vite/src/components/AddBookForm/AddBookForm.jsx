@@ -10,7 +10,7 @@ function AddBookForm() {
     const navigate = useNavigate();
     const { bookId } = useParams();
     const user = useSelector((state) => state.session.user);
-    const existingBook = useSelector((state) => state.books.getBook)
+    const existingBook = useSelector((state) => state.books.bookDetails)
     const allBooks = useSelector((state) => state.books.allBooks)
 
     const [errors, setErrors] = useState({});
@@ -38,11 +38,12 @@ function AddBookForm() {
         }
 
         if (isUpdate && bookId) {
-            dispatch(getBook(bookId).finally(() => {
-                setLoading(false)
-            }))
+            setLoading(true);  
+            dispatch(getBook(bookId)).finally(() => {
+                setLoading(false); 
+            });
         } else {
-            setLoading(false)
+            setLoading(false);
         }
     }, [dispatch, bookId, isUpdate, user, navigate])
 
@@ -181,7 +182,6 @@ function AddBookForm() {
                         <label>Genre:</label> {renderError("genreId")}
                         <select value={genreId} onChange={handleGenreChange}>
                             <option value={0}>Select Genre</option>
-                            {/* Add genre options dynamically or hardcoded */}
                             <option value={1}>Fantasy</option>
                             <option value={2}>Science Fiction</option>
                             <option value={3}>Romance</option>

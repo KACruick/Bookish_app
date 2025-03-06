@@ -1,10 +1,14 @@
 import './ManageBooksAdded.css'
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import { getBooks } from '../../redux/books'
+import OpenModalButton from '../OpenModalButton';
+import DeleteBookModal from '../DeleteBookModal';
 
 function ManageBooksAdded() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
     const allBooks = useSelector((state) => state.books.books)
     console.log("allBooks", allBooks)
@@ -34,8 +38,26 @@ function ManageBooksAdded() {
                             <h3>{book.title}</h3>
                             <p>{book.author}</p>
                             <p>{book.yearPublished}</p>
-                            <button>Delete</button>
-                            <button>Edit</button>
+                            {/* <button>Delete</button>
+                            <button>Edit</button> */}
+
+                            <div className="book-actions">
+                            {/* Update button that redirects to the edit page */}
+                            <button
+                                className="button-link"
+                                onClick={() => navigate(`/books/${book.id}/edit`)}
+                            >
+                                Edit
+                            </button>
+
+                            {/* Delete button that opens a modal */}
+                            <OpenModalButton
+                                className="delete-modal"
+                                buttonText="Delete"
+                                modalComponent={<DeleteBookModal book={book} />}
+                            />
+                            </div>
+
                         </div>
                     ))}
                 </div>
