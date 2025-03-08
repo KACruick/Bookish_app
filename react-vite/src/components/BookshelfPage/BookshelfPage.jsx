@@ -23,8 +23,9 @@ function BookshelfPage() {
   
     useEffect(() => {
       if (bookshelf && bookshelf.Books) {
-        setBooks(bookshelf.Books);
-        // console.log('Books:', bookshelf.Books); 
+        const sortedBooks = bookshelf.Books.sort((a, b) => a.orderInShelf - b.orderInShelf);
+        setBooks(sortedBooks);
+        console.log('Books:', bookshelf.Books); 
       }
     }, [bookshelf]);
   
@@ -50,7 +51,8 @@ function BookshelfPage() {
 
         // Update the book order in the store
         dispatch(changeBookOrder(bookshelfId, orderedBookIds));
-
+        // and trigger a fresh fetch of bookshelf details for the book order number displayed
+        dispatch(getBookshelfDetails(bookshelfId));
         // Update local state to reflect the new order
         setBooks(reorderedBooks);
     };
@@ -115,7 +117,7 @@ function SortableItem({ id, book }) {
         <h3>{book.title}</h3>
         <p>by {book.author}</p>
         <p>Rating: {book.avgRating}</p>
-        <p>Order: {book.orderInShelf}</p>
+        {/* <p>Order: {book.orderInShelf}</p> */}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, User, Bookshelf, Book, BookshelfBook, CommunityPost
+from app.models import db, User, Bookshelf, Book, BookshelfBook, CommunityPost, Review
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -102,6 +102,18 @@ def create_bookshelf():
     }), 201
 
 
+# helper function for calculating the average rating
+def calculate_avg_rating(book_id):
+    # Query all reviews for the given book_id
+    reviews = Review.query.filter_by(bookId=book_id).all()
+
+    if reviews:
+        # Calculate the sum of all ratings and divide by the number of reviews
+        total_rating = sum(review.rating for review in reviews)
+        avg_rating = total_rating / len(reviews)
+        return round(avg_rating, 1)  # Round to 1 decimal place
+    return 0  # Return 0 if no reviews exist
+
 
 
 # View a Bookshelf and its books
@@ -123,17 +135,25 @@ def get_bookshelf(id):
     # Get all books associated with the bookshelf
     bookshelf_books = BookshelfBook.query.filter_by(bookshelfId=id).all()
 
-    # Prepare the list of books
-    books = [{
-        "id": bookshelf_book.book.id,
-        "title": bookshelf_book.book.title,
-        "author": bookshelf_book.book.author,
-        "coverPicture": bookshelf_book.book.coverPicture,
-        "addedAt": bookshelf_book.addedAt,
-        "orderInShelf": bookshelf_book.orderInShelf,
-        "avgRating": bookshelf_book.book.avg_rating,
-    } for bookshelf_book in bookshelf_books]
+    books = []
+    for bookshelf_book in bookshelf_books:
+        book = bookshelf_book.book
+        # Calculate the average rating for this book, if ratings exist
+        ratings = Review.query.filter_by(bookId=book.id).all()
+        avg_rating = None
+        if ratings:
+            avg_rating = sum([rating.rating for rating in ratings]) / len(ratings)
 
+        # Add book details and average rating to the list
+        books.append({
+            "id": book.id,
+            "title": book.title,
+            "author": book.author,
+            "coverPicture": book.coverPicture,
+            "addedAt": bookshelf_book.addedAt,
+            "orderInShelf": bookshelf_book.orderInShelf,
+            "avgRating": avg_rating, 
+        })
 
     return jsonify({
         "id": bookshelf.id,
@@ -202,10 +222,10 @@ def update_bookshelf_order(id):
     data = request.get_json()
 
     # Validation for the books array
-    if 'books' not in data or not isinstance(data['books'], list):
+    if 'orderedBookIds' not in data or not isinstance(data['orderedBookIds'], list):
         return jsonify({
             "message": "Bad Request",
-            "errors": {"books": "Books order must be an array of book IDs"}
+            "errors": {"orderedBookIds": "Books order must be an array of book IDs"}
         }), 400
     
     bookshelf = Bookshelf.query.get(id)
@@ -218,15 +238,15 @@ def update_bookshelf_order(id):
         return jsonify({"message": "Unauthorized"}), 401
 
     # Ensure that the books are valid book IDs and belong to this bookshelf
-    books = Book.query.filter(Book.id.in_(data['books'])).all()
-    if len(books) != len(data['books']):
+    books = Book.query.filter(Book.id.in_(data['orderedBookIds'])).all()
+    if len(books) != len(data['orderedBookIds']):
         return jsonify({"message": "Some books were not found"}), 404
 
-    # Update the order of books in the bookshelf using the BookshelfBook table
-    for index, book_id in enumerate(data['books']):
+    # Update the order of books in the bookshelf
+    for index, book_id in enumerate(data['orderedBookIds']):
         bookshelf_book = BookshelfBook.query.filter_by(bookshelfId=id, bookId=book_id).first()
         if bookshelf_book:
-            bookshelf_book.orderInShelf = index + 1  # Setting the order (index starts at 0, so +1)
+            bookshelf_book.orderInShelf = index + 1  # Set the new order (index starts at 0, so +1)
         else:
             return jsonify({"message": "Book not found in bookshelf"}), 404
 
@@ -235,13 +255,20 @@ def update_bookshelf_order(id):
 
     # Return the updated bookshelf with the new order
     updated_bookshelf = Bookshelf.query.get(id)
+
+    # Build the updated list of books, ordered by orderInShelf
     updated_books = [
         {"id": book.id, "title": book.title, "orderInShelf": bookshelf_book.orderInShelf}
         for book, bookshelf_book in zip(updated_bookshelf.Books, updated_bookshelf.bookshelf_books)
     ]
 
-    return jsonify({"message": "Bookshelf order updated successfully"}), 200
+    # Sort the books based on orderInShelf to maintain the correct order
+    updated_books.sort(key=lambda book: book['orderInShelf'])
 
+    return jsonify({
+        "message": "Bookshelf order updated successfully",
+        "updatedBooks": updated_books
+    }), 200
 
 
 # Add a Book to a Bookshelf

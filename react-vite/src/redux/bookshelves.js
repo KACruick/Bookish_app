@@ -153,8 +153,11 @@ export const changeBookOrder = (bookshelfId, orderedBookIds) => async (dispatch)
       body: JSON.stringify({ orderedBookIds }),
     });
 
+    console.log('Response Status:', response.status);
+
     if (response.ok) {
       const updatedBooks = await response.json();
+      console.log("made it in response.ok", updatedBooks)
       dispatch({
         type: CHANGE_BOOK_ORDER,
         payload: {
@@ -244,8 +247,9 @@ const initialState = {
         const bookshelf = updatedBookshelves[bookshelfId];
 
         if (bookshelf) {
-          bookshelf.Books = bookshelf.Books.map((book) => {
-            const newOrder = bookOrder.indexOf(book.id) + 1;  // Calculate new order
+          bookshelf.Books = bookshelf.Books.map((book, index) => {
+            // Find the new order index from the orderedBookIds
+            const newOrder = orderedBookIds.indexOf(book.id) + 1; // Adding 1 since order starts from 1
             return { ...book, orderInShelf: newOrder };
           });
           console.log('Updated bookshelf in reducer:', bookshelf); 

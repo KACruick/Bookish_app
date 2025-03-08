@@ -12,8 +12,19 @@ export async function csrfFetch(url, options = {}) {
   if (options.method.toUpperCase() !== 'GET') {
     options.headers['Content-Type'] =
       options.headers['Content-Type'] || 'application/json';
-    options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');
+    options.headers['XSRF-Token'] = Cookies.get('csrf_token');
   }
+
+  // console.log('CSRF Token:', Cookies.get('csrf_token'));
+  const csrfToken = Cookies.get('csrf_token');
+  if (!csrfToken) {
+    // console.error('CSRF Token is missing');
+    // Optionally handle this error, or redirect to a login page
+  }
+  options.headers['XSRF-Token'] = csrfToken;
+  // console.log("csrfToken: " , csrfToken)
+  // console.log("url: ", url)
+  // console.log("options: ", options)
   // call the default window's fetch with the url and the options passed in
   const res = await window.fetch(url, options);
 
