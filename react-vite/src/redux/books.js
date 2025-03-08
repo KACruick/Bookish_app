@@ -58,7 +58,7 @@ export const getBook = (bookId) => async (dispatch) => {
 };
 
 export const createBook = (bookData) => async (dispatch) => {
-  const response = await csrfFetch('/api/books', {
+  const response = await csrfFetch('/api/books/add', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export const createBook = (bookData) => async (dispatch) => {
 };
 
 export const updateBook = (bookId, updatedData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/books/${bookId}`, {
+  const response = await csrfFetch(`/api/books/${bookId}/edit`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

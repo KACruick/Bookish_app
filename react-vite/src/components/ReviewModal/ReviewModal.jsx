@@ -38,7 +38,7 @@ function ReviewModal({ bookId }) {
       console.log("Review submitted successfully:", newReview);
       closeModal();
       await dispatch(getReviews(bookId));
-      await dispatch(getBook(spotId));
+      await dispatch(getBook(bookId));
     } catch (error) {
       console.log("Failed to submit review:", error);
 

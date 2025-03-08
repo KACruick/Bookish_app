@@ -73,7 +73,7 @@ function AddBookForm() {
         if (!title) errors.title = "Title is required";
         if (!author) errors.author = "Author is required";
         if (!description || description.length < 30) errors.description = "Description must be at least 30 characters";
-        if (!genreId || genreId === 0) errors.genreId = "Please select a genre";
+        if (!genreId) errors.genreId = "Please select a genre";
 
         // ISBN validation (12 or 13 digits)
         if (!isbn || !(isbn.toString().length === 12 || isbn.toString().length === 13)) {
@@ -104,12 +104,8 @@ function AddBookForm() {
     };
 
     const handleGenreChange = (e) => {
-        const selectedGenre = Number(e.target.value);
-        if (selectedGenre === 11) {
-            setGenreId(null);  // "Other" means no genre selected
-        } else {
-            setGenreId(selectedGenre);
-        }
+        const selectedGenre = e.target.value;  // keep as string, not converting to number
+        setGenreId(selectedGenre);  // Set genreId as a string
     };
 
     // Handle file selection
@@ -279,7 +275,7 @@ function AddBookForm() {
 
                 <div className='form-coverPicture'>
                     <img
-                        src={isUpdate ? (coverPicture || existingBook.coverPicture) : "../../../public/images/Cover_coming_soon.jpeg"}
+                        src={coverPicture || existingBook.coverPicture || "../../../public/images/Cover_coming_soon.jpeg"}
                         alt={title}
                         className="book-cover"
                     />
