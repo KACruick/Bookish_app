@@ -155,7 +155,7 @@ def seed_books():
             isbn=9781982168008,
             pages=432,
             chapters=40,
-            coverPicture="",
+            coverPicture="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1667325726i/36206545.jpg",
             yearPublished=2018,
             description="A heartwarming story of love, loss, and second chances, told through the lens of a childhood romance that remains a pivotal part of the heroine’s life."
         ),

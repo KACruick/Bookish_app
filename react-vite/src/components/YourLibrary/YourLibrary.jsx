@@ -38,6 +38,16 @@ function YourLibrary() {
   // const userBookshelves = bookshelves.length > 0 ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];
   console.log("userBookshelves: ", userBookshelves)
 
+  // Sort the books inside each bookshelf by their orderInShelf
+  const sortedBookshelves = userBookshelves.map(shelf => {
+    // If the shelf has books, sort them by their orderInShelf
+    if (shelf.Books) {
+      const sortedBooks = shelf.Books.sort((a, b) => a.orderInShelf - b.orderInShelf);
+      return { ...shelf, Books: sortedBooks };
+    }
+    return shelf;
+  });
+
   return (
     <div>
       <h1>your library! show shelfs, add shelf button, etc. </h1>
@@ -52,8 +62,8 @@ function YourLibrary() {
 
       {/* Render each bookshelf */}
       <div className="bookshelves-container">
-        {userBookshelves.length > 0 ? (
-          userBookshelves.map((shelf) => (
+        {sortedBookshelves.length > 0 ? (
+          sortedBookshelves.map((shelf) => (
             <div key={shelf.id} className="bookshelf-container">
               <h2>{shelf.name}</h2>
               {/* Button to navigate to the bookshelf reorder page */}
