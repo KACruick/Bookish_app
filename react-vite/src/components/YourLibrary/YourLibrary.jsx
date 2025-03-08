@@ -6,6 +6,7 @@ import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
 import OpenModalButton from "../OpenModalButton";
 import CreateBookshelf from '../CreateBookshelf';
+import "../../images/Cover_coming_soon.jpeg"
 
 function YourLibrary() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function YourLibrary() {
 
   const sessionUser = useSelector((state) => state.session.user);
   const bookshelves = useSelector((state) => Object.values(state.bookshelves.allBookshelves));
-  const currentBookshelf = useSelector((state) => state.bookshelves.currentBookshelf);
+  // const currentBookshelf = useSelector((state) => state.bookshelves.currentBookshelf);
 
 
   useEffect(() => {
@@ -27,6 +28,8 @@ function YourLibrary() {
       })
     }
   }, [dispatch]);
+
+
 
   // If bookshelves exist, filter them to get only the user's bookshelves
   const userBookshelves = bookshelves.length > 0 ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];
@@ -42,7 +45,7 @@ function YourLibrary() {
       <div className="create-new-bookshelf">
       <OpenModalButton
         buttonText="Create a new bookshelf"
-        modalComponent={<CreateBookshelf onClose={() => {}} />} // Close function passed to modal
+        modalComponent={<CreateBookshelf onClose={() => {}} />}
         className="create-bookshelf-button"
       />
       </div>
@@ -53,6 +56,10 @@ function YourLibrary() {
           userBookshelves.map((shelf) => (
             <div key={shelf.id} className="bookshelf-container">
               <h2>{shelf.name}</h2>
+              {/* Button to navigate to the bookshelf reorder page */}
+              <Link to={`/bookshelves/${shelf.id}`} className="reorder-button">
+                Edit or reorder books in shelf
+              </Link>
               <p>{shelf.description}</p>
 
               {/* Render books inside the bookshelf */}
@@ -62,7 +69,7 @@ function YourLibrary() {
                     <div key={book.id} className="book-tile">
                       <Link to={`/books/${book.id}`}>
                         <img 
-                          src={book.coverPicture || '/path/to/placeholder-image.jpg'} 
+                          src={book.coverPicture || '../../images/Cover_coming_soon.jpeg'} 
                           alt={book.title} 
                           className="book-cover" 
                         />

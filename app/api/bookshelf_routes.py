@@ -129,8 +129,9 @@ def get_bookshelf(id):
         "title": bookshelf_book.book.title,
         "author": bookshelf_book.book.author,
         "coverPicture": bookshelf_book.book.coverPicture,
-        "addedAt": bookshelf_book.addedAt.isoformat(),
-        "orderInShelf": bookshelf_book.orderInShelf
+        "addedAt": bookshelf_book.addedAt,
+        "orderInShelf": bookshelf_book.orderInShelf,
+        "avgRating": bookshelf_book.book.avg_rating,
     } for bookshelf_book in bookshelf_books]
 
 
@@ -192,7 +193,7 @@ def edit_bookshelf(id):
 
 
 # Update the order of books in a Bookshelf
-@bookshelf_routes.route('/<int:id>/update-order', methods=['PUT'])
+@bookshelf_routes.route('/<int:id>/order', methods=['POST'])
 @login_required
 def update_bookshelf_order(id):
     """
@@ -231,6 +232,13 @@ def update_bookshelf_order(id):
 
     # Commit changes to the database
     db.session.commit()
+
+    # Return the updated bookshelf with the new order
+    updated_bookshelf = Bookshelf.query.get(id)
+    updated_books = [
+        {"id": book.id, "title": book.title, "orderInShelf": bookshelf_book.orderInShelf}
+        for book, bookshelf_book in zip(updated_bookshelf.Books, updated_bookshelf.bookshelf_books)
+    ]
 
     return jsonify({"message": "Bookshelf order updated successfully"}), 200
 

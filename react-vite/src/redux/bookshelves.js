@@ -77,10 +77,18 @@ export const getBookshelves = () => async (dispatch) => {
 };
 
 export const getBookshelfDetails = (bookshelfId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/bookshelves/${bookshelfId}`);
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(getBookshelfDetailsAction(data));
+  try {
+    const response = await csrfFetch(`/api/bookshelves/${bookshelfId}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Fetched bookshelf details:', data);  // Log the data to check the API response
+      dispatch(getBookshelfDetailsAction(data));
+    } else {
+      const errorData = await response.json();
+      console.error('Error fetching bookshelf details:', errorData);  // Log the error if the response is not ok
+    }
+  } catch (error) {
+    console.error('Error fetching bookshelf details:', error);  // Log any unexpected errors
   }
 };
 
@@ -135,20 +143,32 @@ export const removeBookFromShelf = (bookshelfId, bookId) => async (dispatch) => 
   }
 };
 
-export const changeBookOrder = (bookshelfId, bookOrder) => async (dispatch) => {
-  const response = await csrfFetch(`/api/bookshelves/${bookshelfId}/update-order`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ books: bookOrder }),
-  });
+export const changeBookOrder = (bookshelfId, orderedBookIds) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/bookshelves/${bookshelfId}/order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ orderedBookIds }),
+    });
 
-  if (response.ok) {
-    dispatch(changeBookOrderAction(bookOrder));
-  } else {
-    const error = await response.json();
-    throw error;
+    if (response.ok) {
+      const updatedBooks = await response.json();
+      dispatch({
+        type: CHANGE_BOOK_ORDER,
+        payload: {
+          orderedBookIds: orderedBookIds, // Pass the ordered book IDs here
+          bookshelfId,
+        },
+      });
+    } else {
+      const error = await response.json();
+      console.error('Error updating book order:', error); // Log the error from the API
+      throw new Error(error.message || 'Failed to update book order');
+    }
+  } catch (error) {
+    console.error('Failed to change book order:', error); // Log any other errors
   }
 };
 
@@ -214,8 +234,25 @@ const initialState = {
         );
         return { ...state, currentBookshelf: updatedBookshelf };
   
-      case CHANGE_BOOK_ORDER:
-        return { ...state, currentBookshelf: { ...state.currentBookshelf, bookOrder: action.payload } };
+      case CHANGE_BOOK_ORDER: {
+        const { orderedBookIds, bookshelfId } = action.payload;
+  
+        console.log('Received orderedBookIds:', orderedBookIds); // Add this line
+        console.log('Current bookshelf:', state.allBookshelves[bookshelfId]); // Add this line
+      
+        const updatedBookshelves = { ...state.allBookshelves };
+        const bookshelf = updatedBookshelves[bookshelfId];
+
+        if (bookshelf) {
+          bookshelf.Books = bookshelf.Books.map((book) => {
+            const newOrder = bookOrder.indexOf(book.id) + 1;  // Calculate new order
+            return { ...book, orderInShelf: newOrder };
+          });
+          console.log('Updated bookshelf in reducer:', bookshelf); 
+          return { ...state, allBookshelves: updatedBookshelves };
+        }
+        return state;
+      }
   
       case ADD_BOOK_TO_SHELF:
         return {

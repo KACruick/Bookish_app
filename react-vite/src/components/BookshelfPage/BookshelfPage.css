@@ -1,0 +1,73 @@
+/* .bookshelf-books-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 20px; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 20px; 
+    width: 100%;
+} */
+
+.bookshelf-books-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    gap: 10px;  /* Add space between book tiles */
+    position: relative; /* Ensure that dragged items stay within this container */
+    /* overflow: hidden; */
+}
+  
+  
+.shelf-book-tile {
+    display: flex; 
+    width: 50%;
+    height: 240px; 
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: move; 
+    transition: transform 0.2s ease;
+    z-index: 1;
+}
+
+
+
+/* .shelf-book-tile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    transition: transform 0.2s ease;
+} */
+  
+.shelf-book-tile img.shelf-book-cover {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: auto;      /* Auto width to maintain aspect ratio */
+    height: 200px;    /* Set the height to 260px */
+    object-fit: cover; /* Make sure the image covers the area without distortion */
+    margin-right: 20px; /* Space between the image and the details */
+  }
+  
+.shelf-book-details {
+    flex: 1; /* This will make the details section take up the remaining space */
+    padding: 10px;
+    display: flex;
+    flex-direction: column; /* Stack the text elements vertically */
+    justify-content: center; /* Center the text vertically within the remaining space */
+  }
+  
+.shelf-book-details h3 {
+    font-size: 18px;
+    margin: 10px 0 5px;
+}
+  
+.shelf-book-details p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+  
