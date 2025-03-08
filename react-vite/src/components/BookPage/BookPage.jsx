@@ -204,7 +204,7 @@ function BookPage() {
                   {review.userId === currentUserId && (
                     <div className="update-delete-div">
                       {/* Update Button */}
-                      {/* <OpenModalButton
+                      <OpenModalButton
                         buttonText="Update"
                         modalComponent={
                           <UpdateReviewModal 
@@ -214,14 +214,14 @@ function BookPage() {
                           />
                         }
                         className='update-modal'
-                      /> */}
+                      /> 
                       
                       {/* Delete Button */}
-                      {/* <OpenModalButton
+                      <OpenModalButton
                         buttonText="Delete"
                         modalComponent={<DeleteReviewModal reviewId={review.id} />}
                         className="delete-modal"
-                      /> */}
+                      />
                     </div>
                   )}
                 </div>

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getReviews, deleteReview } from "../../redux/reviews";
 import { getBook } from "../../redux/books";
 
-function DeleteReviewModal({ reviewId, booktId }) {
+function DeleteReviewModal({ reviewId, bookId }) {
 
     const { closeModal } = useModal();
   const dispatch = useDispatch();
@@ -20,6 +20,11 @@ function DeleteReviewModal({ reviewId, booktId }) {
         } catch (error) {
         console.error("Failed to delete review:", error.message);
         }
+    };
+
+    const handleCancel = async (e) => {
+      e.preventDefault();
+      closeModal();
     };
 
   return (
