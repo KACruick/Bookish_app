@@ -2,7 +2,8 @@ import './AddBookForm.css'
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createBook, updateBook, getBook } from '../../redux/books';
+import { createBook, updateBook, getBook, getBooks } from '../../redux/books';
+import '../../../src/images/Cover_coming_soon.jpeg'
 
 function AddBookForm() {
 
@@ -11,7 +12,10 @@ function AddBookForm() {
     const { bookId } = useParams();
     const user = useSelector((state) => state.session.user);
     const existingBook = useSelector((state) => state.books.bookDetails)
-    const allBooks = useSelector((state) => state.books.allBooks)
+    const allBooks = useSelector((state) => state.books.books)
+
+    console.log("allBooks: ", allBooks)
+    console.log('bookId:', bookId);
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
@@ -29,6 +33,7 @@ function AddBookForm() {
 
     useEffect(() => {
         setErrors({});
+        dispatch(getBooks());
 
         if (!user) {
             return navigate("/", {
@@ -52,12 +57,12 @@ function AddBookForm() {
             setTitle(existingBook.title || '');
             setAuthor(existingBook.author || '');
             setDescription(existingBook.description || '');
-            setGenreId(existingBook.genreId || 0);
+            setGenreId(existingBook.genreId || '');
             setIsbn(existingBook.isbn || '');
             setPages(existingBook.pages || '');
             setChapters(existingBook.chapters || '');
             setCoverPicture(existingBook.coverPicture || '');
-            setYearPublished(existingBook.yearPublished || '');
+            setYearPublished(existingBook.published || '');
         }
     }, [existingBook, isUpdate]);
 
@@ -69,16 +74,23 @@ function AddBookForm() {
         if (!author) errors.author = "Author is required";
         if (!description || description.length < 30) errors.description = "Description must be at least 30 characters";
         if (!genreId || genreId === 0) errors.genreId = "Please select a genre";
+
         // ISBN validation (12 or 13 digits)
         if (!isbn || !(isbn.toString().length === 12 || isbn.toString().length === 13)) {
             errors.isbn = "Please provide a valid ISBN (12 or 13 digits)";
         } else {
-            // Check if the ISBN already exists in the database (excluding the current book if updating)
-            const isIsbnTaken = allBooks.some((book) => book.isbn === isbn && (!isUpdate || book.id !== bookId));
-            if (isIsbnTaken) {
-                errors.isbn = "This ISBN is already taken by another book.";
+            // Check if the ISBN has changed (only validate if it's different from the original ISBN)
+            const isIsbnChanged = isbn !== existingBook.isbn;
+            if (isIsbnChanged) {
+                // Check if the ISBN already exists in the database (excluding the current book if updating)
+                const allBookValues = Object.values(allBooks); // Get the array of book objects from the object
+                const isIsbnTaken = allBookValues.some((book) => book.isbn === isbn && book.id !== bookId);
+                if (isIsbnTaken) {
+                    errors.isbn = "The ISBN indicates that this book is already in our system";
+                }
             }
         }
+
         if (!pages || isNaN(pages) || pages <= 0) errors.pages = "Pages must be a positive number";
         if (!chapters || isNaN(chapters) || chapters <= 0) errors.chapters = "Chapters must be a positive number";
         if (!coverPicture) {
@@ -97,6 +109,15 @@ function AddBookForm() {
             setGenreId(null);  // "Other" means no genre selected
         } else {
             setGenreId(selectedGenre);
+        }
+    };
+
+    // Handle file selection
+    const handleCoverPictureChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const fileUrl = URL.createObjectURL(file); // You can upload the file later, this creates a temporary URL
+            setCoverPicture(fileUrl); // Update state with the new image URL
         }
     };
 
@@ -181,18 +202,18 @@ function AddBookForm() {
                     <div>
                         <label>Genre:</label> {renderError("genreId")}
                         <select value={genreId} onChange={handleGenreChange}>
-                            <option value={0}>Select Genre</option>
-                            <option value={1}>Fantasy</option>
-                            <option value={2}>Science Fiction</option>
-                            <option value={3}>Romance</option>
-                            <option value={4}>Young Adult</option>
-                            <option value={5}>Children&apos;s</option>
-                            <option value={6}>Mystery</option>
-                            <option value={7}>Horror</option>
-                            <option value={8}>Historical Fiction</option>
-                            <option value={9}>Biography</option>
-                            <option value={10}>Self Help</option>
-                            <option value={11}>Other</option>
+                        <option value="">Select Genre</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Young Adult">Young Adult</option>
+                        <option value="Children's">Children&apos;s</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Historical Fiction">Historical Fiction</option>
+                        <option value="Biography">Biography</option>
+                        <option value="Self Help">Self Help</option>
+                        <option value="Other">Other</option>
                         </select>
                     </div>
 
@@ -255,6 +276,14 @@ function AddBookForm() {
 
                     <button type="submit">{isUpdate ? "Update Book" : "Add Book to Bookish"}</button>
                 </form>
+
+                <div className='form-coverPicture'>
+                    <img
+                        src={isUpdate ? (coverPicture || existingBook.coverPicture) : "../../../public/images/Cover_coming_soon.jpeg"}
+                        alt={title}
+                        className="book-cover"
+                    />
+                </div>
 
         </div>
 
