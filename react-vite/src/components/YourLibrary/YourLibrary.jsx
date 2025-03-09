@@ -6,7 +6,7 @@ import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
 import OpenModalButton from "../OpenModalButton";
 import CreateBookshelf from '../CreateBookshelf';
-import "../../images/Cover_coming_soon.jpeg"
+// import "../../../dist/images/cover_coming_soon.jpeg"
 
 function YourLibrary() {
   const navigate = useNavigate();

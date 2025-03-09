@@ -5,3 +5,14 @@
 .nav {
   border: 1px solid red;
 }
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 16px;
+ }
