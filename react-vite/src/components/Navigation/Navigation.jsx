@@ -9,15 +9,20 @@ function Navigation() {
 
   return (
     <div className="nav">
+      
     <ul className="nav-list">
       
-      <NavLink to="/" className="logo">
+      <div className="logo-title">
+        <NavLink to="/" className="logo">
           <img 
-            src="/images/bookish_logo.png" 
+            src="../../../dist/images/bookish_logo.png" 
             alt="Bookish Logo" 
             className='logo'
           />
+          <h1 className="bookish-title">Bookish</h1>
         </NavLink>
+      </div>
+
       <li><NavLink to="/books">Discover</NavLink></li>
       <li><NavLink to="/bookclubs/current">Your Bookclubs</NavLink></li>
       <li><NavLink to="/bookshelves/current">Your Library</NavLink></li>
