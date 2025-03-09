@@ -19,7 +19,7 @@ function Navigation() {
             alt="Bookish Logo" 
             className='logo'
           />
-          <h1 className="bookish-title">Bookish</h1>
+          {/* <h1 className="bookish-title">Bookish</h1> */}
         </NavLink>
       </div>
 

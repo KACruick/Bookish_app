@@ -1,6 +1,9 @@
 /* TODO: Add sitewide styles */
 
 body {
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+
 }
