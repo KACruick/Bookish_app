@@ -27,7 +27,7 @@
     height: 250px;
     width: 300px;
     padding: 10px;
-    margin-top: 95px;
+    margin-top: 78px;
   }
   
   .search-and-create {
@@ -75,7 +75,7 @@
     flex-direction: column;
     justify-content: flex-start;
     /* overflow-x: hidden;   */
-    padding: 20px;
+    /* padding: 20px; */
     box-sizing: border-box;
   }
   

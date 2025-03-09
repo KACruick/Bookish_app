@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createBook, updateBook, getBook, getBooks } from '../../redux/books';
-import '../../../dist/images/Cover_coming_soon.jpeg'
+import '../../../public/images/Cover_coming_soon.jpeg'
 
 function AddBookForm() {
 

@@ -23,60 +23,65 @@ function YourBookclubs() {
     
       return (
         <div>
-            <h1>Bookclub Page</h1>
-    
+          {/* <h1>Bookclubs</h1> */}
+          <div className='start-club-div'>
+            <button>Start a new bookclub</button>
+          </div>
+
+          <div className="bookclub-container">
             {/* Bookclubs the user moderates */}
-          <div className="bookclub-container">
-            <h2>Bookclubs you moderate</h2>
-            {moderatedBookclubs.length > 0 ? (
-              <div className="bookclub-list">
-                {moderatedBookclubs.map((bookclub) => (
-                  <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
-                  {/* Render book cover image */}
-                  {bookclub.book && bookclub.book.coverPicture && (
-                    <img
-                      src={bookclub.book.coverPicture}
-                      alt={bookclub.book.title}
-                      className="bookcover-image"
-                    />
-                  )}
-                  <h3>{bookclub.name}</h3>
-                  <p>{bookclub.description}</p>
-                </Link>
-                ))}
-              </div>
-            ) : (
-              <p>No moderated bookclubs.</p>
-            )}
+            <div className='moderate'>
+                <h2>Bookclubs you moderate</h2>
+                {moderatedBookclubs.length > 0 ? (
+                  <div className="bookclub-list">
+                    {moderatedBookclubs.map((bookclub) => (
+                      <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
+                      {/* Render book cover image */}
+                      {bookclub.book && bookclub.book.coverPicture && (
+                        <img
+                          src={bookclub.book.coverPicture}
+                          alt={bookclub.book.title}
+                          className="bookcover-image"
+                        />
+                      )}
+                      <h3>{bookclub.name}</h3>
+                      <p>{bookclub.description}</p>
+                    </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <p>No moderated bookclubs.</p>
+                )}
+            </div>
+
+            {/* Bookclubs the user is a member of */}
+            <div className='member'>
+              <h2>Your other bookclubs</h2>
+              {memberBookclubs.length > 0 ? (
+                <div className="bookclub-list">
+                  {memberBookclubs.map((bookclub) => (
+                      <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
+                      {/* Render book cover image */}
+                      {bookclub.book && bookclub.book.coverPicture && (
+                        <img
+                          src={bookclub.book.coverPicture}
+                          alt={bookclub.book.title}
+                          className="bookcover-image"
+                        />
+                      )}
+                      <h3>{bookclub.name}</h3>
+                      <p>{bookclub.description}</p>
+                      </Link> 
+                  ))}
+                </div>
+              ) : (
+                <p>No bookclubs found.</p>
+              )}
+            </div>
+
           </div>
     
-          {/* Bookclubs the user is a member of */}
-          <div className="bookclub-container">
-            <h2>Other Bookclubs your are in</h2>
-            {memberBookclubs.length > 0 ? (
-              <div className="bookclub-list">
-                {memberBookclubs.map((bookclub) => (
-                  <div key={bookclub.id} className="bookclub-tile">
-                    <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
-                    {/* Render book cover image */}
-                    {bookclub.book && bookclub.book.coverPicture && (
-                      <img
-                        src={bookclub.book.coverPicture}
-                        alt={bookclub.book.title}
-                        className="bookcover-image"
-                      />
-                    )}
-                    <h3>{bookclub.name}</h3>
-                    <p>{bookclub.description}</p>
-                    </Link>
-        
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>No bookclubs found.</p>
-            )}
-          </div>
+          
     
         </div>
       

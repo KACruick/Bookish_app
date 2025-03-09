@@ -9,6 +9,8 @@ import OpenModalButton from "../OpenModalButton";
 import UpdateReviewModal from "../UpdateReviewModal";
 import DeleteReviewModal from "../DeleteReviewModal";
 import { IoMdStar } from "react-icons/io";
+// import '../../../dist/images/profile-icons/'
+
 
 function BookPage() {
   const { bookId } = useParams();
@@ -53,27 +55,34 @@ function BookPage() {
     // Dispatch action to update the user's rating for this book
   };
 
-  // Render the stars based on the rating (gold stars for rating)
   const renderStars = (ratingValue) => {
     const filledStars = Math.floor(ratingValue);
     const emptyStars = 5 - filledStars;
+  
     return (
       <div className="star-rating">
+        {/* Render filled stars */}
         {[...Array(filledStars)].map((_, i) => (
           <span key={`filled-${i}`} className="filled-star">★</span>
         ))}
+        {/* Render empty stars */}
         {[...Array(emptyStars)].map((_, i) => (
           <span key={`empty-${i}`} className="empty-star">★</span>
         ))}
       </div>
     );
   };
+  
 
   const handleUpdateReview = (reviewId) => {
     // Logic to show an update form or navigate to a page where the user can update their review
     console.log("Update review with id:", reviewId);
   };
 
+  // console.log("reviewList: ", reviewList)
+  // console.log("reviewList[0]: ", reviewList[0])
+  // console.log("reviewList[0].user.profilePicture: ", reviewList[0].user.profilePicture)
+  // console.log("profile pic src: ", `../../../dist/images/profile-icons/${reviewList[0].user.profilePicture}`)
 
   // Make sure book is defined before rendering
   if (!book) {
@@ -97,55 +106,66 @@ function BookPage() {
           )}
         </div>
 
-        {/* "Want to Read" or "Read" Button */}
-        <button onClick={handleReadButton}>
-          {isRead ? "Mark as Unread" : "Want to Read"}
-        </button>
+        <div className="want-rating-div">
+            {/* "Want to Read" or "Read" Button */}
+          <button className="want-to-read" onClick={handleReadButton}>
+            {isRead ? "Mark as Unread" : "Want to Read"}
+          </button>
 
-        {/* User rating stars */}
-        <div className="user-rating">
-          {renderStars(rating)} {/* Display stars based on rating */}
+          {/* User rating stars */}
+          <div className="user-rating">
+            {rating === 0 ? renderStars(0) : renderStars(rating)} {/* Render stars based on user rating */}
+          </div>
         </div>
+
       </div>
 
       <div className="book-right-div">
-        <div className="book-title">
-          <h3>{book?.title}</h3>
+        <div className="book-info">
+
+          <div className="book-title">
+            <h2>{book?.title}</h2>
+          </div>
+
+          <div className="book-author">
+            <p>{book?.author}</p>
+          </div>
+
+          <div className="avgRating-section">
+            {/* Display avg rating */}
+            <div>{renderStars(avgRating)}</div>
+            <div className="avg-rating-value">{avgRating.toFixed(2)} Average Rating</div>
+          </div>
+
+          <div className="book-summary">
+            <p>{book?.description}</p>
+          </div>
+
+          <div className="genre">
+            <p><strong>Genre:</strong> {genre}</p>
+          </div>
+
+          <div className="pages">
+            <p><strong>Pages:</strong> {pages}</p>
+          </div>
+
+          <div className="chapters">
+            <p><strong>Chapters:</strong> {chapters}</p>
+          </div>
+
+          <div className="published">
+            <p><strong>Published:</strong> {book?.published}</p>
+          </div>
+
+          <div className="isbn">
+            <p><strong>ISBN:</strong> {book?.isbn}</p>
+          </div>
+
         </div>
 
-        <div className="book-author">
-          <p>{book?.author}</p>
-        </div>
+        
 
-        <div className="avgRating-section">
-          {/* Display avg rating */}
-          <div>{renderStars(avgRating)}</div>
-          <div className="avg-rating-value">{avgRating.toFixed(2)}</div>
-        </div>
 
-        <div className="book-summary">
-          <p>{book?.description}</p>
-        </div>
-
-        <div className="genre">
-          <p><strong>Genre:</strong> {genre}</p>
-        </div>
-
-        <div className="pages">
-          <p><strong>Pages:</strong> {pages}</p>
-        </div>
-
-        <div className="chapters">
-          <p><strong>Chapters:</strong> {chapters}</p>
-        </div>
-
-        <div className="published">
-          <p><strong>Published:</strong> {book?.published}</p>
-        </div>
-
-        <div className="isbn">
-          <p><strong>ISBN:</strong> {book?.isbn}</p>
-        </div>
 
         {/* Ratings and Reviews Section */}
         <div className="reviews-section">
@@ -172,20 +192,30 @@ function BookPage() {
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((review) => (
               <div key={review.id} className="review-tiles">
-                <div className="user-info">
-                  
-                  {/* {review.user?.profilePicture ? (
-                    <img
-                      src={review.user.profilePicture}
-                      alt={`${review.user.firstName}'s profile`}
-                      className="user-profile-picture"
-                    />
-                  ) : (
-                    <div className="no-profile-picture">No Profile Picture</div>
-                  )} */}
-                  <p>{review.user?.firstName}</p>
+                <div className="review-info">
+
+                  <div className="user-info">
+                    {review.user?.profilePicture ? (
+                      <img
+                        src={`/images/profile-icons/${review.user.profilePicture}`}
+                        alt={`${review.user.firstName}'s profile`}
+                        className="user-profile-picture"
+                      />
+                      // <img src="/images/profile-icons/chicken.png" className="user-profile-picture"/>
+                      // <img src='../../../public/images/profile-icons/chicken-icon.png' className="user-profile-picture"/>
+                    ) : (
+                      <div className="no-profile-picture">No Profile Picture</div>
+                    )}
+                    <p>{review.user?.firstName}</p>
+                  </div>
+
+                  <div>
+                    <div className="individual-rating">{review.rating.toFixed(1)}</div> {/* Rating */}
+                    <div><IoMdStar /> </div>
+                    </div>
+
                   {/* Render the formatted date */}
-                  <p>
+                  <p className="review-date">
                     {/* Format the date as "Month Year" */}
                     {new Date(review.createdAt).toLocaleDateString('en-US', {
                       year: 'numeric',
@@ -196,9 +226,8 @@ function BookPage() {
                 
 
                 <div className="review-content">
-                  <p>{review.review}</p> {/* Review text */}
-                  <div className="rating">{review.rating.toFixed(1)}</div> {/* Rating */}
-                  <div><IoMdStar /> </div>
+                    <p>{review.review}</p> {/* Review text */}
+          
 
                   {/* Check if the logged-in user is the same as the user who left the review */}
                   {review.userId === currentUserId && (

@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import { useSelector } from 'react-redux';
 import "./Navigation.css";
-import "../../../dist/images/bookish_logo.png"
+import "../../../dist/logo/bookish_logo.png"
 
 function Navigation() {
   const sessionUser = useSelector((state) => state.session.session);
@@ -15,7 +15,7 @@ function Navigation() {
       <div className="logo-title">
         <NavLink to="/" className="logo">
           <img 
-            src="../../../dist/images/bookish_logo.png" 
+            src="../../../dist/logo/bookish_logo.png" 
             alt="Bookish Logo" 
             className='logo'
           />

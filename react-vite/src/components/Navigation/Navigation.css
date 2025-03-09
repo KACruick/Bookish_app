@@ -51,7 +51,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 32px;
+  padding-left: 32px;
+  padding-right: 32px;
   max-width: 1200px;
   margin: 0 auto;
   gap: 16px;
