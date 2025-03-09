@@ -34,11 +34,21 @@ const deleteCommentAction = (commentId) => ({
 });
 
 // Thunks
-export const getCommunityActivity = (page = 1, size = 20) => async (dispatch) => {
-  const response = await csrfFetch(`/api/community?page=${page}&size=${size}`);
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(getCommunityActivityAction(data['Community Posts']));
+export const getCommunityActivity = () => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/community/`);
+    
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(getCommunityActivityAction(data['Community Posts']));
+    } else {
+      const errorData = await response.json();
+      console.error('Error fetching community activity:', errorData);
+      // Optionally, dispatch an action to show error to the user
+    }
+  } catch (error) {
+    console.error('Error with API call:', error);
+    // Optionally, dispatch an action to show error to the user
   }
 };
 

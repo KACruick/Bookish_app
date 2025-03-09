@@ -53,6 +53,7 @@ def view_friends_activity():
             'user': {
                 'firstName': post.user.firstName,
                 'lastName': post.user.lastName,
+                'profilePicture': post.user.profilePicture
             },
             'bookId': post.bookId,
             'book': {
