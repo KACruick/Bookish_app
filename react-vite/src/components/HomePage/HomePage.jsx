@@ -73,15 +73,15 @@ function HomePage() {
     //   return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
     // };
 
+
     const handleSearch = (e) => {
-        e.preventDefault();
-        // console.log("Searching for:", searchQuery);
-        // Navigate to the home page with the search query in the URL
-        if (searchQuery.trim()) {
-          navigate(`/?search=${searchQuery}`);
-        } else {
-          navigate('/'); // Clear the search query if the search bar is empty
-        }
+      e.preventDefault();
+      if (searchQuery.trim()) {
+        // Navigate to the discover page with the search query
+        navigate(`/books?search=${searchQuery}`);
+      } else {
+        navigate('/books'); // Redirect to the discover page without a search query
+      }
     };
 
     // Handle mark as read button click

@@ -28,6 +28,14 @@ def get_books():
     """
     page = request.args.get('page', 1, type=int)
     size = request.args.get('size', 20, type= int)
+    search_query = request.args.get('search', '', type=str)  # Get search query from request args
+    
+    # Query all books and filter by search query if provided
+    books_query = Book.query
+    if search_query:
+        books_query = books_query.filter(
+            Book.title.ilike(f"%{search_query}%") | Book.author.ilike(f"%{search_query}%")
+        )
     
     # Query all books and paginate the result
     books_query = Book.query
