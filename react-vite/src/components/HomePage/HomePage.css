@@ -2,18 +2,46 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh; /* Full screen height */
-    overflow: hidden;
+    /* height: 100vh;  */
+    /* overflow: hidden; */
   }
   
   h1, h2 {
     text-align: center;
     margin-bottom: 20px;
+    
+  }
+
+  .clubs-and-search {
+    display: flex;
+    flex-direction: row;
+    /* border: 1px solid red; */
+  }
+
+  .search-book {
+    /* border: 1px solid red; */
+    justify-content: center;
+    border: solid 1px #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease; 
+    height: 250px;
+    width: 300px;
+    padding: 10px;
+    margin-top: 95px;
   }
   
-  .search-bar {
-    margin-bottom: 30px;
+  .search-and-create {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    justify-content: center;
+    gap: 20px;
+    height: 100%;   
   }
+
+  /* .search-bar {
+    
+  } */
   
   .search-input-wrapper {
     display: flex;
@@ -25,75 +53,88 @@
     margin-left: 10px;
   }
   
-  .bookclubs-div, .update-status-div {
+  .button-to-create-book {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-to-create-book a {
+    display: flex;
+    align-items: center;
+  }
+
+  .add-book-link {
+    margin: auto;
+  }
+
+  .bookclubs-div {
     width: 100%;
     height: 50%;  /* Set to take up half the height of the screen */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow-x: hidden;  
+    /* overflow-x: hidden;   */
     padding: 20px;
     box-sizing: border-box;
   }
   
-  .bookclub-list, .currently-reading-list {
+  .bookclub-list {
     display: flex;
     flex-direction: row; /* Align items horizontally */
     justify-content: flex-start;
     flex-wrap: nowrap; /* Prevent wrapping, force horizontal scrolling */
     overflow-x: auto; /* Enable horizontal scrolling */
     padding-bottom: 10px;
+    
   }
   
-  .bookclub-tile, .currently-reading-tile {
+  .bookclub-tile {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
-    width: 200px;
-    height: 200px; /* Make these tiles square */
+    width: 160px;
+    height: auto;
     margin-right: 20px;
     margin-bottom: 20px;
+    margin-top:0;
     text-align: center;
     border: solid 1px #ddd;
     border-radius: 8px;
     transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
   }
+
+  /* .bookclub-tile a {
+    height: 5px;
+  } */
   
-  .bookclub-tile:hover, .currently-reading-tile:hover {
+  .bookclub-tile:hover{
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
   }
   
-  .bookclub-cover, .book-cover {
+
+  .bookclub-cover {
     width: 100%;
-    height: 100%; /* Ensure image fills the tile */
-    object-fit: cover;  /* Prevent zooming/cropping, display entire image */
-    
+    height: 200px; /* Control the height of the cover */
+    object-fit: cover; /* Ensure image covers the tile without stretching */
     margin-bottom: 10px;
   }
-  
-  .bookclub-tile h3, .currently-reading-tile h3 {
+
+  .bookclub-cover image {
+    height: 250px; 
+  }
+
+  .bookclub-tile h3 {
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-top: 0;
+    padding: 0 5px; /* Add a bit of padding for readability */
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
   }
   
-  .bookclub-tile p, .currently-reading-tile p {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .mark-as-read {
-    padding: 5px 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .mark-as-read:hover {
-    background-color: #45a049;
-  }
+
   
   /* Make the book club container layout responsive */
   .no-cover-placeholder {
@@ -107,4 +148,103 @@
     font-size: 14px;
     color: #aaa;
   }
+
+
+
+
+
   
+  .update-status-div {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* overflow-x: hidden;   */
+    
+    box-sizing: border-box;
+   
+    /* border: solid 1px red; */
+  }
+
+  .update-status-div h2 {
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+  
+  .currently-reading-list {
+    /* border: solid 1px red; */
+    display: flex;
+    flex-direction: row; /* Align items horizontally */
+    justify-content: flex-start;
+    flex-wrap: nowrap; /* Prevent wrapping, force horizontal scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding-bottom: 10px;
+    height: 100%; /* Set to 100% to take up the available height */
+    overflow-y: hidden; 
+  }
+  
+  .currently-reading-tile {
+    /* border: solid 1px red; */
+    min-width: 120px;
+    max-width: 120px;
+    height: 210px;
+    flex-shrink: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+
+  
+  
+  /* .currently-reading-tile:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+  } */
+  
+  .book-cover {
+    /* border: solid 1px red; */
+    width: 100%;
+    height: 100%; /* Set the height to 190px */
+    object-fit: contain; /* Ensures the cover maintains aspect ratio and fits within the div */
+    margin-bottom: 5px; /* 5px gap between the cover and the other elements */
+  
+  }
+  
+  .currently-reading-book-cover {
+    width: 120px;
+    height: auto; /* Ensure the image takes up the full height of the container */
+    object-fit: contain; /* This ensures the image keeps its aspect ratio */
+
+  }
+
+
+  .currently-reading-tile h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .currently-reading-tile p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .mark-as-read {
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 0px;
+  }
+  
+  .mark-as-read:hover {
+    background-color: #1f6722;
+  }
+  
+
+

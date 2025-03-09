@@ -50,7 +50,7 @@ function YourLibrary() {
 
   return (
     <div>
-      <h1>your library! show shelfs, add shelf button, etc. </h1>
+      <h1>Your Library </h1>
 
       <div className="create-new-bookshelf">
       <OpenModalButton
