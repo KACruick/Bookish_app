@@ -16,6 +16,7 @@
     width: 100%;
     max-width: 1200px; /* Limit grid width on large screens */
     margin-top: 20px;
+    margin-bottom: 30px;
   }
   
   /* Book Tile */
