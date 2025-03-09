@@ -1,0 +1,59 @@
+
+
+   .discover-page{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 30px;
+   }
+
+  
+  /* Books Grid Layout */
+  .discover-books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px; /* Limit grid width on large screens */
+    margin-top: 20px;
+  }
+  
+  /* Book Tile */
+  .discover-book-tile {
+    /* background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+    overflow: hidden;
+    /* paddinsg: 20px; */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  /* Book Cover Image */
+  .discover-book-cover {
+    width: auto;
+    height: 200px; /* Fixed height for all book covers */
+    object-fit: contain; /* Ensure the cover fits properly */
+    border-radius: 4px;
+    margin-bottom: 15px; /* Space between image and text */
+  }
+  
+  /* Book Info (Title, Author, Rating) */
+  .discover-book-info h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .discover-book-info p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  /* Error and No Results Styling */
+  p {
+    color: #555;
+  }
+  
