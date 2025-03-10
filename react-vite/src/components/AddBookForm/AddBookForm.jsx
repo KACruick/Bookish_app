@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createBook, updateBook, getBook, getBooks } from '../../redux/books';
-import '../../../public/images/Cover_coming_soon.jpeg'
+import '../../../images/Cover_coming_soon.jpeg'
 
 function AddBookForm() {
 
@@ -275,7 +275,7 @@ function AddBookForm() {
 
                 <div className='form-coverPicture'>
                     <img
-                        src={coverPicture || existingBook.coverPicture || "../../../public/images/Cover_coming_soon.jpeg"}
+                        src={coverPicture || existingBook.coverPicture || "../../../images/Cover_coming_soon.jpeg"}
                         alt={title}
                         className="book-cover"
                     />

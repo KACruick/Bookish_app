@@ -115,8 +115,8 @@ const reviewsReducer = (state = initialState, action) => {
     switch (action.type) {
       case GET_REVIEWS:
         const reviewsByBook = action.payload.reduce((acc, review) => {
-          acc[review.id] = review;
-          return acc;
+          acc[review.id] = review
+          return acc
         }, {});
         return {
           ...state,
@@ -125,7 +125,7 @@ const reviewsReducer = (state = initialState, action) => {
   
       case GET_USER_REVIEWS:
         const userReviews = action.payload.reduce((acc, review) => {
-          acc[review.id] = review;
+          acc[review.id] = review
           return acc;
         }, {});
         return {

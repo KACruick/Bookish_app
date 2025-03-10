@@ -93,20 +93,23 @@ export const getBookshelfDetails = (bookshelfId) => async (dispatch) => {
 };
 
 export const createBookshelf = (bookshelfData) => async (dispatch) => {
-  const response = await csrfFetch('/api/bookshelves', {
+  const response = await csrfFetch('/api/bookshelves/add', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(bookshelfData),
   });
+  console.log("Response:", response);
 
   if (response.ok) {
     const newBookshelf = await response.json();
+    console.log("Created bookshelf:", newBookshelf);
     dispatch(createBookshelfAction(newBookshelf));
     return newBookshelf;
   } else {
     const errorData = await response.json();
+    console.error("Error creating bookshelf:", errorData);
     throw errorData;
   }
 };
