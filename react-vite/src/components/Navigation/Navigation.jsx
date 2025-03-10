@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import { useSelector } from 'react-redux';
 import "./Navigation.css";
-import "../../../dist/logo/bookish_logo.png"
+import "../../../public/logo/bookish_logo.png"
 
 function Navigation() {
   const sessionUser = useSelector((state) => state.session.session);
