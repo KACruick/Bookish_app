@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Book, Review
+from app.models import db, Book, Review, Genre
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -28,6 +28,14 @@ def get_books():
     """
     page = request.args.get('page', 1, type=int)
     size = request.args.get('size', 20, type= int)
+    search_query = request.args.get('search', '', type=str)  # Get search query from request args
+    
+    # Query all books and filter by search query if provided
+    books_query = Book.query
+    if search_query:
+        books_query = books_query.filter(
+            Book.title.ilike(f"%{search_query}%") | Book.author.ilike(f"%{search_query}%")
+        )
     
     # Query all books and paginate the result
     books_query = Book.query
@@ -53,6 +61,10 @@ def get_books():
             for review in reviews
         ]
 
+        # Get the genre data
+        genre = Genre.query.get(book.genreId)
+        genre_name = genre.name if genre else "Unknown"
+
         # Calculate average rating using the helper function
         avg_rating = calculate_avg_rating(book.id)
         
@@ -62,7 +74,7 @@ def get_books():
             "author": book.author,
             "description": book.description,
             "userId": book.userId,
-            "genreId": book.genreId,
+            "genreId": genre_name,
             "isbn": book.isbn,
             "pages": book.pages,
             "chapters": book.chapters,
@@ -78,7 +90,7 @@ def get_books():
         book_list.append(book_data)
     
     return jsonify({
-        'Books': book_list,
+        'books': book_list,
         'page': page,
         'size': size,
         })
@@ -109,6 +121,10 @@ def get_book_details(id):
         for review in reviews
     ]
 
+    # Get the genre data
+    genre = Genre.query.get(book.genreId)
+    genre_name = genre.name if genre else "Unknown"
+
     # Calculate average rating using the helper function
     avg_rating = calculate_avg_rating(book.id)
     
@@ -118,7 +134,7 @@ def get_book_details(id):
         "author": book.author,
         "description": book.description,
         "userId": book.userId,
-        "genreId": book.genreId,
+        "genreId": genre_name,
         "isbn": book.isbn,
         "pages": book.pages,
         "chapters": book.chapters,
@@ -136,7 +152,7 @@ def get_book_details(id):
 
 
 # Create a new book
-@book_routes.route('/', methods=['POST'])
+@book_routes.route('/add', methods=['POST'])
 @login_required
 def create_book():
     """
@@ -276,7 +292,7 @@ def get_books_by_current_user():
 
 
 # Update a book
-@book_routes.route('/<int:id>', methods=['PUT'])
+@book_routes.route('/<int:id>/edit', methods=['PUT'])
 @login_required
 def update_book(id):
     """

@@ -10,7 +10,7 @@ def seed_users():
         username='Researcher056', 
         email='Kendra.Cruick@io.com', 
         password='password1',
-        profilePicture="../images/profile-icons/bunny.png"
+        profilePicture="bunny-icon.png"
         )
     olivia = User(
         firstName="Olivia",
@@ -18,7 +18,7 @@ def seed_users():
         username='LivLaughLove', 
         email='Olivia.Rod@io.com', 
         password='password2',
-        profilePicture="../images/profile-icons/chicken.png"
+        profilePicture="chicken-icon.png"
         )
     jaime = User(
         firstName="Jaime",
@@ -26,7 +26,7 @@ def seed_users():
         username='JaimeClimber26',
         email='Jaime.Cruick@io.com', 
         password='password3',
-        profilePicture="../images/profile-icon/horse.png"
+        profilePicture="horse-icon.png"
         )
     laura = User(
         firstName="Laura",
@@ -34,7 +34,7 @@ def seed_users():
         username='PsycStudent4Ever', 
         email='Laura.Kern@io.com', 
         password='password4',
-        profilePicture="../images/profile-icon/dog.png"
+        profilePicture="dog-icon.png"
         )
     donna = User(
         firstName="Donna",
@@ -42,7 +42,7 @@ def seed_users():
         username='DJcrafts29', 
         email='Donna.Lie@io.com', 
         password='password5',
-        profilePicture="../images/profile-icon/cat.png"
+        profilePicture="cat-icon.png"
         )
 
     db.session.add(kendra)

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Bookclub, User, BookclubMember
+from app.models import db, Bookclub, User, BookclubMember, Book, BookclubComment
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -65,8 +65,8 @@ def get_owned_bookclubs():
         "name": bookclub.name,
         "description": bookclub.description,
         "ownerId": bookclub.ownerId,
-        "createdAt": bookclub.createdAt.isoformat(),
-        "updatedAt": bookclub.updatedAt.isoformat()
+        "createdAt": bookclub.createdAt,
+        "updatedAt": bookclub.updatedAt
     } for bookclub in owned_bookclubs]
 
     return jsonify({"bookclubs": bookclub_list}), 200
@@ -93,13 +93,25 @@ def get_user_bookclub_memberships():
     for membership in memberships:
         bookclub = Bookclub.query.get(membership.bookclubId)
         if bookclub:
+            # Fetch the book associated with the bookclub
+            book = Book.query.get(bookclub.bookId)  # Fetch the single book using the bookId from bookclub
+
+            # Prepare book details, including coverPicture
+            book_details = {
+                "id": book.id,
+                "title": book.title,
+                "author": book.author,
+                "coverPicture": book.coverPicture,  # Add coverPicture to the book details
+            }
+
             bookclub_list.append({
                 "id": bookclub.id,
                 "name": bookclub.name,
                 "description": bookclub.description,
                 "ownerId": bookclub.ownerId,
-                "createdAt": bookclub.createdAt.isoformat(),
-                "updatedAt": bookclub.updatedAt.isoformat()
+                "createdAt": bookclub.createdAt,
+                "updatedAt": bookclub.updatedAt,
+                "book": book_details  # Include the associated book's details (including coverPicture)
             })
 
     return jsonify({"bookclubs": bookclub_list}), 200
@@ -117,15 +129,96 @@ def view_bookclub(id):
 
     if not bookclub:
         return jsonify({"message": "Book club not found"}), 404
+    
+    book = Book.query.get(bookclub.bookId)
 
-    return jsonify({
+    # Get the members of the bookclub
+    members = User.query.join(BookclubMember).filter(BookclubMember.bookclubId == bookclub.id).all()
+
+    book_details = {
+        "id": book.id,
+        "title": book.title,
+        "author": book.author,
+        "coverPicture": book.coverPicture, 
+        "chapters": book.chapters,
+    }
+
+    bookclub_data = {
         "id": bookclub.id,
         "name": bookclub.name,
         "description": bookclub.description,
         "ownerId": bookclub.ownerId,
         "createdAt": bookclub.createdAt.isoformat(),
-        "updatedAt": bookclub.updatedAt.isoformat()
-    }), 200
+        "updatedAt": bookclub.updatedAt.isoformat(),
+        "book": book_details,  
+        "members": [{"id": member.id, "firstName": member.firstName, "lastName": member.lastName} for member in members]  # List of members
+    }
+
+    return jsonify(bookclub_data), 200
+
+
+# viewing and adding comments to chapters
+@bookclub_routes.route('/<int:id>/<int:chapterId>/comments', methods=['GET', 'POST'])
+@login_required
+def manage_chapter_comments(id, chapterId):
+    # Fetch the bookclub
+    bookclub = Bookclub.query.get(id)
+    if not bookclub:
+        return jsonify({"message": "Bookclub not found"}), 404
+
+    # Handle POST (Add a new comment)
+    if request.method == 'POST':
+        data = request.get_json()
+        comment_text = data.get('comment')
+
+        # Validate comment input
+        if not comment_text:
+            return jsonify({"message": "Comment cannot be empty"}), 400
+
+        # Create the new chapter comment
+        new_comment = BookclubComment(
+            bookclubId=bookclub.id,
+            bookId=bookclub.bookId,  # Assuming bookId is available from the bookclub
+            userId=current_user.id,
+            comment=comment_text,
+            chapter=chapterId
+        )
+
+        db.session.add(new_comment)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Comment successfully added.",
+            "comment": {
+                "id": new_comment.id,
+                "comment": new_comment.comment,
+                "createdAt": new_comment.createdAt.isoformat(),
+                "user": {
+                    "id": new_comment.user.id,
+                    "firstName": new_comment.user.firstName,
+                    "lastName": new_comment.user.lastName
+                }
+            }
+        }), 201
+
+    # Handle GET (Fetch existing comments)
+    if request.method == 'GET':
+        comments = BookclubComment.query.filter_by(bookclubId=bookclub.id, chapter=chapterId).all()
+
+        # Prepare the comments data
+        comments_data = [{
+            "id": comment.id,
+            "comment": comment.comment,
+            "createdAt": comment.createdAt.isoformat(),
+            "user": {
+                "id": comment.user.id,
+                "firstName": comment.user.firstName,
+                "lastName": comment.user.lastName
+            }
+        } for comment in comments]
+
+        return jsonify({"comments": comments_data}), 200
+
 
 
 

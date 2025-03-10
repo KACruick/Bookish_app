@@ -1,0 +1,70 @@
+/* Container for all posts */
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Each post tile container */
+  .post-tile {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Post header with user profile and info */
+  .post-header {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .post-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .post-user-info {
+    flex-grow: 1;
+  }
+  
+  .post-user-info h3 {
+    margin: 0;
+  }
+  
+  .post-user-info p {
+    margin: 5px 0;
+  }
+  
+  /* Book cover and info container */
+  .post-book {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .post-book-cover {
+    width: auto;
+    height: 150px; /* Set height to 150px */
+    object-fit: cover; /* Ensures the image covers the specified height without distortion */
+  }
+  
+  .post-book-info {
+    flex-grow: 1;
+  }
+  
+  .post-book-info h4 {
+    margin: 0;
+  }
+  
+  .post-book-info p {
+    margin: 5px 0;
+  }
+  
+  /* Like button styl
+  

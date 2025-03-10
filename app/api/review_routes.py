@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Book, Review
+from app.models import db, Book, Review, User
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -26,7 +26,12 @@ def get_reviews(bookId):
             "review": review.review,
             "rating": review.rating,
             "createdAt": review.createdAt,
-            "updatedAt": review.updatedAt
+            "updatedAt": review.updatedAt,
+            "user": {
+                "firstName": review.user.firstName,
+                "lastName": review.user.lastName,
+                "profilePicture": review.user.profilePicture,
+            }
         }
         for review in reviews
     ]
@@ -126,6 +131,8 @@ def edit_review(id):
     review.updatedAt = datetime.utcnow()
     db.session.commit()
 
+    user = User.query.get(review.userId)
+
     return jsonify({
         "id": review.id,
         "bookId": review.bookId,
@@ -133,7 +140,13 @@ def edit_review(id):
         "review": review.review,
         "rating": review.rating,
         "createdAt": review.createdAt,
-        "updatedAt": review.updatedAt
+        "updatedAt": review.updatedAt,
+        "user": {
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "username": user.username,
+            "profilePicture": user.profilePicture,
+        }
     }), 200
 
 

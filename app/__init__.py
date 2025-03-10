@@ -13,6 +13,7 @@ from .api.review_routes import review_routes
 from .api.bookshelf_routes import bookshelf_routes
 from .api.friend_routes import friend_routes
 from .api.bookclub_routes import bookclub_routes
+from .api.community_routes import community_routes
 
 
 from .seeds import seed_commands
@@ -41,6 +42,7 @@ app.register_blueprint(review_routes, url_prefix='/api/reviews')
 app.register_blueprint(bookshelf_routes, url_prefix='/api/bookshelves')
 app.register_blueprint(friend_routes, url_prefix='/api/friends')
 app.register_blueprint(bookclub_routes, url_prefix='/api/bookclubs')
+app.register_blueprint(community_routes, url_prefix='/api/community')
 db.init_app(app)
 Migrate(app, db)
 
@@ -70,7 +72,7 @@ def inject_csrf_token(response):
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
-        httponly=True)
+        httponly=False)
     return response
 
 
