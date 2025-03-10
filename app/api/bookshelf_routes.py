@@ -68,7 +68,7 @@ def get_all_bookshelves():
 
 
 # Create a Bookshelf
-@bookshelf_routes.route('/', methods=['POST'])
+@bookshelf_routes.route('/add', methods=['POST'])
 @login_required
 def create_bookshelf():
     """

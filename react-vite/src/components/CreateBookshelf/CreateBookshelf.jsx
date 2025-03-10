@@ -1,23 +1,36 @@
 import './CreateBookshelf.css'
+import { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
 import { useModal } from '../../context/Modal';
 import { createBookshelf, getBookshelfDetails } from '../../redux/bookshelves';
 
 function CreateBookshelf() {
 
     const { closeModal } = useModal();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+
+    const [bookshelfName, setBookshelfName] = useState("");
 
     const handleCreate = async () => {
-        console.log(reviewId)
-    try {
-    //   await dispatch(createBookshelf());
-      closeModal();
-      // Refetch bookshelf
-    //   dispatch(getBookshelfDetails); 
-    } catch (error) {
-      console.error("Failed to delete review:", error.message);
-    }
-    }
+        if (!bookshelfName) {
+            alert("Bookshelf name is required");
+            return;
+          }
+        
+          const newBookshelf = {
+            name: bookshelfName,  // Ensure this is the correct key that the backend expects
+          };
+        
+        try {
+            // Dispatch action to create a new bookshelf, passing the bookshelfName
+            await dispatch(createBookshelf(newBookshelf));
+            closeModal();
+            // Refetch bookshelf details
+            dispatch(getBookshelfDetails(newBookshelf.id));
+        } catch (error) {
+            console.error("Failed to create bookshelf:", error.message);
+        }
+    };
 
     const handleCancel = async () => {
         closeModal();
