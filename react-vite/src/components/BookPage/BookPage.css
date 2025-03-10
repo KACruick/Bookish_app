@@ -1,0 +1,242 @@
+.book-page {
+    /* border: solid red 1px; */
+    display: flex;
+    flex-direction: row;
+}
+
+.book-left-div {
+    /* border: solid red 1px; */
+    position: fixed;
+    padding: 20px;
+}
+
+.book-cover {
+    /* width: 300px;  Container width */
+    height: 500px;
+    overflow: hidden;  /* Optional: Prevent overflow */
+}
+  
+.book-cover img {
+    width: auto;  /* Make the image take up the full width of the container */
+    height: 500px;  /* Keep the image's aspect ratio intact */
+    object-fit: cover;  /* Crop the image to fit the container without stretching */
+}
+
+.want-rating-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.want-to-read {
+    background-color: #DBCDF0;
+    border-radius: 3px;
+    border: 2px solid #DBCDF0;
+}
+
+.want-to-read:hover{
+    background-color: grey;
+}
+
+.star-rating {
+    display: flex;
+    font-size: 24px; /* Adjust size of the stars */
+    color: #858181; /* Default empty star color (light grey) */
+
+  }
+  
+  .filled-star {
+    color: gold; /* Gold color for filled stars */
+
+  }
+  
+  .empty-star {
+    color: #858181; /* Default color for empty stars */
+    cursor: pointer; /* Make stars clickable */
+
+  }
+  
+  /* Hover effect for stars */
+  .star-rating .empty-star:hover,
+  .star-rating .filled-star:hover {
+    color: gold; /* Make them gold when hovered */
+  }
+  
+  /* Optional: If you want stars to be fully filled when hovered */
+  .star-rating .empty-star:hover ~ .empty-star,
+  .star-rating .empty-star:hover {
+    color: gold; /* Fill stars when hovered over */
+  }
+  
+  /* Optional: To make sure filled stars do not change color */
+  .star-rating .filled-star:hover {
+    color: gold;
+  }
+
+.book-right-div {
+    margin-left: 420px; /* Give space for the fixed left div */
+  /* border: solid red 1px; */
+  padding: 20px; /* Add padding to avoid content being too close to the border */
+  width: calc(100% - 320px); /* Adjust width so it doesn't overlap the left div */
+}
+
+.book-info {
+    /* border: solid red 1px; */
+    padding: 20px;
+    /* background-color: #f9f9f9; */
+    background-color: #DBCDF0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.avgRating-section {
+    display: flex;
+    justify-content: center;  /* Centers horizontally */
+    align-items: center;  
+    /* border: solid 1px red; */
+    gap: 20px;
+}
+
+.avg-rating-value{
+    font-size: medium;
+    font-weight: 600;
+}
+
+
+.reviews-section {
+    padding: 20px;
+    /* background-color: #f9f9f9; */
+    background-color: #C9E4DE;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+  
+.reviews-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .avg-rating-div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .avg-rating-div div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .leave-review-div {
+    margin-bottom: 20px;
+    text-align: right;
+  }
+  
+  .leave-review-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .leave-review-button:hover {
+    background-color: #45a049;
+  }
+  
+  .review-tiles {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-info {
+    display: flex;
+    align-items: center;
+    /* gap: 15px; */
+    justify-content: space-between;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .user-profile-picture {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;  /* Add a border around the profile picture */
+  }
+  
+  .no-profile-picture {
+    background-color: #eee;
+    padding: 8px 12px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .review-content {
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    /* border: 1px solid red; */
+  }
+  
+  .review-content p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .rating {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4caf50;
+  }
+  
+  .update-delete-div {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .update-modal, .delete-modal {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .update-modal:hover, .delete-modal:hover {
+    background-color: #ddd;
+  }
+  
+  .review-tiles:hover {
+    background-color: #fafafa;
+  }
+  
+  .review-tiles p {
+    font-size: 16px;
+    line-height: 1.5;
+  }

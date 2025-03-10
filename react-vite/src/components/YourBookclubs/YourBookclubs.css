@@ -1,0 +1,47 @@
+.start-club-div {
+  display: flex;
+  justify-content: center;
+}
+
+
+.bookclub-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 10px;
+    width: 250px;
+  }
+  
+  .bookcover-image {
+    width: 100%;
+    height: auto;
+    max-width: 200px; /* Adjust to your desired size */
+    margin-bottom: 10px;
+  }
+  
+  .bookclub-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  .bookclub-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  h3 {
+    text-align: center;
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  p {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+  }
+  

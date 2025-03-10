@@ -23,16 +23,18 @@ class User(db.Model, UserMixin):
     # relationships below
     bookclubs = db.relationship('Bookclub', secondary=add_prefix_for_prod("bookclub_members"), back_populates='members')  # Many-to-Many
     reviews = db.relationship('Review', backref='review_author', lazy=True)  # One-to-Many with Reviews
-    books = db.relationship('Book', backref='book_owner', lazy=True)  # One-to-Many with Books
-    bookshelves = db.relationship('Bookshelf', backref='user_shelves', lazy=True)  # One-to-Many with Bookshelves
-    # community_posts = db.relationship('CommunityPost', backref='user_posts', lazy=True)  # One-to-Many with Community Posts
-    # community_comments = db.relationship('CommunityComment', backref='comment_author', lazy=True)  # One-to-Many with Community Comments
+    book_owner = db.relationship('Book', back_populates='user', cascade='all, delete-orphan')
+    user_shelves = db.relationship('Bookshelf', backref='bookshelf_owner', lazy=True)
     bookclub_comments = db.relationship('BookclubComment', backref='bookclub_commentor', lazy=True)
 
 
-    # One-to-Many Relationship with Friends: Handle friendships
-    sent_friends = db.relationship('Friend', foreign_keys='Friend.userId', backref='user_sender', lazy='dynamic')  # One-to-Many with Sent Friends
-    received_friends = db.relationship('Friend', foreign_keys='Friend.friendId', backref='user_receiver', lazy='dynamic')  # One-to-Many with Received Friends
+    # # One-to-Many Relationship with Friends
+    sent_friends = db.relationship('Friend', foreign_keys='Friend.userId', backref='user_sender')  # One-to-Many with Sent Friends
+    received_friends = db.relationship('Friend', foreign_keys='Friend.friendId', backref='user_receiver')  # One-to-Many with Received Friends
+
+    community_posts = db.relationship('CommunityPost', backref='user_posts')  # One-to-Many with Community Posts
+    community_comments = db.relationship('CommunityComment', backref='community_comments')  # One-to-Many with Community Comments
+
 
     @property
     def password(self):
@@ -49,8 +51,5 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email,
-            'firstName': self.firstName,
-            'lastName': self.lastName,
-            'profilePicture': self.profilePicture
+            'email': self.email
         }

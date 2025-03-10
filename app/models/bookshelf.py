@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 class Bookshelf(db.Model):
     __tablename__ = 'bookshelves'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     name = db.Column(db.String(255), nullable=False)
@@ -11,7 +14,13 @@ class Bookshelf(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # Many-to-many relationship with books
-    books = db.relationship('Book', secondary='bookshelf_books', back_populates='bookshelves')
+    user = db.relationship('User', backref='user_bookshelves')  
+    books = db.relationship(
+        'Book',
+        secondary=add_prefix_for_prod('bookshelf_books'), 
+        back_populates='bookshelves',  
+    )
+    community_posts = db.relationship('CommunityPost', back_populates='bookshelf')
 
     def __repr__(self):
         return f"<Bookshelf id={self.id}, name='{self.name}', userId={self.userId}>"

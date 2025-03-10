@@ -5,6 +5,11 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import ManageBooksAdded from "../ManageBooksAdded";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import './ProfileButton.css'
+
+// <FaUser size={40} style={{ color: "#315E67" }}/>
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -41,18 +46,22 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
+      <button className="button" onClick={toggleMenu}>
+        <FaUserCircle size={40} style={{ color: "#315E67" }}/>
       </button>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
-                <button onClick={logout}>Log Out</button>
-              </li>
+              <li>Hello, Kendra</li>
+              {/* <li>{user.username}</li>
+              <li>{user.email}</li> */}
+              <li>Friends</li>
+              <li>Profile</li>
+              <Link to={'/books/current'}><li>Manage Books Added</li></Link>
+              
+              <button className="log-out" onClick={logout}> <li>Log Out</li></button>
+              
             </>
           ) : (
             <>

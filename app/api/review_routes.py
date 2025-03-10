@@ -1,12 +1,14 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Book, Review
+from app.models import db, Book, Review, User
 from flask_login import current_user, login_required
 from datetime import datetime
 
 review_routes = Blueprint('reviews', __name__)
 
+
+
 # Get all reviews of a book
-@review_routes.route('/api/reviews/<int:bookId>', methods=['GET'])
+@review_routes.route('/<int:bookId>', methods=['GET'])
 def get_reviews(bookId):
     """
     Returns all reviews written for a specific book.
@@ -24,22 +26,32 @@ def get_reviews(bookId):
             "review": review.review,
             "rating": review.rating,
             "createdAt": review.createdAt,
-            "updatedAt": review.updatedAt
+            "updatedAt": review.updatedAt,
+            "user": {
+                "firstName": review.user.firstName,
+                "lastName": review.user.lastName,
+                "profilePicture": review.user.profilePicture,
+            }
         }
         for review in reviews
     ]
 
-    return jsonify({"reviews": review_data})
+    return jsonify({"Reviews": review_data})
+
+
 
 
 # Add a review
-@review_routes.route('/api/reviews/<int:bookId>', methods=['POST'])
+@review_routes.route('/<int:bookId>', methods=['POST'])
 @login_required
 def add_review(bookId):
     """
     Allows a user to add a review for a book.
     """
     data = request.get_json()
+
+    # Get id of current user
+    current_user_id = current_user.id
     
     # Check if the book exists
     book = Book.query.get(bookId)
@@ -47,7 +59,7 @@ def add_review(bookId):
         return jsonify({"message": "Book not found"}), 404
 
     # Check if the user already has a review for the book
-    existing_review = Review.query.filter_by(bookId=bookId, userId=current_user.id).first()
+    existing_review = Review.query.filter_by(bookId=bookId, userId=current_user_id).first()
     if existing_review:
         return jsonify({"message": "User already has a review for this product"}), 500
 
@@ -64,7 +76,7 @@ def add_review(bookId):
     # Create the new review
     new_review = Review(
         bookId=bookId,
-        userId=current_user.id,
+        userId=current_user_id,
         review=data['review'],
         rating=data['rating'],
         createdAt=datetime.utcnow(),
@@ -84,8 +96,10 @@ def add_review(bookId):
     }), 201
 
 
+
+
 # Edit a review
-@review_routes.route('/api/reviews/<int:id>', methods=['PATCH'])
+@review_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def edit_review(id):
     """
@@ -117,6 +131,8 @@ def edit_review(id):
     review.updatedAt = datetime.utcnow()
     db.session.commit()
 
+    user = User.query.get(review.userId)
+
     return jsonify({
         "id": review.id,
         "bookId": review.bookId,
@@ -124,12 +140,20 @@ def edit_review(id):
         "review": review.review,
         "rating": review.rating,
         "createdAt": review.createdAt,
-        "updatedAt": review.updatedAt
+        "updatedAt": review.updatedAt,
+        "user": {
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "username": user.username,
+            "profilePicture": user.profilePicture,
+        }
     }), 200
 
 
+
+
 # Delete a review
-@review_routes.route('/api/reviews/<int:id>', methods=['DELETE'])
+@review_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_review(id):
     """
@@ -147,3 +171,36 @@ def delete_review(id):
     db.session.commit()
 
     return jsonify({"message": "Successfully deleted"}), 200
+
+
+# Get all reviews written by the current user
+@review_routes.route('/current', methods=['GET'])
+@login_required
+def get_user_reviews():
+    """
+    Returns all reviews written by a specific user.
+    """
+    # Only allow the logged-in user to view their own reviews
+    current_user_id = current_user.id
+
+    reviews = Review.query.filter_by(userId=current_user_id).all()
+    
+    if not reviews:
+        return jsonify({"message": "No reviews found for this user"}), 404
+
+    review_data = [
+        {
+            "id": review.id,
+            "bookId": review.bookId,
+            "userId": review.userId,
+            "review": review.review,
+            "rating": review.rating,
+            "createdAt": review.createdAt,
+            "updatedAt": review.updatedAt
+        }
+        for review in reviews
+    ]
+
+    return jsonify({
+        "Reviews": review_data
+    }), 200

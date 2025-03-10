@@ -4,6 +4,15 @@ __pycache__/
 .venv
 .DS_Store
 .vscode/
+.gitignore
+
+
+.env
+__pycache__/
+*.py[cod]
+.venv
+.DS_Store
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

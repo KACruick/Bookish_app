@@ -17,9 +17,9 @@ class BookclubComment(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
 
     # Relationships
-    bookclub = db.relationship('Bookclub', backref='bookclub_comments_reverse', lazy=True)
-    book = db.relationship('Book', backref='bookclub_comment_for_books', lazy=True)
-    user = db.relationship('User', backref='user_bookclub_comments_reverse', lazy=True)
+    bookclub = db.relationship('Bookclub', backref='bookclub_comments_reverse')
+    book = db.relationship('Book', backref='bookclub_comment_for_books')
+    user = db.relationship('User', backref='user_bookclub_comments_reverse')
 
     def __repr__(self):
         return f"<BookclubComment id={self.id}, bookclubId={self.bookclubId}, bookId={self.bookId}, userId={self.userId}, chapter={self.chapter}>"

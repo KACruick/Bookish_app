@@ -13,7 +13,7 @@ class Book(db.Model):
     description = db.Column(db.Text, nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     genreId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("genres.id")), nullable=False)
-    isbn = db.Column(db.Integer, nullable=False, unique=True)
+    isbn = db.Column(db.BigInteger, nullable=False)
     pages = db.Column(db.Integer, nullable=False)
     chapters = db.Column(db.Integer, nullable=False)
     coverPicture = db.Column(db.String(500), nullable=False)
@@ -22,14 +22,20 @@ class Book(db.Model):
     updatedAt = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
 
     # relationships here
-    user = db.relationship('User', backref='book_owner', lazy=True)
-    genre = db.relationship('Genre', backref='genre_relationship', lazy=True)
-    bookclubs = db.relationship('Bookclub', backref='book_instance', lazy=True)
-    bookshelves = db.relationship('Bookshelf', secondary='bookshelf_books', back_populates='books')
-    reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan")  # Book reviews
-    # community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan")  # Community posts related to the book
-    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', lazy=True)
+    user = db.relationship('User', back_populates='book_owner')
+    genre = db.relationship('Genre', back_populates='genre_relationship')
+    bookclubs = db.relationship('Bookclub', backref='book_instance')
 
+    # Relationship through BookshelfBooks
+    bookshelves = db.relationship(
+        'Bookshelf',
+        secondary=add_prefix_for_prod('bookshelf_books'),
+        back_populates='books',
+    )
+
+    reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan") 
+    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment')
+    community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan") 
 
     def __repr__(self):
         return f"<Book id={self.id}, title='{self.title}', author=`{self.author}`, description=`{self.description}`, userId=`{self.userId}`, genreId=`{self.genreId}`, isbn=`{self.isbn}`, pages=`{self.pages}`, chapters=`{self.chapters}`, coverPicture=`{self.coverPicture}`, yearPublished=`{self.yearPublished}` >"
