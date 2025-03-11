@@ -19,8 +19,8 @@ function Discover() {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const searchQueryEncoded = encodeURIComponent(searchQuery);
-        const response = await fetch(`/api/books?search=${searchQueryEncoded}&page=${currentPage}&size=${pageSize}`);
+      // If searchQuery is empty, just fetch all books (with pagination)
+        const response = await fetch(`/api/books?search=${searchQuery || ''}&page=${currentPage}&size=${pageSize}`);
         const data = await response.json();
         setBooks(data.books);
         setCurrentPage(data.page); // Update current page
