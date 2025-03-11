@@ -5,6 +5,16 @@
     /* height: 100vh;  */
     /* overflow: hidden; */
   }
+  .not-logged-in-div {
+    display: flex;
+    margin:auto;
+  }
+
+  .not-logged-in {
+    font-size: large;
+    font-weight: 500;
+    /* color: #DBCDF0; */
+  }
   
   h1, h2 {
     text-align: center;
@@ -21,7 +31,8 @@
   .search-book {
     /* border: 1px solid red; */
     justify-content: center;
-    border: solid 1px #ddd;
+    /* border: solid 1px #ddd; */
+    border: solid 2px #FFC5D3;
     border-radius: 8px;
     transition: box-shadow 0.3s ease; 
     height: 250px;
@@ -85,8 +96,12 @@
     justify-content: flex-start;
     flex-wrap: nowrap; /* Prevent wrapping, force horizontal scrolling */
     overflow-x: auto; /* Enable horizontal scrolling */
-    padding-bottom: 10px;
-    
+    margin-bottom: 10px;
+    /* border: solid red 1px; */
+    border: solid 2px #DBCDF0;
+    border-radius: 8px;
+    height: 284px;
+    width: 650px;
   }
   
   .bookclub-tile {
@@ -161,10 +176,11 @@
     flex-direction: column;
     justify-content: flex-start;
     /* overflow-x: hidden;   */
-    
+    margin-top: 20px;
     box-sizing: border-box;
-   
     /* border: solid 1px red; */
+    border: solid 2px #C9E4DE;
+    border-radius: 8px;
   }
 
   .update-status-div h2 {
