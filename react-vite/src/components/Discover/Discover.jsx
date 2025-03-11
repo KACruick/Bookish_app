@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'; // To access the search query from the URL
 import './Discover.css'
 
@@ -51,7 +51,7 @@ function Discover() {
     return (
       <div className="discover-page">
         {books.length === 0 ? (
-          <p>No books found for "{searchQuery}"</p>
+          <p>No books found for &quot;{searchQuery}&quot;</p>
         ) : (
           <>
             <div className="discover-books-grid">

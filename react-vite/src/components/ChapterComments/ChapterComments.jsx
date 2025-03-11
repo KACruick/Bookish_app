@@ -2,13 +2,13 @@ import './ChapterComments.css'
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getChapterComments, addChapterComment } from '../../redux/bookclubs'; 
-import { useModal } from '../../context/Modal';
+// import { useModal } from '../../context/Modal';
 
 function ChapterComments({ chapterId, bookclubId }) {
     const dispatch = useDispatch();
     const comments = useSelector((state) => state.bookclubs.currentBookclub.chapterComments?.[chapterId] || []);
     console.log("comments", comments)
-    const { closeModal } = useModal();
+    // const { closeModal } = useModal();
 
     const [newComment, setNewComment] = useState('');
     

@@ -106,66 +106,68 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 const initialState = {
     reviews: {},
     userReviews: {},
-    loading: false,
+    // loading: false,
 };
   
 
 // Reducer
 const reviewsReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case GET_REVIEWS:
-        const reviewsByBook = action.payload.reduce((acc, review) => {
-          acc[review.id] = review
-          return acc
-        }, {});
-        return {
-          ...state,
-          reviews: reviewsByBook,
-        };
-  
-      case GET_USER_REVIEWS:
-        const userReviews = action.payload.reduce((acc, review) => {
-          acc[review.id] = review
-          return acc;
-        }, {});
-        return {
-          ...state,
-          userReviews: userReviews,
-        };
-  
-      case CREATE_REVIEW: {
-        return {
-          ...state,
-          reviews: {
-            ...state.reviews,
-            [action.payload.id]: action.payload,
-          },
-        };
-      }
-  
-      case UPDATE_REVIEW: {
-        return {
-          ...state,
-          reviews: {
-            ...state.reviews,
-            [action.payload.id]: action.payload,
-          },
-        };
-      }
-  
-      case DELETE_REVIEW: {
-        const newReviews = { ...state.reviews };
-        delete newReviews[action.payload];
-        return {
-          ...state,
-          reviews: newReviews,
-        };
-      }
-  
-      default:
-        return state;
+  switch (action.type) {
+    case GET_REVIEWS: {
+      const reviewsByBook = action.payload.reduce((acc, review) => {
+        acc[review.id] = review;
+        return acc;
+      }, {});
+      return {
+        ...state,
+        reviews: reviewsByBook,
+      };
     }
-  };
+
+    case GET_USER_REVIEWS: {
+      const userReviews = action.payload.reduce((acc, review) => {
+        acc[review.id] = review;
+        return acc;
+      }, {});
+      return {
+        ...state,
+        userReviews: userReviews,
+      };
+    }
+
+    case CREATE_REVIEW: {
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload.id]: action.payload,
+        },
+      };
+    }
+
+    case UPDATE_REVIEW: {
+      return {
+        ...state,
+        reviews: {
+          ...state.reviews,
+          [action.payload.id]: action.payload,
+        },
+      };
+    }
+
+    case DELETE_REVIEW: {
+      const newReviews = { ...state.reviews };
+      delete newReviews[action.payload];
+      return {
+        ...state,
+        reviews: newReviews,
+      };
+    }
+
+    default:
+      return state;
+  }
+};
   
   export default reviewsReducer;
   

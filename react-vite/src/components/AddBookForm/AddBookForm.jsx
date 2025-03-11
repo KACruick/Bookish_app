@@ -109,13 +109,13 @@ function AddBookForm() {
     };
 
     // Handle file selection
-    const handleCoverPictureChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const fileUrl = URL.createObjectURL(file); // You can upload the file later, this creates a temporary URL
-            setCoverPicture(fileUrl); // Update state with the new image URL
-        }
-    };
+    // const handleCoverPictureChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const fileUrl = URL.createObjectURL(file); // You can upload the file later, this creates a temporary URL
+    //         setCoverPicture(fileUrl); // Update state with the new image URL
+    //     }
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
