@@ -5,8 +5,8 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-import ManageBooksAdded from "../ManageBooksAdded";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+// import ManageBooksAdded from "../ManageBooksAdded";
+import { Link } from "react-router-dom";
 import './ProfileButton.css'
 
 // <FaUser size={40} style={{ color: "#315E67" }}/>

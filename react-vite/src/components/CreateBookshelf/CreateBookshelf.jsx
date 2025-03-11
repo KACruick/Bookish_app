@@ -1,5 +1,5 @@
 import './CreateBookshelf.css'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useModal } from '../../context/Modal';
 import { createBookshelf, getBookshelfDetails } from '../../redux/bookshelves';
