@@ -19,7 +19,8 @@ function Discover() {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/books?search=${searchQuery}&page=${currentPage}&size=${pageSize}`);
+        const searchQueryEncoded = encodeURIComponent(searchQuery);
+        const response = await fetch(`/api/books?search=${searchQueryEncoded}&page=${currentPage}&size=${pageSize}`);
         const data = await response.json();
         setBooks(data.books);
         setCurrentPage(data.page); // Update current page
@@ -30,13 +31,9 @@ function Discover() {
         setLoading(false);
       }
     };
-
-    if (searchQuery) {
-      fetchBooks();
-    } else {
-      fetchBooks();
-    }
-  }, [searchQuery,  currentPage]); 
+  
+    fetchBooks(); // Only call this once regardless of the searchQuery value
+  }, [searchQuery, currentPage]); 
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

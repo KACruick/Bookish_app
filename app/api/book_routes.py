@@ -37,8 +37,7 @@ def get_books():
             Book.title.ilike(f"%{search_query}%") | Book.author.ilike(f"%{search_query}%")
         )
     
-    # Query all books and paginate the result
-    books_query = Book.query
+    
 
     # Paginate the books
     books_paginated = books_query.paginate(page=page, per_page=size, error_out=False)
