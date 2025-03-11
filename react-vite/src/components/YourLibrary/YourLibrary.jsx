@@ -19,8 +19,10 @@ function YourLibrary() {
   // If bookshelves exist, filter them to get only the user's bookshelves
   // Memoize userBookshelves so that it only recalculates when bookshelves or sessionUser change
   const userBookshelves = useMemo(() => {
-    return bookshelves.filter((shelf) => shelf.userId === sessionUser.id);
+    return bookshelves.filter((shelf) => shelf.userId === sessionUser?.id);
   }, [bookshelves, sessionUser]);
+
+
 
   useEffect(() => {
     // Fetch initial data for authenticated user
@@ -56,56 +58,57 @@ function YourLibrary() {
     <div>
       <h1>Your Library </h1>
 
-      <div className="create-new-bookshelf">
-      <OpenModalButton
-        buttonText="Create a new bookshelf"
-        modalComponent={<CreateBookshelf onClose={() => {}} />}
-        className="create-bookshelf-button"
-      />
-      </div>
+      {!sessionUser && (
+        <p className='not-logged-in'>Log in to use Bookish library shelves feature</p>
+      )}
 
-      {/* Render each bookshelf */}
-      <div className="bookshelves-container">
-        {sortedBookshelves.length > 0 ? (
-          sortedBookshelves.map((shelf) => (
-            <div key={shelf.id} className="bookshelf-container">
-              <h2>{shelf.name}</h2>
-              {/* Button to navigate to the bookshelf reorder page */}
-              <Link to={`/bookshelves/${shelf.id}`} className="reorder-button">
-                Edit or reorder books in shelf
-              </Link>
-              <p>{shelf.description}</p>
+{sessionUser && (
+        <>
+          <div className="create-new-bookshelf">
+            <OpenModalButton
+              buttonText="Create a new bookshelf"
+              modalComponent={<CreateBookshelf onClose={() => {}} />}
+              className="create-bookshelf-button"
+            />
+          </div>
 
-              {/* Render books inside the bookshelf */}
-              <div className="books-container">
-                {shelf.Books && shelf.Books.length > 0 ? (
-                  shelf.Books.map((book) => (
-                    <div key={book.id} className="book-tile">
-                      <Link to={`/books/${book.id}`}>
-                        <img 
-                          src={book.coverPicture || '../../images/Cover_coming_soon.jpeg'} 
-                          alt={book.title} 
-                          className="book-cover" 
-                        />
-                        {/* <h3>{book.title}</h3>
-                        <p>{book.author}</p> */}
-                      </Link>
-                    </div>
-                  ))
-                ) : (
-                  <p>No books in this shelf.</p>
-                )}
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No bookshelves found for this user.</p>
-        )}
-      </div>
+          <div className="bookshelves-container">
+            {sortedBookshelves.length > 0 ? (
+              sortedBookshelves.map((shelf) => (
+                <div key={shelf.id} className="bookshelf-container">
+                  <h2>{shelf.name}</h2>
+                  <Link to={`/bookshelves/${shelf.id}`} className="reorder-button">
+                    Edit or reorder books in shelf
+                  </Link>
+                  <p>{shelf.description}</p>
 
-
+                  <div className="books-container">
+                    {shelf.Books && shelf.Books.length > 0 ? (
+                      shelf.Books.map((book) => (
+                        <div key={book.id} className="book-tile">
+                          <Link to={`/books/${book.id}`}>
+                            <img 
+                              src={book.coverPicture || '../../images/Cover_coming_soon.jpeg'} 
+                              alt={book.title} 
+                              className="book-cover" 
+                            />
+                          </Link>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No books in this shelf.</p>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No bookshelves found for this user.</p>
+            )}
+          </div>
+        </>
+      )}
     </div>
-  )
+  );
 }
 
 export default YourLibrary
