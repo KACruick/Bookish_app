@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getBookclubs } from '../../redux/bookclubs'
 import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
+import { createSelector } from 'reselect';
 
 
 function HomePage() {
@@ -21,12 +22,30 @@ function HomePage() {
 
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-      dispatch(thunkAuthenticate());
-      dispatch(getBookclubs());
-      dispatch(getBookshelves());
+    // Memoized selector for user-specific bookshelves to prevent unnecessary re-renders
+    const userBookshelves = useSelector(
+      createSelector(
+        (state) => Object.values(state.bookshelves.allBookshelves), // Convert object to array here
+        (allBookshelves) => allBookshelves.filter((shelf) => shelf.userId === sessionUser?.id)
+        )
+      );
 
-    }, [dispatch]);
+    const currentlyReadingShelf = useSelector(
+      createSelector(
+        (state) => Object.values(state.bookshelves.allBookshelves),
+        (allBookshelves) =>
+          allBookshelves.find(
+            (shelf) => shelf.name === "Currently reading" && shelf.userId === sessionUser?.id
+          )
+      )
+    );
+
+    useEffect(() => {
+      if (sessionUser) {
+        dispatch(getBookclubs());
+        dispatch(getBookshelves());
+      }
+    }, [dispatch, sessionUser]);
 
     useEffect(() => {
       if (sessionUser && currentBookshelf?.id) {
@@ -39,13 +58,7 @@ function HomePage() {
 
     if (loading) return <div>Loading...</div>;
 
-    // Filter bookshelves based on user ID, only when sessionUser exists
-    const userBookshelves = sessionUser ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];
 
-    // Find the "Currently Reading" bookshelf (if exists)
-    const currentlyReadingShelf = sessionUser
-      ? bookshelves.find((shelf) => shelf.name === "Currently reading" && shelf.userId === sessionUser.id)
-      : null;
     
 
     // console.log("sessionUser: ", sessionUser)
