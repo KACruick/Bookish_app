@@ -23,7 +23,7 @@ function Discover() {
         const response = await fetch(`/api/books?search=${searchQuery || ''}&page=${currentPage}&size=${pageSize}`);
         const data = await response.json();
         setBooks(data.books);
-        setCurrentPage(data.page); // Update current page
+        // setCurrentPage(data.page); // Update current page
         setTotalPages(data.totalPages); // Update total pages
       } catch (error) {
         setError('Failed to fetch books');
@@ -44,6 +44,9 @@ function Discover() {
         setCurrentPage(newPage);
       }
     };
+
+    console.log("books: ", books)
+    console.log("total pages: ", totalPages)
 
     return (
       <div className="discover-page">

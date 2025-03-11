@@ -40,7 +40,7 @@ function YourBookclubs() {
                 <div className='moderate'>
                   <h2>Bookclubs you moderate</h2>
                   {moderatedBookclubs.length > 0 ? (
-                    <div className="bookclub-list">
+                    <div className="your-bookclub-list">
                       {moderatedBookclubs.map((bookclub) => (
                         <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
                           {/* Render book cover image */}
@@ -65,7 +65,7 @@ function YourBookclubs() {
                 <div className='member'>
                   <h2>Your other bookclubs</h2>
                   {memberBookclubs.length > 0 ? (
-                    <div className="bookclub-list">
+                    <div className="your-bookclub-list">
                       {memberBookclubs.map((bookclub) => (
                         <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
                           {/* Render book cover image */}

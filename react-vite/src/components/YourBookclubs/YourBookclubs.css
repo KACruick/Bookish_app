@@ -28,7 +28,7 @@
     justify-content: space-around;
   }
   
-  .bookclub-list {
+  .your-bookclub-list {
     display: flex;
     flex-wrap: wrap;
   }
