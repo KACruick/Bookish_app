@@ -7,6 +7,7 @@ import "./Community.css";
 function Community() {
   const dispatch = useDispatch();
   const communityPosts = useSelector((state) => state.community.communityPosts);
+  const sessionUser = useSelector((state) => state.session.user);
 
   // console.log("communityPosts", communityPosts)
   // console.log("communityPosts[0]", communityPosts[0])
@@ -18,8 +19,10 @@ function Community() {
 
   // Fetch posts when the component mounts
   useEffect(() => {
-    dispatch(getCommunityActivity()); // Fetch posts
-  }, [dispatch]);
+    if (sessionUser) {
+      dispatch(getCommunityActivity()); // Fetch posts only if user is logged in
+    }
+  }, [dispatch, sessionUser]);
 
   // Handle like functionality
   const handleLike = (postId) => {
@@ -46,6 +49,15 @@ function Community() {
       [postId]: !prevState[postId],
     }));
   };
+
+  if (!sessionUser) {
+    return (
+      <div>
+        <h1>Community Activity</h1>
+        <p className="not-logged-in">Log in to add friends and view friend's reading activity</p>
+      </div>
+    );
+  }
 
   return (
     <div>
