@@ -45,31 +45,38 @@ function BookclubDetails() {
     };
 
     return (
-        <div className="bookclub-details">
-            <h1>Bookclub</h1>
+        <div className="bookclub-details-page">
+            {/* <h1>Bookclub</h1> */}
+            {/* <h1>{bookclub.name}</h1> */}
 
-            <h2>{bookclub.name}</h2>
-            <p>{bookclub.description}</p>
+            <div className='club-and-book'>
 
-            <div>
                 <div className='book-details-cover'>
                     <img src={bookclub.book.coverPicture} alt={bookclub.book.title} />
                 </div>
 
-                <h4>{bookclub.book.title}</h4>
-                <h4>{bookclub.book.author}</h4>
+                <div className='club-and-book-info'>
+                    <h2>{bookclub.name}</h2>
+                    <p>{bookclub.description}</p>
+
+                    <h4>Current Book: {bookclub.book.title}</h4>
+                    <h4>By: {bookclub.book.author}</h4>
+
+                    <div className='club-members'>
+                        <h3>Members</h3>
+                        <ul>
+                            {bookclub.members.map((member) => (
+                                <li key={member.id}>
+                                    {member.firstName} {member.lastName}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
             </div>
 
-            <div className='club-members'>
-                <h3>Members</h3>
-                <ul>
-                    {bookclub.members.map((member) => (
-                        <li key={member.id}>
-                            {member.firstName} {member.lastName}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            
 
             <div className="chapter-list">
                 <h2>Chapters</h2>
