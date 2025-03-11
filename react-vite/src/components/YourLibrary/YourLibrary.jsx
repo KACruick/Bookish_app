@@ -1,6 +1,6 @@
 import './YourLibrary.css'
-import { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
@@ -9,30 +9,34 @@ import CreateBookshelf from '../CreateBookshelf';
 // import "../../../dist/images/cover_coming_soon.jpeg"
 
 function YourLibrary() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const sessionUser = useSelector((state) => state.session.user);
   const bookshelves = useSelector((state) => Object.values(state.bookshelves.allBookshelves));
   // const currentBookshelf = useSelector((state) => state.bookshelves.currentBookshelf);
 
+  // If bookshelves exist, filter them to get only the user's bookshelves
+  // Memoize userBookshelves so that it only recalculates when bookshelves or sessionUser change
+  const userBookshelves = useMemo(() => {
+    return bookshelves.filter((shelf) => shelf.userId === sessionUser.id);
+  }, [bookshelves, sessionUser]);
 
   useEffect(() => {
+    // Fetch initial data for authenticated user
     dispatch(thunkAuthenticate());
     dispatch(getBookshelves());
+    
     if (userBookshelves.length > 0) {
       userBookshelves.forEach((shelf) => {
         if (!shelf.Books || shelf.Books.length === 0) {
-            dispatch(getBookshelfDetails(shelf.id));
+          dispatch(getBookshelfDetails(shelf.id));
         }
-      })
+      });
     }
   }, [dispatch]);
 
 
-
-  // If bookshelves exist, filter them to get only the user's bookshelves
-  const userBookshelves = bookshelves.length > 0 ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];
 
   console.log("bookshelves: ", bookshelves)
   // const userBookshelves = bookshelves.length > 0 ? bookshelves.filter((shelf) => shelf.userId === sessionUser.id) : [];

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { getBook } from '../../redux/books';
-import { createReview, getReviews, getUserReviews, updateReview } from '../../redux/reviews';
+import { getReviews, getUserReviews, updateReview } from '../../redux/reviews';
 
 
 
@@ -21,7 +21,7 @@ function UpdateReviewModal({ initialReview, initialRating, reviewId, bookId, pag
 
   const currentUser = useSelector((state) => state.session.user);
   
-  const book = useSelector((state) => state.books.bookDetails); 
+  useSelector((state) => state.books.bookDetails); 
   
       // Autofill the review and rating
       useEffect(() => {
@@ -51,20 +51,20 @@ function UpdateReviewModal({ initialReview, initialRating, reviewId, bookId, pag
             const updatedReviewData = {
               review,
               rating,
-              userId: user.id,
-              firstName: user.firstName, 
-              lastName: user.lastName, 
-              username: user.username,
-              profilePicture: user.profilePicture
+              userId: currentUser.id,
+              firstName: currentUser.firstName, 
+              lastName: currentUser.lastName, 
+              username: currentUser.username,
+              profilePicture: currentUser.profilePicture
             };
             // Dispatch update review action
             await dispatch(updateReview(reviewId, updatedReviewData));
   
             // Conditionally dispatch based on the pageType
             if (pageType === "manage") {
-              await dispatch(fetchReviewsByUser());  // Fetch reviews by user for the ManageReviews page
+              await dispatch(getUserReviews());  // Fetch reviews by user for the ManageReviews page
             } else if (pageType === "book") {
-              await dispatch(fetchReviews(bookId));  // Fetch reviews by bookId for the BookPage
+              await dispatch(getReviews(bookId));  // Fetch reviews by bookId for the BookPage
               await dispatch(getBook(bookId));  // Optionally, update the book details
             }
   

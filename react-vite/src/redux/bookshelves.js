@@ -210,45 +210,51 @@ const initialState = {
   const bookshelvesReducer = (state = initialState, action) => {
     switch (action.type) {
       
-      case GET_BOOKSHELVES:
+      case GET_BOOKSHELVES: {
         return { ...state, allBookshelves: action.payload };
+      }
   
-      case GET_BOOKSHELF_DETAILS:
+      case GET_BOOKSHELF_DETAILS: {
         return { ...state, currentBookshelf: action.payload };
+      }
   
-      case CREATE_BOOKSHELF:
+      case CREATE_BOOKSHELF: {
         return {
           ...state,
           allBookshelves: { ...state.allBookshelves, [action.payload.id]: action.payload },
         };
+      }
   
-      case UPDATE_BOOKSHELF:
+      case UPDATE_BOOKSHELF: {
         return {
           ...state,
           allBookshelves: { ...state.allBookshelves, [action.payload.id]: action.payload },
         };
+      }
   
-      case DELETE_BOOKSHELF:
+      case DELETE_BOOKSHELF: {
         const newState = { ...state };
         delete newState.allBookshelves[action.payload];
         return newState;
+      }
   
-      case REMOVE_BOOK_FROM_SHELF:
+      case REMOVE_BOOK_FROM_SHELF: {
         const updatedBookshelf = { ...state.currentBookshelf };
         updatedBookshelf.books = updatedBookshelf.books.filter(
           (book) => book.id !== action.payload
         );
         return { ...state, currentBookshelf: updatedBookshelf };
+      }
   
       case CHANGE_BOOK_ORDER: {
         const { orderedBookIds, bookshelfId } = action.payload;
   
         console.log('Received orderedBookIds:', orderedBookIds); // Add this line
         console.log('Current bookshelf:', state.allBookshelves[bookshelfId]); // Add this line
-      
+  
         const updatedBookshelves = { ...state.allBookshelves };
         const bookshelf = updatedBookshelves[bookshelfId];
-
+  
         if (bookshelf) {
           bookshelf.Books = bookshelf.Books.map((book, index) => {
             // Find the new order index from the orderedBookIds
@@ -261,7 +267,7 @@ const initialState = {
         return state;
       }
   
-      case ADD_BOOK_TO_SHELF:
+      case ADD_BOOK_TO_SHELF: {
         return {
           ...state,
           currentBookshelf: {
@@ -269,6 +275,7 @@ const initialState = {
             books: [...state.currentBookshelf.books, action.payload],
           },
         };
+      }
   
       default:
         return state;
