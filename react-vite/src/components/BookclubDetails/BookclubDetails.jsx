@@ -2,7 +2,7 @@ import './BookclubDetails.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import { getBookclub, getChapterComments } from '../../redux/bookclubs';  
+import { getBookclub } from '../../redux/bookclubs';  
 import ChapterComments from '../ChapterComments/ChapterComments';
 import { useModal } from '../../context/Modal';
 

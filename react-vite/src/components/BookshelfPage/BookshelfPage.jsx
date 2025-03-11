@@ -16,6 +16,7 @@ function BookshelfPage() {
     const bookshelf = useSelector((state) => state.bookshelves.allBookshelves[bookshelfId]);
     const [books, setBooks] = useState([]);
     const [transform, setTransform] = useState({ x: 0, y: 0 });
+    console.log(transform)
     
     useEffect(() => {
       dispatch(getBookshelfDetails(bookshelfId));

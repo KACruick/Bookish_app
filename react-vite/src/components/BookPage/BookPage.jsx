@@ -50,10 +50,10 @@ function BookPage() {
   };
 
   // Function to handle star rating (setRating)
-  const handleRating = (newRating) => {
-    setRating(newRating);
-    // Dispatch action to update the user's rating for this book
-  };
+  // const handleRating = (newRating) => {
+  //   setRating(newRating);
+  //   // Dispatch action to update the user's rating for this book
+  // };
 
   const renderStars = (ratingValue) => {
     const filledStars = Math.floor(ratingValue);
@@ -74,10 +74,10 @@ function BookPage() {
   };
   
 
-  const handleUpdateReview = (reviewId) => {
-    // Logic to show an update form or navigate to a page where the user can update their review
-    console.log("Update review with id:", reviewId);
-  };
+  // const handleUpdateReview = (reviewId) => {
+  //   // Logic to show an update form or navigate to a page where the user can update their review
+  //   console.log("Update review with id:", reviewId);
+  // };
 
   // console.log("reviewList: ", reviewList)
   // console.log("reviewList[0]: ", reviewList[0])
