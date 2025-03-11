@@ -17,8 +17,8 @@
   .bookcover-image {
     width: 100%;
     height: auto;
-    max-width: 200px; /* Adjust to your desired size */
-    margin-bottom:10px;
+    max-width: 200px;
+    margin-bottom: 10px;
   }
   
   .bookclub-container {
