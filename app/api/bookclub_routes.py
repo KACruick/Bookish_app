@@ -297,24 +297,27 @@ def add_member_to_bookclub(id):
         return jsonify({"message": "Book club not found"}), 404
 
     # Only the creator (owner) of the book club can add members
-    if bookclub.userId != current_user.id:
+    if bookclub.ownerId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
 
     data = request.get_json()
-    user_id = data.get('userId')
+    friend_id = data.get('friendId')
+    
+    if not friend_id:
+        return jsonify({"message": "No friendId provided"}), 400
 
-    # Check if user exists
-    user = User.query.get(user_id)
+    # Check if the user exists
+    user = User.query.get(friend_id)  # 'friend_id' represents the user to be added
     if not user:
         return jsonify({"message": "User not found"}), 404
 
-    # Check if the user is already a member #need to access bookclub_members table instead
-    existing_member = BookclubMember.query.filter_by(bookclubId=id, userId=user_id).first()
+    # Check if the user is already a member of the bookclub
+    existing_member = BookclubMember.query.filter_by(bookclubId=id, userId=friend_id).first()
     if existing_member:
         return jsonify({"message": "User is already a member of this book club"}), 400
 
-    # Add the user as a member
-    new_member = BookclubMember(bookclubId=id, userId=user_id)
+    # Add the user as a new member of the bookclub
+    new_member = BookclubMember(bookclubId=id, userId=friend_id)
     db.session.add(new_member)
     db.session.commit()
 
@@ -335,7 +338,7 @@ def remove_member_from_bookclub(id, userId):
         return jsonify({"message": "Book club not found"}), 404
 
     # Only the creator (owner) of the book club can remove members
-    if bookclub.userId != current_user.id:
+    if bookclub.ownerId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
 
     # Ensure the user is a member of the bookclub

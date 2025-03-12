@@ -4,7 +4,38 @@ from flask_login import current_user, login_required
 
 friend_routes = Blueprint('friends', __name__)
 
+# Get Friends List
+@friend_routes.route('/', methods=['GET'])
+@login_required
+def get_friends():
+    """
+    Get the list of accepted friends for the current user.
+    """
+    # Get all friends where status is 'accepted' (i.e., the friendship is mutual)
+    friends = Friend.query.filter(
+        ((Friend.userId == current_user.id) & (Friend.status == 'accepted')) |
+        ((Friend.friendId == current_user.id) & (Friend.status == 'accepted'))
+    ).all()
 
+    # Check if any friends were found
+    if not friends:
+        return jsonify({'friends': []}), 200  # Return empty array if no friends
+
+    # Get the friend IDs
+    friend_ids = [friend.friendId if friend.userId == current_user.id else friend.userId for friend in friends]
+    
+    # Query the User model to get the actual user data for the friends
+    friend_users = User.query.filter(User.id.in_(friend_ids)).all()
+
+    # Map over the friends and return their data in a simplified format
+    friend_list = [{
+        'id': user.id,
+        'firstName': user.firstName,
+        'lastName': user.lastName,
+        'email': user.email,  # You can add other fields as necessary
+    } for user in friend_users]
+
+    return jsonify({'friends': friend_list}), 200
 
 # Send a Friend Request
 @friend_routes.route('/<int:userId>', methods=['POST'])

@@ -130,15 +130,15 @@ export const deleteBookclub = (bookclubId) => async (dispatch) => {
   }
 };
 
-export const addMemberToBookclub = (bookclubId, userId) => async (dispatch) => {
+export const addMemberToBookclub = (bookclubId, friendId) => async (dispatch) => {
   const response = await csrfFetch(`/api/bookclubs/${bookclubId}/members`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ userId }),
+    body: JSON.stringify({ friendId }),
   });
-
+  console.log("response: ", response)
   if (response.ok) {
     const newMember = await response.json();
     dispatch(addMemberToBookclubAction(newMember));
