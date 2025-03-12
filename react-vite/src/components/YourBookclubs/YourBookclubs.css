@@ -24,14 +24,17 @@
   .bookclub-container {
     margin-top: 20px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: column;
   }
   
   .your-bookclub-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto; 
+    padding-bottom: 10px; 
+    gap: 10px;
   }
+  
   
   h3 {
     text-align: center;
