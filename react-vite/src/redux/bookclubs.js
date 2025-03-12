@@ -80,14 +80,14 @@ export const getBookclub = (bookclubId) => async (dispatch) => {
 };
 
 export const createBookclub = (bookclubData) => async (dispatch) => {
-  const response = await csrfFetch('/api/bookclubs', {
+  const response = await csrfFetch('/api/bookclubs/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(bookclubData),
   });
-
+  console.log("response: ", response)
   if (response.ok) {
     const newBookclub = await response.json();
     dispatch(createBookclubAction(newBookclub));

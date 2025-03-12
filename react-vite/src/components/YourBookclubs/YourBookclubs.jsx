@@ -1,12 +1,16 @@
 import './YourBookclubs.css'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBookclubs } from '../../redux/bookclubs';
 import { Link } from 'react-router-dom'; 
+import { useModal } from '../../context/Modal';
+import StartBookclubModal from '../StartBookclubModal';
+
 
 function YourBookclubs() {
  
     const dispatch = useDispatch();
+    const { setModalContent } = useModal();
     
       useEffect(() => {
         dispatch(getBookclubs()); // Fetch all bookclubs the user is a member of
@@ -18,8 +22,12 @@ function YourBookclubs() {
       // Filter bookclubs: those where the user is the owner (moderator) and those where the user is just a member
       const moderatedBookclubs = Object.values(bookclubs).filter(bookclub => bookclub.ownerId === userId);
       const memberBookclubs = Object.values(bookclubs).filter(bookclub => bookclub.ownerId !== userId);
-    
+      console.log("moderatedBookclubs: ", moderatedBookclubs)
       // console.log("bookclub.book.coverPicture: ", bookclub.book.coverPicture)
+
+      const openStartBookclubModal = () => {
+        setModalContent(<StartBookclubModal/>)
+      }
     
       return (
         <div>
@@ -32,7 +40,7 @@ function YourBookclubs() {
             <>
               {/* Bookclub creation option */}
               <div className='start-club-div'>
-                <button>Start a new bookclub</button>
+                <button onClick={openStartBookclubModal}>Start a new bookclub</button>
               </div>
     
               <div className="bookclub-container">

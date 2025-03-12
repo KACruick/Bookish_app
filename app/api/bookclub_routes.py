@@ -20,12 +20,23 @@ def create_bookclub():
             "message": "Bad Request",
             "errors": {"name": "Bookclub name is required", "description": "Description is required"}
         }), 400
+    
+    # Optionally validate bookId if it's provided
+    book_id = data.get('bookId')
+    if book_id:
+        book = Book.query.get(book_id)
+        if not book:
+            return jsonify({
+                "message": "Bad Request",
+                "errors": {"bookId": "Selected book not found"}
+            }), 400
 
     # Create the bookclub
     new_bookclub = Bookclub(
         name=data['name'],
         description=data['description'],
         ownerId=current_user.id,  # Associate the bookclub with the current user (the creator)
+        bookId=book_id,
         createdAt=datetime.utcnow(),
         updatedAt=datetime.utcnow()
     )
@@ -38,6 +49,7 @@ def create_bookclub():
         "name": new_bookclub.name,
         "description": new_bookclub.description,
         "ownerId": new_bookclub.ownerId,
+        "bookId": new_bookclub.bookId, 
         "createdAt": new_bookclub.createdAt,
         "updatedAt": new_bookclub.updatedAt
     }), 201
