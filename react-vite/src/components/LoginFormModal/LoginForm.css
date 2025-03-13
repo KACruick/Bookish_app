@@ -1,0 +1,117 @@
+.login-modal-container {
+    /* border: 2px solid black; */
+    /* border-radius: 8px; */
+    width: 400px;
+    height: 350px;
+    /* box-sizing: border-box; */
+    background-color: white;
+}
+
+.error-container {
+    /* margin-bottom: 10px; */
+    color: #d9534f;
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    justify-content: center;
+}
+
+.login-form label {
+    display: flex;
+    justify-content: center;
+}
+
+.login-form input {
+    margin: 0 auto;
+    width: 300px;
+    padding: 10px; 
+    border: 2px solid black;
+    /* border-radius: 5px; */
+    
+    box-sizing: border-box;
+}
+
+.error {
+    color: #d9534f;
+}
+
+h1 {
+    text-align: center;
+ 
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    /* border: 2px solid red; */
+}
+
+
+/* #login-form {
+    padding: 20px;
+    border-radius: 8%;
+    background-color: #f9f9f9;
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+} */
+
+.email, .password {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+}
+
+.log-in-button-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-button {
+    width: 300px;
+    height: 35px;
+    margin: 0 auto;
+    background-color: #DBCDF0;
+}
+
+.login-button:disabled{
+    background-color: #D3D3D3; 
+    color: #A9A9A9; 
+}
+.login-button:disabled:hover{
+    background-color: #D3D3D3; 
+    color: #A9A9A9; 
+}
+
+.login-button:hover {
+    background-color: #9376bf;
+}
+
+.demo-user-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.demo-user-button {
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    text-decoration: underline;
+    background-color: white;
+}
+
+.demo-user-button:hover {
+    color: grey;
+}
