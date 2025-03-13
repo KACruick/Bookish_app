@@ -54,6 +54,7 @@
     margin-bottom: 10px;
 }
 
-/* .form-book-cover {
-
-} */
+.form-book-cover {
+    height: 300px;
+    width: auto;
+}
