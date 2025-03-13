@@ -1,0 +1,51 @@
+.add-a-book-page {
+
+}
+
+.form-header {
+
+}
+
+.form-error-message {
+    color: red;
+}
+
+.add-book-form {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 70px;
+    margin-top: 30px;
+}
+
+.label-and-input {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 10px;
+}
+
+.add-book-button-div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.add-book-button {
+
+}
+
+.form-book-cover-div {
+    /* border: 1px solid red; */
+
+}
+
+.cover-preview-text {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-book-cover {
+
+}
