@@ -271,7 +271,7 @@ function AddBookForm() {
                     </div>
 
                     <div className='add-book-button-div'>
-                        <button className='add-book-button' type="submit">{isUpdate ? "Update Book" : "Add Book to Bookish"}</button>
+                        <button className='add-book-button' type="submit">{isUpdate ? "Update Book" : "Add Book"}</button>
                     </div>
                 </form>
 
