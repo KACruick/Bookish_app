@@ -21,6 +21,8 @@
 .login-form label {
     display: flex;
     justify-content: center;
+    border: 1px solid red;
+    margin-left: 0;
 }
 
 .login-form input {
