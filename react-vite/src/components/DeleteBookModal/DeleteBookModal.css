@@ -38,8 +38,8 @@
 
 .no {
     height: 35px;
-    background-color: #e99cb2;
-    color: white;
+    background-color: #C9E4DE;
+   
     padding: 7px 15px;
     border: none;
     border-radius: 6px;
@@ -47,6 +47,10 @@
 }
 
 
-.yes:hover, .no:hover {
-   background-color: hotpink;
+.no:hover {
+   background-color: #a1c3bc
+}
+
+.yes:hover {
+    background-color: red;
 }
