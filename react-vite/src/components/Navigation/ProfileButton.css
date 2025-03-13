@@ -1,12 +1,8 @@
-.button {
+/* .button {
     background: none;   
-  border: none;         
-  padding: 0; 
+    border: none;         
+    padding: 0; 
 }
-
-/* .button:hover {
- 
-} */
 
 .profile-dropdown{
     list-style: none;
@@ -23,9 +19,6 @@
 }
 
 .profile-dropdown button {
-    /* background: none;   
-    border: none;          */
-    /* padding: 0;  */
     background-color: #DBCDF0;
     color: white;
     border-radius: 2px;
@@ -34,4 +27,78 @@
 .log-out li {
     color: black;
     font-size: medium;
+} */
+
+.profile-button {
+    background: none;   
+    border: none;         
+    padding: 0; 
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 20px;
+    top: 90px; /* Adjust for spacing below the button */
+    /* background: white; */
+    background-color: #DBCDF0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    list-style: none;
+    padding: 10px 0;
+    width: 200px;
+    z-index: 1000;
+  }
+  
+  .profile-dropdown li {
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .profile-dropdown li:hover {
+    background: #f6f6f6; /* Subtle hover effect */
+  }
+  
+  .profile-dropdown.hidden {
+    display: none; /* Hide dropdown when menu is not visible */
+  }
+  
+
+  
+
+
+  .profile-button:hover {
+    color: grey;
+  }
+
+  .li-links:hover {
+    background-color: #DBCDF0;
+  }
+
+
+
+
+.logout-button-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+.log-out-button {
+    border-radius: 3px;
+    border: 1px solid white;
+    background-color: white;
+    padding: 0;
+    height: 40px;
+}
+
+/* .log-out-button {
+  background-color: #DBCDF0;
+  border: none;
+  border-radius: 20px;
+  height: 50px;
+  width: 100px;
+} */
+
+.log-out-button button:hover {
+    background-color: grey;
 }

@@ -46,7 +46,7 @@ function ProfileButton() {
 
   return (
     <>
-      <button className="button" onClick={toggleMenu}>
+      <button className="profile-button" onClick={toggleMenu}>
         <FaUserCircle size={40} style={{ color: "#DBCDF0" }}/>
       </button>
       {showMenu && (
@@ -56,12 +56,12 @@ function ProfileButton() {
               <li>Hello, Kendra</li>
               {/* <li>{user.username}</li>
               <li>{user.email}</li> */}
-              <li>Friends</li>
-              <li>Profile</li>
-              <Link to={'/books/current'}><li>Manage Books Added</li></Link>
-              
-              <button className="log-out" onClick={logout}> <li>Log Out</li></button>
-              
+              <li className="li-links">Friends</li>
+              <li className="li-links">Profile</li>
+              <Link to={'/books/current'}><li className="li-links">Manage Books Added</li></Link>
+              <div className="logout-button-div">
+                <button className="log-out-button" onClick={logout}> <li>Log Out</li></button>
+              </div>
             </>
           ) : (
             <>
