@@ -29,7 +29,7 @@ function ManageBooksAdded() {
             {userBooks.length > 0 ? (
                 <div className="books-tile-container">
                     {userBooks.map((book) => (
-                        <div key={book.id} className="book-tile">
+                        <div key={book.id} className="manage-book-tile">
                             <img
                                 src={book.coverPicture || "default-cover.jpg"} // Add a fallback image if there's no cover
                                 alt={book.title}
@@ -44,7 +44,7 @@ function ManageBooksAdded() {
                             <div className="book-actions">
                             {/* Update button that redirects to the edit page */}
                             <button
-                                className="button-link"
+                                className="edit-book-link"
                                 onClick={() => navigate(`/books/${book.id}/edit`)}
                             >
                                 Edit
@@ -52,7 +52,7 @@ function ManageBooksAdded() {
 
                             {/* Delete button that opens a modal */}
                             <OpenModalButton
-                                className="delete-modal"
+                                className="delete-book-modal-button"
                                 buttonText="Delete"
                                 modalComponent={<DeleteBookModal book={book} />}
                             />
