@@ -44,6 +44,8 @@ function ProfileButton() {
     closeMenu();
   };
 
+  // console.log("user: ", user)
+
   return (
     <>
       <button className="profile-button" onClick={toggleMenu}>
@@ -53,7 +55,7 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>Hello, Kendra</li>
+              <li>Hello, {user.firstName}</li>
               {/* <li>{user.username}</li>
               <li>{user.email}</li> */}
               <li className="li-links">Friends</li>

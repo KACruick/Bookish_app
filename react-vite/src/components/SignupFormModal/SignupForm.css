@@ -7,6 +7,10 @@
     /* border: 2px solid red; */
 }
 
+.errors-container p {
+    color: red;
+}
+
 .form-div {
     display: flex;
     flex-direction: column;
