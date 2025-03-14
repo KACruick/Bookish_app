@@ -15,7 +15,7 @@ function Navigation() {
       <div className="logo-title">
         <NavLink to="/" className="logo">
           <img 
-            src="../../../public/logo/bookish_logo.png" 
+            src="/logo/bookish_logo.png" 
             alt="Bookish Logo" 
             className='logo'
           />

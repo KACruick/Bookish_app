@@ -77,7 +77,7 @@ function Community() {
                   <div className="user-info">
                     {post.user.profilePicture ? (
                       <img
-                        src={`../../../public/images/profile-icons/${post.user.profilePicture}`}
+                        src={`/images/profile-icons/${post.user.profilePicture}`}
                         alt={`${post.user.firstName}'s profile`}
                         className="post-profile-picture"
                       />

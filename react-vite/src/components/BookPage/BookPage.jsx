@@ -226,7 +226,7 @@ function BookPage() {
                   <div className="user-info">
                     {review.user?.profilePicture ? (
                       <img
-                        src={`../../../public/images/profile-icons/${review.user.profilePicture}`}
+                        src={`/images/profile-icons/${review.user.profilePicture}`}
                         alt={`${review.user.firstName}'s profile`}
                         className="user-profile-picture"
                       />
