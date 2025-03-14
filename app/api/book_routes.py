@@ -352,12 +352,22 @@ def delete_book(id):
     """
     Deletes an existing book from the system.
     """
+    print(f"Attempting to delete book with ID: {id}")
     book = Book.query.get(id)
     if not book:
+        # print("Book not found")
         return jsonify({"message": "Book not found"}), 404
-
+    
+    # Ensure the user is the owner of the book
     if book.userId != current_user.id:
+        # print(f"Unauthorized attempt to delete book {id}")
         return jsonify({"message": "Unauthorized to delete this book"}), 403
+
+    print("inside delete book route")
+    # Remove any associations in the BookshelfBook join table
+    for bookshelf_book in book.bookshelves_books:
+        print("bookshelf_book", bookshelf_book)
+        db.session.delete(bookshelf_book)
 
     db.session.delete(book)
     db.session.commit()

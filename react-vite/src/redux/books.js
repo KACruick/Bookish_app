@@ -96,9 +96,13 @@ export const updateBook = (bookId, updatedData) => async (dispatch) => {
 };
 
 export const deleteBook = (bookId) => async (dispatch) => {
+  console.log("goes into deleteBook thunk")
   const response = await csrfFetch(`/api/books/${bookId}`, {
     method: 'DELETE',
   });
+
+  console.log("response status: ", response.status);
+  console.log("response body: ", await response.json());
 
   if (response.ok) {
     dispatch(deleteBookAction(bookId));
@@ -152,6 +156,7 @@ const booksReducer = (state = initialState, action) => {
     case DELETE_BOOK: {
       const newBooks = { ...state.books };
       delete newBooks[action.payload];
+      console.log("Updated books after deletion:", newBooks); 
       return {
         ...state,
         books: newBooks,

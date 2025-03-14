@@ -1,15 +1,16 @@
 import './DeleteBookModal.css'
 import { useModal } from '../../context/Modal';
 import { useDispatch } from 'react-redux';
-import { deleteBook } from '../../redux/books';
+import { deleteBook, getBooks } from '../../redux/books';
 
 function DeleteBookModal({ book }) {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
   
     const handleDelete = async () => {
-      await dispatch(deleteBook(book.id)); // Deletes the spot
+      await dispatch(deleteBook(book.id)); // Deletes the book
       closeModal(); // Close the modal after deletion
+      dispatch(getBooks());
     };
   
     const handleCancel = async () => {
