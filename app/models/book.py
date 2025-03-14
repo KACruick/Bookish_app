@@ -34,7 +34,7 @@ class Book(db.Model):
     )
 
     reviews = db.relationship("Review", back_populates="book", cascade="all, delete-orphan") 
-    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment')
+    bookclub_comments_list = db.relationship('BookclubComment', backref='book_in_bookclub_comment', cascade="all, delete-orphan")
     community_posts = db.relationship("CommunityPost", back_populates="book", cascade="all, delete-orphan") 
 
     def __repr__(self):

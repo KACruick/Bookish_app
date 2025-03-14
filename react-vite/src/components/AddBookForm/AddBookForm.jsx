@@ -48,6 +48,7 @@ function AddBookForm() {
                 setLoading(false); 
             });
         } else {
+            setCoverPicture('');  // Reset cover picture state to ensure "Cover coming soon" is shown
             setLoading(false);
         }
     }, [dispatch, bookId, isUpdate, user, navigate])
@@ -152,7 +153,7 @@ function AddBookForm() {
     };
 
     const renderError = (field) => {
-        return errors[field] ? <div className="error-message">{errors[field]}</div> : null;
+        return errors[field] ? <div className="form-error-message">{errors[field]}</div> : null;
     };
 
     if (loading) {
@@ -162,14 +163,14 @@ function AddBookForm() {
   return (
     <div className='add-a-book-page'>
       {/* <h1>Add a Book to Bookish</h1> */}
-        <div className="header">
-                <h1>{isUpdate ? "Update the details for this book" : "Add a Book to Bookish"}</h1>
+        <div className="form-header">
+                <h1>{isUpdate ? "Update the details for this book" : "Add a book to our database"}</h1>
         </div>
 
         <div className='add-book-form'>
 
             <form onSubmit={handleSubmit}>
-            <div>
+                    <div className='label-and-input'>
                         <label>Title:</label> {renderError("title")}
                         <input
                             type="text"
@@ -178,7 +179,7 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <div>
+                    <div className='label-and-input'>
                         <label>Author:</label> {renderError("author")}
                         <input
                             type="text"
@@ -187,7 +188,7 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <div>
+                    <div className='label-and-input'>
                         <label>Description:</label> {renderError("description")}
                         <textarea
                             value={description}
@@ -195,7 +196,7 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <div>
+                    <div className='label-and-input'>
                         <label>Genre:</label> {renderError("genreId")}
                         <select value={genreId} onChange={handleGenreChange}>
                         <option value="">Select Genre</option>
@@ -225,7 +226,7 @@ function AddBookForm() {
                         </select>
                     </div> */}
 
-                    <div>
+                    <div className='label-and-input'>
                         <label>ISBN:</label> {renderError("isbn")}
                         <input
                             type="text"
@@ -234,7 +235,7 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <div>
+                    <div className='label-and-input'>
                         <label>Pages:</label> {renderError("pages")}
                         <input
                             type="number"
@@ -243,7 +244,7 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <div>
+                    <div className='label-and-input'>
                         <label>Chapters:</label> {renderError("chapters")}
                         <input
                             type="number"
@@ -252,7 +253,7 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <div>
+                    <div className='label-and-input'>
                         <label>Year Published:</label> {renderError("yearPublished")}
                         <input
                             type="number"
@@ -261,8 +262,8 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <div>
-                        <label>Cover Picture:</label> {renderError("coverPicture")}
+                    <div className='label-and-input'>
+                        <label>Cover Picture Url:</label> {renderError("coverPicture")}
                         <input
                             type="text"
                             value={coverPicture}
@@ -270,14 +271,17 @@ function AddBookForm() {
                         />
                     </div>
 
-                    <button type="submit">{isUpdate ? "Update Book" : "Add Book to Bookish"}</button>
+                    <div className='add-book-button-div'>
+                        <button className='add-book-button' type="submit">{isUpdate ? "Update Book" : "Add Book"}</button>
+                    </div>
                 </form>
 
-                <div className='form-coverPicture'>
+                <div className='form-book-cover-div'>
+                    <h2 className='cover-preview-text'>Cover Preview</h2>
                     <img
-                        src={coverPicture || existingBook.coverPicture || "../../../images/Cover_coming_soon.jpeg"}
+                        src={coverPicture || "../../../images/Cover_coming_soon.jpeg"}
                         alt={title}
-                        className="book-cover"
+                        className="form-book-cover"
                     />
                 </div>
 

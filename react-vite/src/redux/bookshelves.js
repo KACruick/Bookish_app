@@ -268,11 +268,15 @@ const initialState = {
       }
   
       case ADD_BOOK_TO_SHELF: {
+        const updatedBooks = Array.isArray(state.currentBookshelf.books)
+        ? [...state.currentBookshelf.books, action.payload]  // Add the new book
+        : [action.payload];  // Initialize it with the first book if it's not an array
+
         return {
           ...state,
           currentBookshelf: {
             ...state.currentBookshelf,
-            books: [...state.currentBookshelf.books, action.payload],
+            books: updatedBooks,
           },
         };
       }

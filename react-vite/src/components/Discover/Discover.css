@@ -45,12 +45,15 @@
     font-size: 1.2rem;
     margin: 10px 0;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
+    text-decoration: none;
+    color: black;
   }
   
   .discover-book-info p {
     margin: 5px 0;
     color: #555;
+    text-decoration: none;
   }
   
   /* Error and No Results Styling */
@@ -58,3 +61,15 @@
     color: #555;
   }
   
+  .pagination-controls {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .pagination-controls button{
+    background-color: #FFC5D3;
+    border-radius: 3px;
+    border: 2px solid #FFC5D3;
+  }

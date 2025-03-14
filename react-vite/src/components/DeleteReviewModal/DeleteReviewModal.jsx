@@ -29,7 +29,7 @@ function DeleteReviewModal({ reviewId, bookId }) {
 
   return (
     <div>
-        <h1>Delete Review</h1>
+        {/* <h1>Delete Review</h1> */}
         <div className='modal-container'>
         <h1>Confirm Delete</h1>
       

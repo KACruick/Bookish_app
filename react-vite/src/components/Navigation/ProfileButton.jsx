@@ -44,24 +44,26 @@ function ProfileButton() {
     closeMenu();
   };
 
+  // console.log("user: ", user)
+
   return (
     <>
-      <button className="button" onClick={toggleMenu}>
-        <FaUserCircle size={40} style={{ color: "#315E67" }}/>
+      <button className="profile-button" onClick={toggleMenu}>
+        <FaUserCircle size={40} style={{ color: "#DBCDF0" }}/>
       </button>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>Hello, Kendra</li>
+              <li>Hello, {user.firstName}</li>
               {/* <li>{user.username}</li>
               <li>{user.email}</li> */}
-              <li>Friends</li>
-              <li>Profile</li>
-              <Link to={'/books/current'}><li>Manage Books Added</li></Link>
-              
-              <button className="log-out" onClick={logout}> <li>Log Out</li></button>
-              
+              <li className="li-links">Friends</li>
+              <li className="li-links">Profile</li>
+              <Link to={'/books/current'}><li className="li-links">Manage Books Added</li></Link>
+              <div className="logout-button-div">
+                <button className="log-out-button" onClick={logout}> <li>Log Out</li></button>
+              </div>
             </>
           ) : (
             <>

@@ -29,32 +29,67 @@ function LoginFormModal() {
   };
 
   return (
-    <>
+    <div className="login-modal-container">
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+
+      <div className="error-container">
+      {errors.email && <p className="error">{errors.email}</p>}
+      {errors.password && <p className="error">{errors.password}</p>}
+      </div>
+
+      <form className='login-form' onSubmit={handleSubmit}>
+        
+        <div className="email">
         <label>
           Email
+        </label>
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            
           />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
+        </div>
+
+        {/* {errors.email && <p className="error">{errors.email}</p>} */}
+
+        <div className="password">
         <label>
           Password
+        </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            
           />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        </div>
+
+        {/* {errors.password && <p className="error">{errors.password}</p>} */}
+        <button className='login-button' type="submit">Log In</button>
+
       </form>
-    </>
+
+      <div className='demo-user-div'>
+        <button 
+          type="button" 
+          className="demo-user-button"
+          onClick={() => {
+              return dispatch(thunkLogin({ email: 'Kendra.Cruick@io.com', password: 'password1' }))
+              .then(closeModal)
+              .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) {
+                  setErrors(data.errors);
+                }
+              });
+          }}
+          >
+          Demo User
+        </button>
+      </div>
+
+    </div>
   );
 }
 

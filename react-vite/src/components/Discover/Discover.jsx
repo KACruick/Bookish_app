@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'; // To access the search query from the URL
+import { Link, useLocation } from 'react-router-dom'; // To access the search query from the URL
 import './Discover.css'
 
 function Discover() {
@@ -19,10 +19,11 @@ function Discover() {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/books?search=${searchQuery}&page=${currentPage}&size=${pageSize}`);
+      // If searchQuery is empty, just fetch all books (with pagination)
+        const response = await fetch(`/api/books?search=${searchQuery || ''}&page=${currentPage}&size=${pageSize}`);
         const data = await response.json();
         setBooks(data.books);
-        setCurrentPage(data.page); // Update current page
+        // setCurrentPage(data.page); // Update current page
         setTotalPages(data.totalPages); // Update total pages
       } catch (error) {
         setError('Failed to fetch books');
@@ -30,13 +31,9 @@ function Discover() {
         setLoading(false);
       }
     };
-
-    if (searchQuery) {
-      fetchBooks();
-    } else {
-      fetchBooks();
-    }
-  }, [searchQuery,  currentPage]); 
+  
+    fetchBooks(); // Only call this once regardless of the searchQuery value
+  }, [searchQuery, currentPage]); 
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -48,6 +45,9 @@ function Discover() {
       }
     };
 
+    console.log("books: ", books)
+    console.log("total pages: ", totalPages)
+
     return (
       <div className="discover-page">
         {books.length === 0 ? (
@@ -57,6 +57,7 @@ function Discover() {
             <div className="discover-books-grid">
               {books.map((book) => (
                 <div key={book.id} className="discover-book-tile">
+                  <Link to={`/books/${book.id}`}>
                   <img
                     src={book.coverPicture || '/default-book-cover.png'}
                     alt={book.title}
@@ -67,6 +68,7 @@ function Discover() {
                     <p>{book.author}</p>
                     <p>{book.avgRating} / 5</p>
                   </div>
+                  </Link>
                 </div>
               ))}
             </div>

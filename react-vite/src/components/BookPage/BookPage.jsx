@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getBook } from "../../redux/books";
 import { getReviews } from "../../redux/reviews";
+import { getBookshelves, addBookToShelf } from "../../redux/bookshelves"
 import ReviewModal from "../ReviewModal";
 import OpenModalButton from "../OpenModalButton";
 import UpdateReviewModal from "../UpdateReviewModal";
@@ -15,8 +16,8 @@ import { IoMdStar } from "react-icons/io";
 function BookPage() {
   const { bookId } = useParams();
   const dispatch = useDispatch();
-
-  const currentUserId = useSelector((state) => state.session.user.id);
+  const bookshelves = useSelector((state) => state.bookshelves.allBookshelves);
+  const currentUserId = useSelector((state) => state.session.user?.id);
 
   const [isRead, setIsRead] = useState(false);  // Track if the user has marked the book as read
   const [rating, setRating] = useState(0);  // Track the user's rating
@@ -26,6 +27,10 @@ function BookPage() {
   const reviews = useSelector((state) => Object.values(state.reviews)) || [];
   // Handle the case where the reviews array has the unexpected structure
   const reviewList = Array.isArray(reviews) && reviews[0] ? Object.values(reviews[0]) : [];
+  const userReview = currentUserId
+  ? reviewList.find((review) => review.userId === currentUserId)
+  : null;
+  console.log("userReview: ", userReview)
   console.log("book: ", book)
   console.log("reviewList: ", reviewList)
   
@@ -40,14 +45,29 @@ function BookPage() {
   // Dispatch the action to get the book details if it's not already fetched
   useEffect(() => {
     dispatch(getBook(bookId));
-    dispatch(getReviews(bookId))
+    dispatch(getReviews(bookId));
+    dispatch(getBookshelves());
   }, [dispatch, bookId]);
 
-  // Handle "Want to Read" or "Mark as Read" button
-  const handleReadButton = () => {
-    setIsRead(!isRead);
-    // Add logic to update the user's status, e.g., dispatch a thunk to mark it as read
+  const handleReadButton = async () => {
+    const currentlyReadingBookshelf = Object.values(bookshelves).find(
+      (shelf) => shelf.name === "Currently reading"
+    );
+
+    console.log()
+    if (currentlyReadingBookshelf) {
+      try {
+        // Add the book to the "Currently Reading" bookshelf
+        await dispatch(addBookToShelf(currentlyReadingBookshelf.id, book.id));
+        setIsRead(true);  // Update button text to "Mark as Unread"
+      } catch (error) {
+        console.error("Error adding book to bookshelf:", error);
+      }
+    } else {
+      console.error("Currently Reading bookshelf not found.");
+    }
   };
+
 
   // Function to handle star rating (setRating)
   // const handleRating = (newRating) => {
@@ -72,6 +92,14 @@ function BookPage() {
       </div>
     );
   };
+
+
+  const currentlyReadingBookshelf = Object.values(bookshelves).find(
+    (shelf) => shelf.name === "Currently Reading"
+  );
+  
+  // const currentlyReadingBookshelfId = currentlyReadingBookshelf ? currentlyReadingBookshelf.id : null;
+  
   
 
   // const handleUpdateReview = (reviewId) => {
@@ -113,9 +141,9 @@ function BookPage() {
           </button>
 
           {/* User rating stars */}
-          <div className="user-rating">
-            {rating === 0 ? renderStars(0) : renderStars(rating)} {/* Render stars based on user rating */}
-          </div>
+          {/* <div className="user-rating">
+            {rating === 0 ? renderStars(0) : renderStars(rating)}
+          </div> */}
         </div>
 
       </div>
@@ -176,15 +204,16 @@ function BookPage() {
             <div>{reviewList.length} Reviews</div>
           </div>
 
-          {/* Button to Leave a Review */}
-          {/* write conditions for if it can be reviewed */}
-          <div className="leave-review-div">
-            <OpenModalButton
-            buttonText="Leave a Review"
-            modalComponent={<ReviewModal bookId={bookId} />}
-            className="leave-review-button"
-            />
-          </div>
+          {/* Conditionally render the "Leave a Review" button */}
+          {!userReview && currentUserId && (
+            <div className="leave-review-div">
+              <OpenModalButton
+                buttonText="Leave a Review"
+                modalComponent={<ReviewModal bookId={bookId} />}
+                className="leave-review-button"
+              />
+            </div>
+          )}
 
           {/* Map through reviews */}
           {reviewList.length > 0 ? (
@@ -209,10 +238,10 @@ function BookPage() {
                     <p>{review.user?.firstName}</p>
                   </div>
 
-                  <div>
+                  <div className="user-book-rating-div">
                     <div className="individual-rating">{review.rating.toFixed(1)}</div> {/* Rating */}
                     <div><IoMdStar /> </div>
-                    </div>
+                  </div>
 
                   {/* Render the formatted date */}
                   <p className="review-date">

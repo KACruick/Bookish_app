@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { getBookclub } from '../../redux/bookclubs';  
 import ChapterComments from '../ChapterComments/ChapterComments';
 import { useModal } from '../../context/Modal';
+import AddMemberModal from '../AddMemberModal';
+import RemoveMemberModal from '../RemoveMemberModal';
 
 function BookclubDetails() {
     const { bookclubId } = useParams();
@@ -13,6 +15,7 @@ function BookclubDetails() {
 
     const bookclub = useSelector(state => state.bookclubs.currentBookclub);
     const chapterComments = useSelector(state => state.bookclubs.currentBookclub.chapterComments);
+    const sessionUser = useSelector(state => state.session.user);
 
 
     const { setModalContent } = useModal();
@@ -38,6 +41,22 @@ function BookclubDetails() {
         return <p>Loading...</p>;
     }
 
+    // Check if the logged-in user is a moderator
+    const isModerator = sessionUser?.id === bookclub.ownerId;
+
+    // Find the moderator (owner) first name
+    const owner = bookclub.members.find(member => member.id === bookclub.ownerId);
+    const ownerFirstName = owner ? owner.firstName : '';
+
+    // Function to open the modal for adding/removing members
+    const openAddMemberModal = () => {
+        setModalContent(<AddMemberModal bookclubId={bookclubId}/>);
+    };
+
+    const openRemoveMemberModal = () => {
+        setModalContent(<RemoveMemberModal bookclubId={bookclubId}/>);
+    };
+
     
     // Function to open the modal for chapter comments
     const openChapterComments = (chapterId) => {
@@ -45,31 +64,51 @@ function BookclubDetails() {
     };
 
     return (
-        <div className="bookclub-details">
-            <h1>Bookclub</h1>
+        <div className="bookclub-details-page">
+            {/* <h1>Bookclub</h1> */}
+            {/* <h1>{bookclub.name}</h1> */}
 
-            <h2>{bookclub.name}</h2>
-            <p>{bookclub.description}</p>
+            <div className='club-and-book'>
 
-            <div>
                 <div className='book-details-cover'>
                     <img src={bookclub.book.coverPicture} alt={bookclub.book.title} />
                 </div>
 
-                <h4>{bookclub.book.title}</h4>
-                <h4>{bookclub.book.author}</h4>
+                <div className='club-and-book-info'>
+                    <h2>{bookclub.name}</h2>
+                    <p>{bookclub.description}</p>
+
+                    <h4>Current Book: {bookclub.book.title}</h4>
+                    <h4>By: {bookclub.book.author}</h4>
+
+                    <div className='club-members'>
+                        <h3>Members</h3>
+                        <ul>
+                            {bookclub.members.map((member) => (
+                                <li key={member.id}>
+                                    {member.firstName} {member.lastName}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Moderator-specific div */}
+                    <div className="moderator-info">
+                        {isModerator ? (
+                            <div>
+                                <p>You moderate this bookclub</p>
+                                <button onClick={openAddMemberModal}>Add Another Member</button>
+                                <button onClick={openRemoveMemberModal}>Remove a Member</button>
+                            </div>
+                        ) : (
+                            <p>{ownerFirstName} moderates this club</p>
+                        )}
+                    </div>
+                </div>
+
             </div>
 
-            <div className='club-members'>
-                <h3>Members</h3>
-                <ul>
-                    {bookclub.members.map((member) => (
-                        <li key={member.id}>
-                            {member.firstName} {member.lastName}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            
 
             <div className="chapter-list">
                 <h2>Chapters</h2>

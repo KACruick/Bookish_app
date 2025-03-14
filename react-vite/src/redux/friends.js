@@ -35,7 +35,7 @@ const removeFriendAction = (friendId) => ({
 
 // Thunks
 export const getFriends = () => async (dispatch) => {
-  const response = await csrfFetch('/api/friends');
+  const response = await csrfFetch('/api/friends/');
   if (response.ok) {
     const data = await response.json();
     dispatch(getFriendsAction(data.friends));
@@ -121,9 +121,9 @@ const friendsReducer = (state = initialState, action) => {
         };
   
       case ACCEPT_FRIEND_REQUEST: {
-        const updatedFriends = [...state.friends, { userId: action.payload }];
+        const updatedFriends = [...state.friends, { id: action.payload }];
         const updatedRequests = state.pendingFriendRequests.filter(
-          (request) => request.userId !== action.payload
+          (request) => request.id !== action.payload 
         );
         return {
           ...state,
@@ -134,7 +134,7 @@ const friendsReducer = (state = initialState, action) => {
   
       case REMOVE_FRIEND: {
         const updatedFriends = state.friends.filter(
-          (friend) => friend.userId !== action.payload
+          (friend) => friend.id !== action.payload
         );
         return {
           ...state,

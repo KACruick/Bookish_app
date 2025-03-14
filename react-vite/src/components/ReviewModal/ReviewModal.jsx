@@ -89,8 +89,8 @@ function ReviewModal({ bookId }) {
           {fillStars()}
       </div>
 
-      <div className="button-div">
-        <button className='submit-review-button' type="submit" onClick={handleSubmit} disabled={!review || rating === 0}>
+      <div className="submit-review-button-div">
+        <button className='submit-review-button' type="submit" onClick={handleSubmit} disabled={!review && rating === 0}>
           Submit Your Review
         </button>
       </div>
