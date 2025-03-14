@@ -61,3 +61,15 @@
     color: #555;
   }
   
+  .pagination-controls {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .pagination-controls button{
+    background-color: #FFC5D3;
+    border-radius: 3px;
+    border: 2px solid #FFC5D3;
+  }
