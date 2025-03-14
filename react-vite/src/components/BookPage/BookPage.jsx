@@ -26,6 +26,8 @@ function BookPage() {
   const reviews = useSelector((state) => Object.values(state.reviews)) || [];
   // Handle the case where the reviews array has the unexpected structure
   const reviewList = Array.isArray(reviews) && reviews[0] ? Object.values(reviews[0]) : [];
+  const userReview = reviewList.find((review) => review.userId === currentUserId);
+  console.log("userReview: ", userReview)
   console.log("book: ", book)
   console.log("reviewList: ", reviewList)
   
@@ -113,9 +115,9 @@ function BookPage() {
           </button>
 
           {/* User rating stars */}
-          <div className="user-rating">
-            {rating === 0 ? renderStars(0) : renderStars(rating)} {/* Render stars based on user rating */}
-          </div>
+          {/* <div className="user-rating">
+            {rating === 0 ? renderStars(0) : renderStars(rating)}
+          </div> */}
         </div>
 
       </div>
@@ -176,15 +178,16 @@ function BookPage() {
             <div>{reviewList.length} Reviews</div>
           </div>
 
-          {/* Button to Leave a Review */}
-          {/* write conditions for if it can be reviewed */}
-          <div className="leave-review-div">
-            <OpenModalButton
-            buttonText="Leave a Review"
-            modalComponent={<ReviewModal bookId={bookId} />}
-            className="leave-review-button"
-            />
-          </div>
+          {/* Conditionally render the "Leave a Review" button */}
+          {!userReview && (
+            <div className="leave-review-div">
+              <OpenModalButton
+                buttonText="Leave a Review"
+                modalComponent={<ReviewModal bookId={bookId} />}
+                className="leave-review-button"
+              />
+            </div>
+          )}
 
           {/* Map through reviews */}
           {reviewList.length > 0 ? (
@@ -209,10 +212,10 @@ function BookPage() {
                     <p>{review.user?.firstName}</p>
                   </div>
 
-                  <div>
+                  <div className="user-book-rating-div">
                     <div className="individual-rating">{review.rating.toFixed(1)}</div> {/* Rating */}
                     <div><IoMdStar /> </div>
-                    </div>
+                  </div>
 
                   {/* Render the formatted date */}
                   <p className="review-date">

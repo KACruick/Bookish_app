@@ -45,12 +45,15 @@
     font-size: 1.2rem;
     margin: 10px 0;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
+    text-decoration: none;
+    color: black;
   }
   
   .discover-book-info p {
     margin: 5px 0;
     color: #555;
+    text-decoration: none;
   }
   
   /* Error and No Results Styling */

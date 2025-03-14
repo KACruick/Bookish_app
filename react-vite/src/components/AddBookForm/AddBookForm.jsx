@@ -48,6 +48,7 @@ function AddBookForm() {
                 setLoading(false); 
             });
         } else {
+            setCoverPicture('');  // Reset cover picture state to ensure "Cover coming soon" is shown
             setLoading(false);
         }
     }, [dispatch, bookId, isUpdate, user, navigate])
@@ -278,7 +279,7 @@ function AddBookForm() {
                 <div className='form-book-cover-div'>
                     <h2 className='cover-preview-text'>Cover Preview</h2>
                     <img
-                        src={coverPicture || existingBook.coverPicture || "../../../images/Cover_coming_soon.jpeg"}
+                        src={coverPicture || "../../../images/Cover_coming_soon.jpeg"}
                         alt={title}
                         className="form-book-cover"
                     />

@@ -84,7 +84,8 @@
     /* border: solid red 1px; */
     padding: 20px;
     /* background-color: #f9f9f9; */
-    background-color: #DBCDF0;
+    /* background-color: #DBCDF0; */
+    border: 2px solid #DBCDF0;;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -107,7 +108,8 @@
 .reviews-section {
     padding: 20px;
     /* background-color: #f9f9f9; */
-    background-color: #C9E4DE;
+    /* background-color: #C9E4DE; */
+    border: 2px solid #C9E4DE;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -122,10 +124,11 @@
   .avg-rating-div {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 45px;
     font-size: 18px;
     margin-bottom: 20px;
     color: #555;
+    /* border:1px solid red; */
   }
   
   .avg-rating-div div {
@@ -136,7 +139,7 @@
   
   .leave-review-div {
     margin-bottom: 20px;
-    text-align: right;
+    text-align: center;
   }
   
   .leave-review-button {
@@ -160,6 +163,7 @@
     padding: 15px;
     margin-bottom: 15px;
     background-color: #fff;
+    border: 2px solid #C9E4DE;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -169,7 +173,20 @@
     align-items: center;
     /* gap: 15px; */
     justify-content: space-between;
+    /* border: 1px solid red; */
   }
+
+  .leave-review-div button {
+    background-color: #C9E4DE;
+    border-radius: 3px;
+    border: 2px solid #C9E4DE;
+    padding:5px;
+  }
+
+  .leave-review-div button:hover{
+    background-color: grey;
+}
+
 
   .user-info {
     display: flex;
@@ -216,6 +233,17 @@
     display: flex;
     gap: 10px;
     margin-top: 10px;
+    justify-content: center;
+  }
+
+  .update-delete-div button {
+    background-color: #C9E4DE;
+    border:none;
+    padding: 5px;
+  }
+
+  .update-delete-div button:hover {
+    background-color:grey;
   }
   
   .update-modal, .delete-modal {

@@ -39,6 +39,7 @@
     width: 300px;
     padding: 10px;
     margin-top: 78px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .search-and-create {
@@ -88,6 +89,7 @@
     /* overflow-x: hidden;   */
     /* padding: 20px; */
     box-sizing: border-box;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   }
   
   .bookclub-list {
@@ -102,6 +104,7 @@
     border-radius: 8px;
     height: 284px;
     width: 650px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .bookclub-tile {
@@ -181,6 +184,7 @@
     /* border: solid 1px red; */
     border: solid 2px #C9E4DE;
     border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .update-status-div h2 {

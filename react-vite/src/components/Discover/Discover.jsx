@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'; // To access the search query from the URL
+import { Link, useLocation } from 'react-router-dom'; // To access the search query from the URL
 import './Discover.css'
 
 function Discover() {
@@ -57,6 +57,7 @@ function Discover() {
             <div className="discover-books-grid">
               {books.map((book) => (
                 <div key={book.id} className="discover-book-tile">
+                  <Link to={`/books/${book.id}`}>
                   <img
                     src={book.coverPicture || '/default-book-cover.png'}
                     alt={book.title}
@@ -67,6 +68,7 @@ function Discover() {
                     <p>{book.author}</p>
                     <p>{book.avgRating} / 5</p>
                   </div>
+                  </Link>
                 </div>
               ))}
             </div>
