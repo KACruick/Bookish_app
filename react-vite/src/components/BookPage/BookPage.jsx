@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getBook } from "../../redux/books";
 import { getReviews } from "../../redux/reviews";
+import { getBookshelves, addBookToShelf } from "../../redux/bookshelves"
 import ReviewModal from "../ReviewModal";
 import OpenModalButton from "../OpenModalButton";
 import UpdateReviewModal from "../UpdateReviewModal";
@@ -15,7 +16,7 @@ import { IoMdStar } from "react-icons/io";
 function BookPage() {
   const { bookId } = useParams();
   const dispatch = useDispatch();
-
+  const bookshelves = useSelector((state) => state.bookshelves.allBookshelves);
   const currentUserId = useSelector((state) => state.session.user.id);
 
   const [isRead, setIsRead] = useState(false);  // Track if the user has marked the book as read
@@ -42,14 +43,29 @@ function BookPage() {
   // Dispatch the action to get the book details if it's not already fetched
   useEffect(() => {
     dispatch(getBook(bookId));
-    dispatch(getReviews(bookId))
+    dispatch(getReviews(bookId));
+    dispatch(getBookshelves());
   }, [dispatch, bookId]);
 
-  // Handle "Want to Read" or "Mark as Read" button
-  const handleReadButton = () => {
-    setIsRead(!isRead);
-    // Add logic to update the user's status, e.g., dispatch a thunk to mark it as read
+  const handleReadButton = async () => {
+    const currentlyReadingBookshelf = Object.values(bookshelves).find(
+      (shelf) => shelf.name === "Currently reading"
+    );
+    
+    console.log()
+    if (currentlyReadingBookshelf) {
+      try {
+        // Add the book to the "Currently Reading" bookshelf
+        await dispatch(addBookToShelf(currentlyReadingBookshelf.id, book.id));
+        setIsRead(true);  // Update button text to "Mark as Unread"
+      } catch (error) {
+        console.error("Error adding book to bookshelf:", error);
+      }
+    } else {
+      console.error("Currently Reading bookshelf not found.");
+    }
   };
+
 
   // Function to handle star rating (setRating)
   // const handleRating = (newRating) => {
@@ -74,6 +90,14 @@ function BookPage() {
       </div>
     );
   };
+
+
+  const currentlyReadingBookshelf = Object.values(bookshelves).find(
+    (shelf) => shelf.name === "Currently Reading"
+  );
+  
+  // const currentlyReadingBookshelfId = currentlyReadingBookshelf ? currentlyReadingBookshelf.id : null;
+  
   
 
   // const handleUpdateReview = (reviewId) => {
