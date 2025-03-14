@@ -17,7 +17,7 @@ function BookPage() {
   const { bookId } = useParams();
   const dispatch = useDispatch();
   const bookshelves = useSelector((state) => state.bookshelves.allBookshelves);
-  const currentUserId = useSelector((state) => state.session.user.id);
+  const currentUserId = useSelector((state) => state.session.user?.id);
 
   const [isRead, setIsRead] = useState(false);  // Track if the user has marked the book as read
   const [rating, setRating] = useState(0);  // Track the user's rating
@@ -27,7 +27,9 @@ function BookPage() {
   const reviews = useSelector((state) => Object.values(state.reviews)) || [];
   // Handle the case where the reviews array has the unexpected structure
   const reviewList = Array.isArray(reviews) && reviews[0] ? Object.values(reviews[0]) : [];
-  const userReview = reviewList.find((review) => review.userId === currentUserId);
+  const userReview = currentUserId
+  ? reviewList.find((review) => review.userId === currentUserId)
+  : null;
   console.log("userReview: ", userReview)
   console.log("book: ", book)
   console.log("reviewList: ", reviewList)
@@ -51,7 +53,7 @@ function BookPage() {
     const currentlyReadingBookshelf = Object.values(bookshelves).find(
       (shelf) => shelf.name === "Currently reading"
     );
-    
+
     console.log()
     if (currentlyReadingBookshelf) {
       try {
@@ -203,7 +205,7 @@ function BookPage() {
           </div>
 
           {/* Conditionally render the "Leave a Review" button */}
-          {!userReview && (
+          {!userReview && currentUserId && (
             <div className="leave-review-div">
               <OpenModalButton
                 buttonText="Leave a Review"
