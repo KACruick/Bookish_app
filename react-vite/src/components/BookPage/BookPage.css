@@ -124,6 +124,7 @@
   .avg-rating-div {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 45px;
     font-size: 18px;
     margin-bottom: 20px;
