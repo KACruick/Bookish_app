@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
@@ -13,16 +13,39 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
+
   const { closeModal } = useModal();
+
+  // Validate email format
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Client-side validation for email and password matching
+  useEffect(() => {
+    const newValidationErrors = {};
+
+    if (email && !validateEmail(email)) {
+      newValidationErrors.email = "Please provide a valid email address";
+    }
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      newValidationErrors.confirmPassword = "Passwords must match";
+    }
+
+
+    setValidationErrors(newValidationErrors);
+  }, [email, password, confirmPassword]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
 
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
-      });
+    // Check if there are any validation errors before submitting the form
+    if (Object.keys(validationErrors).length > 0) {
+      return;
     }
 
     const serverResponse = await dispatch(
@@ -48,11 +71,18 @@ function SignupFormModal() {
       <h1>Sign Up</h1>
 
       <div className="errors-container">
+        {validationErrors.email && <p>{validationErrors.email}</p>}
+        {validationErrors.username && <p>{validationErrors.username}</p>}
+        {validationErrors.password && <p>{validationErrors.password}</p>}
+        {validationErrors.confirmPassword && (
+          <p>{validationErrors.confirmPassword}</p>
+        )}
         {errors.email && <p>{errors.email}</p>}
         {errors.username && <p>{errors.username}</p>}
         {errors.password && <p>{errors.password}</p>}
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
       </div>
+
 
       {errors.server && <p>{errors.server}</p>}
       <div className="signup-div">
