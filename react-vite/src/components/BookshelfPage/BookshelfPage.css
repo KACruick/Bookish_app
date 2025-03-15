@@ -15,7 +15,6 @@
     justify-content: center; 
     gap: 10px;  /* Add space between book tiles */
     position: relative; /* Ensure that dragged items stay within this container */
-    /* overflow: hidden; */
 }
   
   
@@ -25,7 +24,6 @@
     height: 240px; 
     background-color: #f4f4f4;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: move; 
     transition: transform 0.2s ease;
