@@ -129,7 +129,7 @@ function HomePage() {
             {sessionUser ? (
               bookclubs.length > 0 ? (
                 bookclubs.map((bookclub) => (
-                  <div className="bookclub-tile" key={bookclub.id}>
+                  <div className="home-bookclub-tile" key={bookclub.id}>
                     <Link to={`/bookclubs/${bookclub.id}`}>
                       {bookclub.book && bookclub.book.coverPicture ? (
                         <img
