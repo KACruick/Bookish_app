@@ -75,7 +75,7 @@ function YourBookclubs() {
                   {memberBookclubs.length > 0 ? (
                     <div className="your-bookclub-list">
                       {memberBookclubs.map((bookclub) => (
-                        <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
+                        <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="your-bookclub-tile">
                           {/* Render book cover image */}
                           {bookclub.book && bookclub.book.coverPicture && (
                             <img
