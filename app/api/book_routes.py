@@ -65,7 +65,7 @@ def get_books():
 
         # Get the genre data
         genre = Genre.query.get(book.genreId)
-        genre_name = genre.name if genre else "Unknown"
+        genre_name = genre.name if genre else "Other"
 
         # Calculate average rating using the helper function
         avg_rating = calculate_avg_rating(book.id)
@@ -126,7 +126,7 @@ def get_book_details(id):
 
     # Get the genre data
     genre = Genre.query.get(book.genreId)
-    genre_name = genre.name if genre else "Unknown"
+    genre_name = genre.name if genre else "Other"
 
     # Calculate average rating using the helper function
     avg_rating = calculate_avg_rating(book.id)

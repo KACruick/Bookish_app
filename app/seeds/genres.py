@@ -7,7 +7,7 @@ def seed_genres():
         Genre(name='Science Fiction'),
         Genre(name='Romance'),
         Genre(name='Young Adult'),
-        Genre(name='Children'),
+        Genre(name="Children's"),
         Genre(name='Mystery'),
         Genre(name='Horror'),
         Genre(name='Historical Fiction'),
