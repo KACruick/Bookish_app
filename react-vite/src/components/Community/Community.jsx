@@ -54,7 +54,7 @@ function Community() {
     return (
       <div>
         <h1>Community Activity</h1>
-        <p className="not-logged-in">Log in to add friends and view friend's reading activity</p>
+        <p className="not-logged-in">Log in to add friends and view friend&apos;s reading activity</p>
       </div>
     );
   }

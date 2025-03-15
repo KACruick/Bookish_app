@@ -1,8 +1,8 @@
 import './StartBookclubModal.css';
 import { getBookclubs } from '../../redux/bookclubs';
 import { useModal } from '../../context/Modal';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { createBookclub } from '../../redux/bookclubs';
 
 function StartBookclubModal() {
