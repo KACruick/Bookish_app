@@ -31,20 +31,20 @@ const updateBookshelfAction = (updatedBookshelf) => ({
   payload: updatedBookshelf,
 });
 
-const deleteBookshelfAction = (bookshelfId) => ({
-  type: DELETE_BOOKSHELF,
-  payload: bookshelfId,
-});
+// const deleteBookshelfAction = (bookshelfId) => ({
+//   type: DELETE_BOOKSHELF,
+//   payload: bookshelfId,
+// });
 
 const removeBookFromShelfAction = (bookId) => ({
   type: REMOVE_BOOK_FROM_SHELF,
   payload: bookId,
 });
 
-const changeBookOrderAction = (bookOrder) => ({
-  type: CHANGE_BOOK_ORDER,
-  payload: bookOrder,
-});
+// const changeBookOrderAction = (bookOrder) => ({
+//   type: CHANGE_BOOK_ORDER,
+//   payload: bookOrder,
+// });
 
 const addBookToShelfAction = (bookshelfId, bookId) => ({
   type: ADD_BOOK_TO_SHELF,
@@ -200,6 +200,8 @@ export const createDefaultBookshelves = () => async (dispatch) => {
 };
 
 
+
+
 // Initial State
 const initialState = {
     allBookshelves: {},
@@ -256,7 +258,7 @@ const initialState = {
         const bookshelf = updatedBookshelves[bookshelfId];
   
         if (bookshelf) {
-          bookshelf.Books = bookshelf.Books.map((book, index) => {
+          bookshelf.Books = bookshelf.Books.map((book) => {
             // Find the new order index from the orderedBookIds
             const newOrder = orderedBookIds.indexOf(book.id) + 1; // Adding 1 since order starts from 1
             return { ...book, orderInShelf: newOrder };

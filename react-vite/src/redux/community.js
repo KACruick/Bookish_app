@@ -58,7 +58,7 @@ export const likeFriendPost = (postId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = await response.json();
+    await response.json();
     dispatch(likeFriendPostAction(postId));
   } else {
     const errorData = await response.json();
@@ -102,7 +102,7 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = await response.json();
+    await response.json();
     dispatch(deleteCommentAction(commentId));
   } else {
     const errorData = await response.json();

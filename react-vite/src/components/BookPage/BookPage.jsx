@@ -97,6 +97,7 @@ function BookPage() {
   const currentlyReadingBookshelf = Object.values(bookshelves).find(
     (shelf) => shelf.name === "Currently Reading"
   );
+  console.log("currentlyReadingBookshelf: ", currentlyReadingBookshelf)
   
   // const currentlyReadingBookshelfId = currentlyReadingBookshelf ? currentlyReadingBookshelf.id : null;
   

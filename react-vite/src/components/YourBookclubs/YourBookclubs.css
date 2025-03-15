@@ -3,6 +3,16 @@
   justify-content: center;
 }
 
+/* .your-bookclub-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin: 10px;
+  width: 250px;
+} */
+
 .your-bookclub-tile {
   display: flex;
   flex-direction: column;
