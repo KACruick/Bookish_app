@@ -60,8 +60,26 @@ function AddBookForm() {
             setTitle(existingBook.title || '');
             setAuthor(existingBook.author || '');
             setDescription(existingBook.description || '');
-            setGenreId(existingBook.genreId || '');  
-            setSelectedGenre(existingBook.genreId || '');  
+            
+            // Mapping genreId to genre name
+            const genreMap = {
+                1: "Fantasy",
+                2: "Science Fiction",
+                3: "Romance",
+                4: "Young Adult",
+                5: "Children's",
+                6: "Mystery",
+                7: "Horror",
+                8: "Historical Fiction",
+                9: "Biography",
+                10: "Self Help",
+                11: "Other"
+            };
+
+            
+            // If genreId exists, find corresponding genre name
+            const genreName = genreMap[existingBook.genreId];
+            setSelectedGenre(genreName);  // Set genre name for the dropdown
             setIsbn(existingBook.isbn || '');
             setPages(existingBook.pages || '');
             setChapters(existingBook.chapters || '');
@@ -121,6 +139,7 @@ function AddBookForm() {
             "Historical Fiction": 8,
             "Biography": 9,
             "Self Help": 10,
+            "Other": 11
         };
         const selectedGenreId = genreIdMap[selectedGenreName];
         setGenreId(selectedGenreId);  // Store the genreId 

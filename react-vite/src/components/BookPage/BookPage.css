@@ -38,6 +38,16 @@
     background-color: grey;
 }
 
+.book-page-edit-book-button {
+  background-color: #C9E4DE;
+  border-radius: 3px;
+  border: 2px solid #C9E4DE;
+}
+
+.book-page-edit-book-button:hover {
+  background-color: grey;
+}
+
 .star-rating {
     display: flex;
     font-size: 24px; /* Adjust size of the stars */

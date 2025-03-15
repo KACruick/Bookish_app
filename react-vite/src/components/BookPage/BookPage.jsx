@@ -1,6 +1,6 @@
 import "./BookPage.css"
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getBook } from "../../redux/books";
 import { getReviews } from "../../redux/reviews";
@@ -16,6 +16,7 @@ import { IoMdStar } from "react-icons/io";
 function BookPage() {
   const { bookId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const bookshelves = useSelector((state) => state.bookshelves.allBookshelves);
   const currentUserId = useSelector((state) => state.session.user?.id);
 
@@ -140,6 +141,15 @@ function BookPage() {
           <button className="want-to-read" onClick={handleReadButton}>
             {isRead ? "Mark as Unread" : "Want to Read"}
           </button>
+
+          {/* Conditional "Edit" button */}
+          {currentUserId && currentUserId === book.userId && (
+            <button 
+            className="book-page-edit-book-button" 
+            onClick={() => navigate(`/books/${book.id}/edit`)}>
+              Edit
+            </button>
+          )}
 
           {/* User rating stars */}
           {/* <div className="user-rating">
