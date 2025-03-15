@@ -3,8 +3,7 @@
   justify-content: center;
 }
 
-
-.bookclub-tile {
+.your-bookclub-tile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,36 +12,35 @@
   margin: 10px;
   width: 250px;
 }
-  
+
 .bookcover-image {
   width: 100%;
   height: auto;
   max-width: 200px;
   margin-bottom: 10px;
 }
-  
+
 .bookclub-container {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
-  
+
 .your-bookclub-list {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: auto; 
-  padding-bottom: 10px; 
+  overflow-x: auto;
+  padding-bottom: 10px;
   gap: 20px;
   justify-content: center;
 }
-  
-  
+
 h3 {
   text-align: center;
   font-size: 18px;
   margin: 10px 0;
 }
-  
+
 p {
   text-align: center;
   font-size: 14px;
