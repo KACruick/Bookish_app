@@ -16,6 +16,7 @@ function AddBookForm() {
 
     console.log("allBooks: ", allBooks)
     console.log('bookId:', bookId);
+    console.log("existingBook: ", existingBook)
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
@@ -59,8 +60,8 @@ function AddBookForm() {
             setTitle(existingBook.title || '');
             setAuthor(existingBook.author || '');
             setDescription(existingBook.description || '');
-            setGenreId(existingBook.genreId || '');
-            setSelectedGenre(existingBook.selectedGenre || '');
+            setGenreId(existingBook.genreId || '');  
+            setSelectedGenre(existingBook.genreId || '');  
             setIsbn(existingBook.isbn || '');
             setPages(existingBook.pages || '');
             setChapters(existingBook.chapters || '');
