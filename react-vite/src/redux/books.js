@@ -58,6 +58,7 @@ export const getBook = (bookId) => async (dispatch) => {
 };
 
 export const createBook = (bookData) => async (dispatch) => {
+  console.log("made it inside createBook thunk")
   const response = await csrfFetch('/api/books/add', {
     method: 'POST',
     headers: {
@@ -65,7 +66,7 @@ export const createBook = (bookData) => async (dispatch) => {
     },
     body: JSON.stringify(bookData),
   });
-
+  console.log("response.json(): ", response.json())
   if (response.ok) {
     const newBook = await response.json();
     dispatch(createBookAction(newBook));
