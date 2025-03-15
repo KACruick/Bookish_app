@@ -124,8 +124,11 @@ function HomePage() {
       <div className="clubs-and-search">
         {/* Bookclubs Section */}
         <div className="bookclubs-div">
-          <h2>Your Current Bookclubs</h2>
-          <div className="bookclub-list">
+          {/* <h2>Your Current Bookclubs</h2> */}
+          <div className="home-club-tile-and-list">
+            <h2>Your Current Bookclubs</h2>
+
+            <div className="bookclub-list">
             {sessionUser ? (
               bookclubs.length > 0 ? (
                 bookclubs.map((bookclub) => (
@@ -152,6 +155,7 @@ function HomePage() {
               <p className="not-logged-in">Log in to start a bookclub!</p>
               </div>
             )}
+            </div>
           </div>
         </div>
 

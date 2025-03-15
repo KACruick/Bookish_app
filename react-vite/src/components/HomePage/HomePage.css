@@ -91,6 +91,17 @@
     box-sizing: border-box;
     /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   }
+
+  .home-club-tile-and-list {
+    display: flex;
+    flex-direction: column;
+    border: solid 2px #DBCDF0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    height: 360px;
+  }
+  
   
   .bookclub-list {
     display: flex;
@@ -101,11 +112,11 @@
     margin-bottom: 10px;
     padding-left: 20px;
     /* border: solid red 1px; */
-    border: solid 2px #DBCDF0;
-    border-radius: 8px;
-    height: 284px;
+    /* border: solid 2px #DBCDF0; */
+    /* border-radius: 8px; */
+    height: 320px;
     width: 650px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 
   }
   
@@ -115,10 +126,10 @@
     justify-content: center;
     align-items: center;
     width: 160px;
-    height: auto;
+    height: 270px;
     margin-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 2px;
+    margin-bottom: 0px;
     text-align: center;
     border: solid 1px #ddd;
     border-radius: 8px;
@@ -178,6 +189,7 @@
     flex-direction: column;
     justify-content: flex-start;
     margin-top: 20px;
+    padding-top: 10px;
     box-sizing: border-box;
     /* border: solid 1px red; */
     border: solid 2px #C9E4DE;
