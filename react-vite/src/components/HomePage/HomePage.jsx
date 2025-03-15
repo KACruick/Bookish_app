@@ -151,7 +151,7 @@ function HomePage() {
                 <p>No book clubs available.</p>
               )
             ) : (
-              <div className="not-logged-in-div">
+              <div className="home-not-logged-in-div">
               <p className="not-logged-in">Log in to start a bookclub!</p>
               </div>
             )}

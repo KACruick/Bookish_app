@@ -5,9 +5,10 @@
     /* height: 100vh;  */
     /* overflow: hidden; */
   }
-  .not-logged-in-div {
+  .home-not-logged-in-div {
     display: flex;
-    margin:auto;
+    justify-content: flex-start;
+    /* border: 1px solid red; */
   }
 
   .not-logged-in {
