@@ -278,7 +278,7 @@ function BookPage() {
                       {/* Delete Button */}
                       <OpenModalButton
                         buttonText="Delete"
-                        modalComponent={<DeleteReviewModal reviewId={review.id} />}
+                        modalComponent={<DeleteReviewModal reviewId={review.id} bookId={bookId}/>}
                         className="delete-modal"
                       />
                     </div>

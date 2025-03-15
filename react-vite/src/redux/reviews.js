@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import { getBook } from './books';
 
 // Action Types
 const GET_REVIEWS = 'reviews/GET_REVIEWS';
@@ -88,13 +89,15 @@ export const updateReview = (reviewId, updatedData) => async (dispatch) => {
   }
 };
 
-export const deleteReview = (reviewId) => async (dispatch) => {
+export const deleteReview = (reviewId, bookId) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: 'DELETE',
   });
 
   if (response.ok) {
     dispatch(deleteReviewAction(reviewId));
+    // Refetch the updated book data, including the new avgRating
+    dispatch(getBook(bookId)); 
   } else {
     const errorData = await response.json();
     throw errorData;

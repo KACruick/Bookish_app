@@ -12,8 +12,8 @@ function DeleteReviewModal({ reviewId, bookId }) {
     const handleDelete = async () => {
         console.log(reviewId)
         try {
-        await dispatch(deleteReview(reviewId));
-        closeModal();
+          await dispatch(deleteReview(reviewId, bookId)); 
+          closeModal();
         // Refetch reviews and spot details
         dispatch(getReviews(bookId)); // Refetch reviews
         dispatch(getBook(bookId));   // Refetch book details
