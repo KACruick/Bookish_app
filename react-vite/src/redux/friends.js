@@ -70,7 +70,7 @@ export const acceptFriendRequest = (userId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = await response.json();
+    await response.json();
     dispatch(acceptFriendRequestAction(userId));
   } else {
     const errorData = await response.json();
@@ -84,7 +84,7 @@ export const removeFriend = (userId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const data = await response.json();
+    await response.json();
     dispatch(removeFriendAction(userId));
   } else {
     const errorData = await response.json();

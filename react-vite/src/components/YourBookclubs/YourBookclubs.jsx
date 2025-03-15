@@ -1,5 +1,5 @@
 import './YourBookclubs.css'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBookclubs } from '../../redux/bookclubs';
 import { Link } from 'react-router-dom'; 
@@ -50,18 +50,20 @@ function YourBookclubs() {
                   {moderatedBookclubs.length > 0 ? (
                     <div className="your-bookclub-list">
                       {moderatedBookclubs.map((bookclub) => (
-                        <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id} className="bookclub-tile">
-                          {/* Render book cover image */}
-                          {bookclub.book && bookclub.book.coverPicture && (
-                            <img
-                              src={bookclub.book.coverPicture}
-                              alt={bookclub.book.title}
-                              className="bookcover-image"
-                            />
-                          )}
-                          <h3>{bookclub.name}</h3>
-                          <p>{bookclub.description}</p>
-                        </Link>
+                        <div className='your-bookclub-tile' key={bookclub.id}>
+                          <Link to={`/bookclubs/${bookclub.id}`} key={bookclub.id}>
+                            {/* Render book cover image */}
+                            {bookclub.book && bookclub.book.coverPicture && (
+                              <img
+                                src={bookclub.book.coverPicture}
+                                alt={bookclub.book.title}
+                                className="bookcover-image"
+                              />
+                            )}
+                            <h3>{bookclub.name}</h3>
+                            <p>{bookclub.description}</p>
+                          </Link>
+                        </div>
                       ))}
                     </div>
                   ) : (

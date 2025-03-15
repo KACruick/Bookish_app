@@ -1,11 +1,11 @@
 import "./HomePage.css";
 import { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBookclubs } from '../../redux/bookclubs'
 import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
-import { thunkAuthenticate } from "../../redux/session";
+// import { thunkAuthenticate } from "../../redux/session";
 import { createSelector } from 'reselect';
 
 
@@ -17,6 +17,7 @@ function HomePage() {
 
     const sessionUser = useSelector((state) => state.session.user);
     const bookshelves = useSelector((state) => Object.values(state.bookshelves.allBookshelves));
+    console.log("bookshelves: ", bookshelves)
     const currentBookshelf = useSelector((state) => state.bookshelves.currentBookshelf);
     const bookclubs = useSelector((state) => Object.values(state.bookclubs.bookclubs));
 
@@ -28,7 +29,8 @@ function HomePage() {
         (state) => Object.values(state.bookshelves.allBookshelves), // Convert object to array here
         (allBookshelves) => allBookshelves.filter((shelf) => shelf.userId === sessionUser?.id)
         )
-      );
+    );
+    console.log("userBookshelves: ", userBookshelves)
 
     const currentlyReadingShelf = useSelector(
       createSelector(
@@ -88,9 +90,9 @@ function HomePage() {
     };
 
     // Handle mark as read button click
-  const handleMarkAsRead = (bookId) => {
-    // Dispatch action to remove book from "Currently Reading" shelf and add it to "read" shelf
-  };
+  // const handleMarkAsRead = (bookId) => {
+  //   // Dispatch action to remove book from "Currently Reading" shelf and add it to "read" shelf
+  // };
 
   return (
     <div className="home-page">

@@ -20,8 +20,8 @@ function BookPage() {
   const currentUserId = useSelector((state) => state.session.user?.id);
 
   const [isRead, setIsRead] = useState(false);  // Track if the user has marked the book as read
-  const [rating, setRating] = useState(0);  // Track the user's rating
-
+  // const [rating, setRating] = useState(0);  // Track the user's rating
+  // console.log("rating", rating);
   // Fetch book details from Redux store
   const book = useSelector((state) => state.books.bookDetails); 
   const reviews = useSelector((state) => Object.values(state.reviews)) || [];
@@ -54,7 +54,7 @@ function BookPage() {
       (shelf) => shelf.name === "Currently reading"
     );
 
-    console.log()
+    console.log("currentlyReadingBookshelf", currentlyReadingBookshelf)
     if (currentlyReadingBookshelf) {
       try {
         // Add the book to the "Currently Reading" bookshelf
@@ -97,6 +97,7 @@ function BookPage() {
   const currentlyReadingBookshelf = Object.values(bookshelves).find(
     (shelf) => shelf.name === "Currently Reading"
   );
+  console.log("currentlyReadingBookshelf: ", currentlyReadingBookshelf)
   
   // const currentlyReadingBookshelfId = currentlyReadingBookshelf ? currentlyReadingBookshelf.id : null;
   
