@@ -17,8 +17,8 @@ export default defineConfig((mode) => ({
       "/api": "http://127.0.0.1:8000",
     },
   },
-  build: {
-    cssCodeSplit: false,
-    minify: "esbuild"
-  }
+  // build: {
+  //   cssCodeSplit: false,
+  //   minify: "esbuild"
+  // }
 }));
