@@ -12,7 +12,8 @@ def seed_genres():
         Genre(name='Horror'),
         Genre(name='Historical Fiction'),
         Genre(name='Biography'),
-        Genre(name='Self Help')
+        Genre(name='Self Help'),
+        Genre(name='Other')
     ]
 
     for genre in genres:

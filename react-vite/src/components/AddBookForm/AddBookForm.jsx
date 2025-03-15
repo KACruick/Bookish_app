@@ -23,6 +23,7 @@ function AddBookForm() {
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
     const [genreId, setGenreId] = useState('');
+    const [selectedGenre, setSelectedGenre] = useState('');
     const [isbn, setIsbn] = useState('');
     const [pages, setPages] = useState('');
     const [chapters, setChapters] = useState('');
@@ -59,6 +60,7 @@ function AddBookForm() {
             setAuthor(existingBook.author || '');
             setDescription(existingBook.description || '');
             setGenreId(existingBook.genreId || '');
+            setSelectedGenre(existingBook.selectedGenre || '');
             setIsbn(existingBook.isbn || '');
             setPages(existingBook.pages || '');
             setChapters(existingBook.chapters || '');
@@ -105,8 +107,22 @@ function AddBookForm() {
     };
 
     const handleGenreChange = (e) => {
-        const selectedGenre = e.target.value;  // keep as string, not converting to number
-        setGenreId(selectedGenre);  // Set genreId as a string
+        const selectedGenreName = e.target.value;
+        setSelectedGenre(selectedGenreName);  // Store the selected genre name
+        const genreIdMap = {
+            "Fantasy": 1,
+            "Science Fiction": 2,
+            "Romance": 3,
+            "Young Adult": 4,
+            "Children's": 5,
+            "Mystery": 6,
+            "Horror": 7,
+            "Historical Fiction": 8,
+            "Biography": 9,
+            "Self Help": 10,
+        };
+        const selectedGenreId = genreIdMap[selectedGenreName];
+        setGenreId(selectedGenreId);  // Store the genreId 
     };
 
     // Handle file selection
@@ -198,7 +214,7 @@ function AddBookForm() {
 
                     <div className='label-and-input'>
                         <label>Genre:</label> {renderError("genreId")}
-                        <select value={genreId} onChange={handleGenreChange}>
+                        <select value={selectedGenre} onChange={handleGenreChange}>
                         <option value="">Select Genre</option>
                         <option value="Fantasy">Fantasy</option>
                         <option value="Science Fiction">Science Fiction</option>
