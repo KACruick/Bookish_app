@@ -114,6 +114,9 @@
     height: 360px;
   }
   
+  .home-club-tile-and-list h2 {
+    margin-top: 20px;
+  }
   
   .bookclub-list {
     display: flex;
