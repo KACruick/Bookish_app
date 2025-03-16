@@ -77,11 +77,15 @@ function YourLibrary() {
             {sortedBookshelves.length > 0 ? (
               sortedBookshelves.map((shelf) => (
                 <div key={shelf.id} className="bookshelf-container">
-                  <h2>{shelf.name}</h2>
+                  <div className='shelf-name-and-edit'>
+                    <h2>{shelf.name}</h2> 
+                    <button onClick={() => navigate(`/bookshelves/${shelf.id}`)} className="reorder-button">Edit shelf</button>
+                  </div>
+                  {/* <h2>{shelf.name}</h2>  */}
                   {/* <Link to={`/bookshelves/${shelf.id}`} className="reorder-button">
                     Edit or reorder books in shelf
                   </Link> */}
-                  <button onClick={() => navigate(`/bookshelves/${shelf.id}`)} className="reorder-button">Edit shelf</button>
+                  {/* <button onClick={() => navigate(`/bookshelves/${shelf.id}`)} className="reorder-button">Edit shelf</button> */}
                   <p>{shelf.description}</p>
 
                   <div className="books-container">

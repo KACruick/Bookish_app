@@ -34,7 +34,7 @@
 
 .bookshelf-container {
   width: 100%;
-  height: 40vh;
+  height: 45vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -44,10 +44,18 @@
   padding-right: 10px;
 }
   
-  
+.shelf-name-and-edit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* border: 1px solid red; */
+  gap: 15px;
+  margin-top: 15px;
+}
+
 .bookshelf-container h2 {
   font-size: 24px;
-  margin: 0 0 10px;
+  margin: 0 0 0px;
   font-weight: bold;
 }
   
@@ -107,7 +115,7 @@
   border-radius: 3px;
   padding: 5px;
   width: 100px;
-  margin:auto;
+
 }
 
 .reorder-button:hover {
