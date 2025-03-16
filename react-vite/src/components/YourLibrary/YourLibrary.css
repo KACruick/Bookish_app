@@ -34,7 +34,7 @@
 
 .bookshelf-container {
   width: 100%;
-  height: 45vh;
+  height: 38vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -62,6 +62,7 @@
 .bookshelf-container p {
   font-size: 14px;
   color: #666;
+  margin-top: 10px;
     /* margin: 0 0 10px; */
     /* height: ; */
 }
@@ -77,7 +78,7 @@
 }
   
 
-.book-tile {
+.library-book-tile {
   min-width: 120px; 
   max-width: 120px;
   height: 190px;

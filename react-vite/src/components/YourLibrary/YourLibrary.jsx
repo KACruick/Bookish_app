@@ -91,7 +91,7 @@ function YourLibrary() {
                   <div className="books-container">
                     {shelf.Books && shelf.Books.length > 0 ? (
                       shelf.Books.map((book) => (
-                        <div key={book.id} className="book-tile">
+                        <div key={book.id} className="library-book-tile">
                           <Link to={`/books/${book.id}`}>
                             <img 
                               src={book.coverPicture || '../../images/Cover_coming_soon.jpeg'} 
