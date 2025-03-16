@@ -72,6 +72,7 @@ function BookclubDetails() {
 
                 <div className='book-details-cover'>
                     <img src={bookclub.book.coverPicture} alt={bookclub.book.title} />
+                    <button>Change book</button>
                 </div>
 
                 <div className='club-and-book-info'>
@@ -106,13 +107,28 @@ function BookclubDetails() {
                     </div>
                 </div>
 
+
             </div>
+
+                {/* Moderator-specific div */}
+                {/* <div className="moderator-info">
+                        {isModerator ? (
+                            <div>
+                                <p>You moderate this bookclub</p>
+                                <button onClick={openAddMemberModal}>Add Another Member</button>
+                                <button onClick={openRemoveMemberModal}>Remove a Member</button>
+                            </div>
+                        ) : (
+                            <p>{ownerFirstName} moderates this club</p>
+                        )}
+                </div> */}
+            
 
             
 
-            <div className="chapter-list">
+            <div className="chapter-section">
                 <h2>Chapters</h2>
-                <ul>
+                <ul className='chapter-list'>
                     {/* Loop through chapters and check if they have comments */}
                     {Array.from({ length: bookclub.book.chapters }, (_, index) => {
                         const chapterId = index + 1;

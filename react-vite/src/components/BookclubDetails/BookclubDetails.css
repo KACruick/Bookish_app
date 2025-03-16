@@ -12,18 +12,101 @@
     object-fit: cover;
 }
 
+.book-details-cover button {
+    background-color: #DBCDF0;
+    border-radius: 3px;
+    border: 2px solid #DBCDF0;
+}
+
+.book-details-cover button:hover {
+    background-color: #b59ed7;
+}
+
 .club-and-book {
     /* border: 1px solid red; */
     display: flex;
     flex-direction: row;
+    gap: 20px;
 }
 
 .club-and-book-info {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
+    width: 600px;
+}
+
+h2 {
+    margin: 0;
+}
+
+h3, h4 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.club-members {
+ margin-top: 20px;
+}
+/* Members List */
+.club-members ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+    text-align: center;
+    margin-top: 0;
+}
+
+.club-members li {
+    padding: 5px 0;
+}
+
+.moderator-info {
+    /* margin-top: 20px; */
+    margin-bottom: 40px;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+}
+
+
+.moderator-info button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #DBCDF0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.moderator-info button:hover {
+    background-color: #b59ed7;
 }
 
 .chapter-links:hover {
     color: grey;
+    background-color: #e0e0e0;
+}
+
+/* .chapter-section {
+    border: 1px solid red;
+} */
+
+.chapter-list {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+    display: grid; /* Use grid to create columns */
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* Space between columns */
+}
+
+.chapter-links {
+    /* border: 1px solid red; */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
