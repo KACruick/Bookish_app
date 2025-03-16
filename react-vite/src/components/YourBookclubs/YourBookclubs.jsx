@@ -57,7 +57,7 @@ function YourBookclubs() {
                               <img
                                 src={bookclub.book.coverPicture}
                                 alt={bookclub.book.title}
-                                className="bookcover-image"
+                                className="club-bookcover-image"
                               />
                             )}
                             <h3>{bookclub.name}</h3>
@@ -84,7 +84,7 @@ function YourBookclubs() {
                               <img
                                 src={bookclub.book.coverPicture}
                                 alt={bookclub.book.title}
-                                className="bookcover-image"
+                                className="club-bookcover-image"
                               />
                             )}
                             <h3>{bookclub.name}</h3>
