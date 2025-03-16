@@ -1,6 +1,6 @@
 import './YourLibrary.css'
 import { useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
@@ -11,6 +11,7 @@ import CreateBookshelf from '../CreateBookshelf';
 function YourLibrary() {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const sessionUser = useSelector((state) => state.session.user);
   const bookshelves = useSelector((state) => Object.values(state.bookshelves.allBookshelves));
@@ -77,9 +78,10 @@ function YourLibrary() {
               sortedBookshelves.map((shelf) => (
                 <div key={shelf.id} className="bookshelf-container">
                   <h2>{shelf.name}</h2>
-                  <Link to={`/bookshelves/${shelf.id}`} className="reorder-button">
+                  {/* <Link to={`/bookshelves/${shelf.id}`} className="reorder-button">
                     Edit or reorder books in shelf
-                  </Link>
+                  </Link> */}
+                  <button onClick={() => navigate(`/bookshelves/${shelf.id}`)} className="reorder-button">Edit shelf</button>
                   <p>{shelf.description}</p>
 
                   <div className="books-container">

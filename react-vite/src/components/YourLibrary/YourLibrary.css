@@ -4,9 +4,21 @@
   margin-bottom: 20px;
 }
 
+.create-new-bookshelf button {
+  border: 2px solid #C9E4DE;
+  background-color: #C9E4DE;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.create-new-bookshelf button:hover {
+  background-color: #98d2c5;
+}
+
 .bookshelves-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px; 
 }
   
@@ -87,6 +99,17 @@
   color: #444;
 }
   
+
+
 .reorder-button {
-  text-align: center;
+  border: 2px solid #C9E4DE;
+  background-color: #C9E4DE;
+  border-radius: 3px;
+  padding: 5px;
+  width: 100px;
+  margin:auto;
+}
+
+.reorder-button:hover {
+  background-color: #98d2c5;
 }

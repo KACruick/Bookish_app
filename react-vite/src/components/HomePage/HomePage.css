@@ -33,14 +33,16 @@
     /* border: 1px solid red; */
     justify-content: center;
     /* border: solid 1px #ddd; */
-    border: solid 2px #FFC5D3;
+    /* border: solid 2px #FFC5D3; */
+    background-color: rgba(255, 197, 211, 0.3);
     border-radius: 8px;
     transition: box-shadow 0.3s ease; 
     height: 250px;
-    width: 300px;
+    width: 400px;
     padding: 10px;
-    margin-top: 78px;
+    margin-top: 50px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
   }
   
   .search-and-create {
@@ -79,6 +81,14 @@
 
   .add-book-link {
     margin: auto;
+    border: 2px solid #FFC5D3;
+    background-color: #FFC5D3;
+    border-radius: 3px;
+    padding: 5px;
+  }
+
+  .add-book-link:hover {
+    background-color: #f2a3b6;
   }
 
   .bookclubs-div {
@@ -96,7 +106,8 @@
   .home-club-tile-and-list {
     display: flex;
     flex-direction: column;
-    border: solid 2px #DBCDF0;
+    /* border: solid 2px #DBCDF0; */
+    background-color: rgba(219, 205, 240, 0.3);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 450px;
@@ -111,7 +122,7 @@
     flex-wrap: nowrap; /* Prevent wrapping, force horizontal scrolling */
     overflow-x: auto; /* Enable horizontal scrolling */
     margin-bottom: 10px;
-    padding-left: 20px;
+    padding-left: 60px;
     /* border: solid red 1px; */
     /* border: solid 2px #DBCDF0; */
     /* border-radius: 8px; */
@@ -138,7 +149,7 @@
   }
 
   
-  .bookclub-tile:hover{
+  .home-bookclub-tile:hover{
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
   }
   
@@ -154,7 +165,7 @@
     height: 250px; 
   }
 
-  .bookclub-tile h3 {
+  .home-bookclub-tile h3 {
     font-size: 16px;
     margin-top: 0;
     padding: 0 5px; /* Add a bit of padding for readability */
@@ -162,7 +173,9 @@
     text-decoration: none;
     color: black;
   }
-  
+  .home-bookclub-tile a {
+    text-decoration: none;
+  }
 
   
   /* Make the book club container layout responsive */
@@ -193,7 +206,8 @@
     padding-top: 10px;
     box-sizing: border-box;
     /* border: solid 1px red; */
-    border: solid 2px #C9E4DE;
+    /* border: solid 2px #C9E4DE; */
+    background-color: rgba(201, 228, 222, 0.3);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
@@ -233,9 +247,7 @@
 
   
   
-  /* .currently-reading-tile:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-  } */
+
   
   .book-cover {
     /* border: solid 1px red; */

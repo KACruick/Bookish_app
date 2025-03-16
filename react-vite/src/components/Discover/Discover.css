@@ -30,6 +30,11 @@
     flex-direction: column;
     text-align: center;
   }
+
+  .discover-book-tile a {
+    color: black;
+    text-decoration: none;
+  }
   
   /* Book Cover Image */
   .discover-book-cover {
@@ -40,6 +45,10 @@
     margin-bottom: 15px; /* Space between image and text */
   }
   
+  /* .discover-book-info {
+    
+  } */
+
   /* Book Info (Title, Author, Rating) */
   .discover-book-info h3 {
     font-size: 1.2rem;

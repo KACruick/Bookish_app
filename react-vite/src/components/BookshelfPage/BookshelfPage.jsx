@@ -74,8 +74,8 @@ function BookshelfPage() {
 
   return (
     <div>
-      <h1>Bookshelf Page - Reorder Here</h1>
-      <p>Click to reorder or change the shelf name here</p>
+      <h1>{bookshelf.name}</h1>
+      <p>Change shelf order here</p>
 
       <DndContext onDragEnd={handleDragEnd} onDragMove={handleDragMove} coordinates={sortableKeyboardCoordinates}>
         <SortableContext items={books.map((book) => book.id)} strategy={verticalListSortingStrategy}>

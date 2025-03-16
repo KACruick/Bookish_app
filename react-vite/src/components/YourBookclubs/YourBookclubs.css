@@ -3,6 +3,17 @@
   justify-content: center;
 }
 
+.start-club-button {
+  border: 2px solid #C9E4DE;
+  background-color: #C9E4DE;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.start-club-button:hover {
+  background-color: #98d2c5;
+}
+
 /* .your-bookclub-tile {
   display: flex;
   flex-direction: column;
@@ -21,6 +32,11 @@
   border: 1px solid #ddd;
   margin: 10px;
   width: 250px;
+}
+
+.your-bookclub-tile a {
+  text-decoration: none;
+  color: black;
 }
 
 .bookcover-image {

@@ -142,7 +142,8 @@ function HomePage() {
 
             <div className="button-to-create-book">
               <p>Can&apos;t find the book you&apos;re looking for?</p>
-              <Link to={`/books/add`} className="add-book-link">Add a book</Link>
+              <button className='add-book-link' onClick={() => navigate(`/books/add`)}>Add a book</button>
+              {/* <Link to={`/books/add`} className="add-book-link">Add a book</Link> */}
             </div>
           </div>
         </div>

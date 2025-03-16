@@ -40,7 +40,7 @@ function YourBookclubs() {
             <>
               {/* Bookclub creation option */}
               <div className='start-club-div'>
-                <button onClick={openStartBookclubModal}>Start a new bookclub</button>
+                <button className='start-club-button' onClick={openStartBookclubModal}>Start a new bookclub</button>
               </div>
     
               <div className="bookclub-container">
