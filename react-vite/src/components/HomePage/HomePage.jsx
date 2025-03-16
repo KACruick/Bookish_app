@@ -20,7 +20,7 @@ function HomePage() {
     console.log("bookshelves: ", bookshelves)
     const currentBookshelf = useSelector((state) => state.bookshelves.currentBookshelf);
     const bookclubs = useSelector((state) => Object.values(state.bookclubs.bookclubs));
-
+    console.log("bookclubs: ", bookclubs)
     const [loading, setLoading] = useState(true);
 
     // Memoized selector for user-specific bookshelves to prevent unnecessary re-renders
@@ -42,6 +42,11 @@ function HomePage() {
       )
     );
 
+    const userBookclubs = bookclubs.filter((bookclub) =>
+      bookclub.members && bookclub.members.some((member) => member.id === sessionUser.id)
+    );
+    console.log("userBookclubs: ", userBookclubs)
+
     useEffect(() => {
       if (sessionUser) {
         dispatch(getBookclubs());
@@ -61,24 +66,6 @@ function HomePage() {
     if (loading) return <div>Loading...</div>;
 
 
-    
-
-    // console.log("sessionUser: ", sessionUser)
-    // console.log("user id: ", sessionUser.id)
-    // console.log("bookshelves: ", bookshelves)
-    
-    // console.log("bookclubs: ", bookclubs)
-    // console.log("bookclubs[0]: ", bookclubs[0])
-    
-    // console.log("currentBookshelf: ", currentBookshelf.Books)
-    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0])
-    // console.log("currentBookshelf.Book[0]: ", currentBookshelf.Books[0].coverPicture)
-
-    // const getImageOrPlaceholder = (imageUrl) => {
-    //   return imageUrl ? imageUrl : '/path/to/placeholder-image.jpg';  // Use a local placeholder image path or URL
-    // };
-
-
     const handleSearch = (e) => {
       e.preventDefault();
       if (searchQuery.trim()) {
@@ -96,30 +83,6 @@ function HomePage() {
 
   return (
     <div className="home-page">
-
-      {/* <h1>Home page</h1> */}
-
-      {/* <div className="searh-and-create">
-        <div className="search-bar">
-          <form onSubmit={handleSearch}>
-              <div className="search-input-wrapper">
-                <FaSearch className="search-icon" />
-                <input
-                  type="text"
-                  className="search-input"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </form>
-        </div>
-
-        <div className="button-to-create-book">
-          <p>Can&apos;t find the book you&apos;re looking for?</p>
-          <Link to={`/books/add`}>Add a book</Link>
-        </div>
-      </div> */}
       
       <div className="clubs-and-search">
         {/* Bookclubs Section */}
@@ -130,8 +93,8 @@ function HomePage() {
 
             <div className="bookclub-list">
             {sessionUser ? (
-              bookclubs.length > 0 ? (
-                bookclubs.map((bookclub) => (
+              userBookclubs.length > 0 ? (
+                userBookclubs.map((bookclub) => (
                   <div className="home-bookclub-tile" key={bookclub.id}>
                     <Link to={`/bookclubs/${bookclub.id}`}>
                       {bookclub.book && bookclub.book.coverPicture ? (

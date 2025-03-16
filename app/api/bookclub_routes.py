@@ -116,6 +116,9 @@ def get_user_bookclub_memberships():
                 "coverPicture": book.coverPicture,  # Add coverPicture to the book details
             }
 
+             # Get the members for the current bookclub
+            members = User.query.join(BookclubMember).filter(BookclubMember.bookclubId == bookclub.id).all()
+
             bookclub_list.append({
                 "id": bookclub.id,
                 "name": bookclub.name,
@@ -123,7 +126,8 @@ def get_user_bookclub_memberships():
                 "ownerId": bookclub.ownerId,
                 "createdAt": bookclub.createdAt,
                 "updatedAt": bookclub.updatedAt,
-                "book": book_details  # Include the associated book's details (including coverPicture)
+                "book": book_details,  # Include the associated book's details (including coverPicture)
+                "members": [{"id": member.id, "firstName": member.firstName, "lastName": member.lastName} for member in members]
             })
 
     return jsonify({"bookclubs": bookclub_list}), 200
