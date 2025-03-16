@@ -99,6 +99,16 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+   
+}
+
+.book-info p {
+  margin-top: 5px;
+}
+
+.book-summary {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .avgRating-section {

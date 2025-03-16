@@ -4,6 +4,9 @@
 
 .book-details-cover {
     height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .book-details-cover img {
@@ -33,7 +36,7 @@
     /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
-    width: 600px;
+    width: 1000px;
 }
 
 h2 {
