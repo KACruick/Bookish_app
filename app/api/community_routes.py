@@ -31,7 +31,8 @@ def view_friends_activity():
     posts_query = CommunityPost.query.filter(CommunityPost.userId.in_(friend_ids))\
         .options(
             joinedload(CommunityPost.user),   # Join with the User to get the username and profile picture
-            joinedload(CommunityPost.book)    # Join with the Book to get the title and author
+            joinedload(CommunityPost.book),    # Join with the Book to get the title and author
+            joinedload(CommunityPost.bookshelf)
         )
     
     # Paginate results
@@ -64,6 +65,7 @@ def view_friends_activity():
             'rating': post.rating,
             'reviewText': post.reviewText,
             'bookshelfId': post.bookshelfId,
+            'bookshelfName': post.bookshelf.name if post.bookshelf else None,
             'createdAt': post.createdAt,
             'comments': [
                 {

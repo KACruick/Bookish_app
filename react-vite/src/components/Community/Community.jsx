@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunityActivity, likeFriendPost, commentOnFriendPost } from "../../redux/community";
 import { LiaCommentsSolid } from "react-icons/lia";
+// import { FiThumbsUp } from "react-icons/fi";
+import { BsHandThumbsUp } from "react-icons/bs";
+import { BsHandThumbsUpFill } from "react-icons/bs";
 import "./Community.css";
 
 function Community() {
@@ -86,47 +89,82 @@ function Community() {
                     )}
                     <p>{post.user.firstName} {post.user.lastName}</p>
                   </div>
+                  
                 ) : (
                   <div className="user-info">
                     <div className="no-profile-picture">No User Info</div>
                   </div>
                 )}
+                <div>
+                <p>{new Date(post.createdAt).toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                  })}</p>
+                </div>
 
-                <div className="post-user-info">
-                  <h3>{post.username}</h3>
+                {/* <div className="post-user-info">
+                  <h3>{post.username}</h3> 
                   <p>{post.user.firstName}</p>
                   <p>{new Date(post.createdAt).toLocaleString()}</p>
+                </div> */}
+
+              </div>
+
+              <div className="post-content-and-book">
+                {/* Book Info */}
+                <div className="post-book">
+                  <img
+                    src={post.book.cover || "/default-book-cover.png"}
+                    alt={post.book.title}
+                    className="post-book-cover"
+                  />
+                  {/* <div className="post-book-info">
+                    <h4>{post.book.title}</h4>
+                    <p>{post.book.author}</p>
+                    {post.reviewText && <p>{post.reviewText}</p>}
+                    {post.rating && <p>Rating: {post.rating} / 5</p>}
+                  </div> */}
                 </div>
-              </div>
+                
+                <div className="post-content-and-actions">
 
-              {/* Book Info */}
-              <div className="post-book">
-                <img
-                  src={post.book.cover || "/default-book-cover.png"}
-                  alt={post.book.title}
-                  className="post-book-cover"
-                />
-                <div className="post-book-info">
-                  <h4>{post.book.title}</h4>
-                  <p>{post.book.author}</p>
-                  {post.reviewText && <p>{post.reviewText}</p>}
-                  {post.rating && <p>Rating: {post.rating} / 5</p>}
+                  <div className="post-content">
+                    {post.rating ? (
+                      <p>{post.user.firstName} rated {post.book.title} {post.rating} / 5</p>
+                    ) : post.bookshelfId ? (
+                      <p>{post.user.firstName} has added {post.book.title} to {post.bookshelfName}</p>
+                    ) : (
+                      <p>{post.reviewText}</p>
+                    )}
+                  </div>
+
+                  <div className="post-actions">
+                    {/* Like Button with thumbs up */}
+                    <div className="like-button-div">
+                      <button 
+                        className="like-button" 
+                        onClick={() => handleLike(post.id)}>
+                        {post.liked ? (
+                          <BsHandThumbsUpFill className="thumbs-up-icon liked" /> // Filled icon when liked
+                        ) : (
+                          <BsHandThumbsUp className="thumbs-up-icon" /> // Unfilled icon when not liked
+                        )}
+                      </button>
+                    </div>
+
+                    {/* Comments Toggle Button */}
+                    <div className="comments-toggle">
+                      <button onClick={() => toggleCommentsVisibility(post.id)}>
+                        <LiaCommentsSolid />
+                      </button>
+                    </div>
+
+                  </div>
                 </div>
+               
               </div>
 
-              {/* Like Button */}
-              <div className="like-button-div">
-                <button className="like-button" onClick={() => handleLike(post.id)}>
-                  {post.liked ? "Unlike" : "Like"}
-                </button>
-              </div>
-
-              {/* Comments Toggle Button */}
-              <div className="comments-toggle">
-                <button onClick={() => toggleCommentsVisibility(post.id)}>
-                  <LiaCommentsSolid />
-                </button>
-              </div>
 
               {/* Display Comments if visible */}
               {commentsVisible[post.id] && (
@@ -141,19 +179,30 @@ function Community() {
                       <div className="comment-content">
                         <h5>{comment.username}</h5>
                         <p>{comment.comment}</p>
-                        <p>{new Date(comment.createdAt).toLocaleString()}</p>
+                        <p>{new Date(post.createdAt).toLocaleDateString('en-US', { 
+                          month: 'long', 
+                          day: 'numeric', 
+                          year: 'numeric' 
+                        })}</p>
                       </div>
                     </div>
                   ))}
+
+                  {/* Leave a comment button */}
+                  <div className="leave-comment-button-div">
+                    <button onClick={() => toggleCommentFormVisibility(post.id)}>
+                      Leave a comment
+                    </button>
+                  </div>
                 </div>
               )}
 
               {/* Leave a comment button */}
-              <div className="leave-comment-button-div">
+              {/* <div className="leave-comment-button-div">
                 <button onClick={() => toggleCommentFormVisibility(post.id)}>
                   Leave a comment
                 </button>
-              </div>
+              </div> */}
 
               {/* Comment Form */}
               {commentFormVisible[post.id] && (

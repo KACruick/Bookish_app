@@ -1,70 +1,188 @@
 /* Container for all posts */
 .posts-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Each post tile container */
-  .post-tile {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Post header with user profile and info */
-  .post-header {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-  }
-  
-  .post-profile-picture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .post-user-info {
-    flex-grow: 1;
-  }
-  
-  .post-user-info h3 {
-    margin: 0;
-  }
-  
-  .post-user-info p {
-    margin: 5px 0;
-  }
-  
-  /* Book cover and info container */
-  .post-book {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-  }
-  
-  .post-book-cover {
-    width: auto;
-    height: 150px; /* Set height to 150px */
-    object-fit: cover; /* Ensures the image covers the specified height without distortion */
-  }
-  
-  .post-book-info {
-    flex-grow: 1;
-  }
-  
-  .post-book-info h4 {
-    margin: 0;
-  }
-  
-  .post-book-info p {
-    margin: 5px 0;
-  }
-  
-  /* Like button styl
-  
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  align-items: center;     /* Horizontally center the posts */
+  height: 100vh;           /* Make sure it takes full height of the viewport */
+  padding: 20px; 
+}
+
+/* Each post tile container */
+.post-tile {
+  border: 1px solid #ddd;
+  /* padding: 20px; */
+  padding-left: 12px;
+  padding-top: 5px;
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+/* Post header with user profile and info */
+.post-header {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.post-profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-user-info {
+  flex-grow: 1;
+}
+
+.post-user-info h3 {
+  margin: 0;
+}
+
+.post-user-info p {
+  margin: 5px 0;
+}
+
+.post-content-and-book {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+/* Post content */
+.post-content {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.post-content-and-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Book cover and info container */
+.post-book {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.post-book-cover {
+  width: auto;
+  height: 150px; /* Set height to 150px */
+  object-fit: cover; /* Ensures the image covers the specified height without distortion */
+}
+
+.post-book-info {
+  flex-grow: 1;
+}
+
+.post-book-info h4 {
+  margin: 0;
+}
+
+.post-book-info p {
+  margin: 5px 0;
+}
+
+.post-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  /* border: 1px solid red; */
+  justify-content: center;
+  margin-bottom: 13px;
+}
+
+/* Like button style */
+/* .like-button-div {
+  margin-top: 10px;
+} */
+
+.like-button {
+  background-color: none;
+  border: none;
+  cursor: pointer;
+  padding: 0; /* Remove any padding around the icon */
+  display: flex; /* Make sure the icon is centered */
+  align-items: center; /* Vertically align the icon */
+  justify-content: center;
+}
+
+
+/* Comments Toggle Button */
+.comments-toggle button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 1.2em;
+}
+
+/* Comments Section */
+.comments {
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.comment {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.comment-content {
+  flex-grow: 1;
+}
+
+.comment-content h5 {
+  margin: 0;
+  font-size: 1em;
+}
+
+.comment-content p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+/* Leave comment button */
+.leave-comment-button-div {
+  margin-top: 10px;
+}
+
+.comment-form {
+  margin-top: 10px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.comment-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #45a049;
+}
