@@ -31,8 +31,9 @@ function ManageBooksAdded() {
                     {userBooks.map((book) => (
                         <div key={book.id} className="manage-book-tile">
                             <img
-                                src={book.coverPicture || "default-cover.jpg"} // Add a fallback image if there's no cover
+                                src={book?.coverPicture || "/images/cover_coming_soon.jpeg"} // Add a fallback image if there's no cover
                                 alt={book.title}
+                                onError={(e) => e.target.src = "/images/cover_coming_soon.jpeg"}
                                 className="book-cover"
                             />
                             <h3>{book.title}</h3>
