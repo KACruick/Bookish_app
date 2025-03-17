@@ -34,7 +34,7 @@ function UpdateReviewModal({ initialReview, initialRating, reviewId, bookId, pag
           return [0, 1, 2, 3, 4].map((index) => (
               <IoMdStar
               key={index}
-              className={index < (hoverRating || rating) ? 'filled-star' : 'empty-star'}
+              className={index < (hoverRating || rating) ? 'update-filled-star' : 'update-empty-star'}
               onClick={() => setRating(index + 1)} // Update rating on click
               onMouseEnter={() => setHoverRating(index + 1)} // Update hover state
               onMouseLeave={() => setHoverRating(0)} // Reset hover state
@@ -59,7 +59,7 @@ function UpdateReviewModal({ initialReview, initialRating, reviewId, bookId, pag
             };
             // Dispatch update review action
             await dispatch(updateReview(reviewId, updatedReviewData));
-  
+            
             // Conditionally dispatch based on the pageType
             if (pageType === "manage") {
               await dispatch(getUserReviews());  // Fetch reviews by user for the ManageReviews page
@@ -70,6 +70,8 @@ function UpdateReviewModal({ initialReview, initialRating, reviewId, bookId, pag
   
             console.log("Review updated successfully");
             closeModal(); 
+            await dispatch(getReviews(bookId));  // Fetch reviews by bookId for the BookPage
+            await dispatch(getBook(bookId));
   
           } catch (error) {
             console.error("Failed to update review:", error.message);
@@ -83,9 +85,9 @@ function UpdateReviewModal({ initialReview, initialRating, reviewId, bookId, pag
 
   return (
     <div>
-      <h1>Update your review</h1>
+      <h1 className="update-review-modal-container">Update your review</h1>
 
-      <div className='textarea-div'>
+      <div className='update-textarea-div'>
         <textarea 
           value={review}
           className='text'
@@ -95,12 +97,12 @@ function UpdateReviewModal({ initialReview, initialRating, reviewId, bookId, pag
         </textarea>
       </div>
 
-      <div className='set-stars-div'>
+      <div className='update-set-stars-div'>
           {fillStars()}
       </div>
 
-      <div className="button-div">
-        <button className='submit-review-button' type="submit" onClick={handleSubmit} disabled={!review || rating === 0}>
+      <div className="update-buttons-div">
+        <button className='update-submit-review-button' type="submit" onClick={handleSubmit} disabled={!review || rating === 0}>
           Update
         </button>
 

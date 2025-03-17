@@ -293,6 +293,8 @@ function BookPage() {
                             reviewId={review.id} 
                             initialReview={review.review} 
                             initialRating={review.rating} 
+                            pageType={book}
+                            bookId={bookId}
                           />
                         }
                         className='update-modal'

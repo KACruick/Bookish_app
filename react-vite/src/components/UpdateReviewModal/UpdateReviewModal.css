@@ -1,0 +1,118 @@
+
+.update-review-modal-container {
+    /* border: 3px red solid; */
+    border-radius: 8px;
+    width: 400px;
+}
+
+.review-header-div {
+    display: flex;
+    justify-content: center;
+   
+    height: 40px;
+}
+
+.user-book-rating-div {
+    display: flex;
+    flex-direction: row;
+    /* border: 1px solid red; */
+    gap: 5px;
+}
+
+.review-error-container {
+    display: flex;
+    justify-content: center;
+    color: red;
+    font-size: small;
+ 
+    
+}
+
+.update-textarea-div {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.text {
+    width: 350px;
+    height: 100px;
+    border: 2px solid #C9E4DE;
+}
+
+.update-set-stars-div {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.update-filled-star {
+    color: #ffc107; /* Gold color for filled stars */
+    cursor: pointer;
+    font-size: 24px;
+}
+  
+.update-empty-star {
+    color: #e4e5e9; /* Grey color for empty stars */
+    cursor: pointer;
+    font-size: 24px;
+}
+  
+.update-filled-star:hover,
+.update-empty-star:hover {
+    color: #ff9f00; /* Lighter gold on hover */
+}
+
+
+.submit-review-button-div {
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid red; */
+}
+
+/* .update-submit-review-button {
+    height: 35px;
+    background-color: #C9E4DE;
+    padding: 7px 15px;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+} */
+
+/* .update-submit-review-button:disabled{
+    background-color: grey;
+}
+.update-submit-review-button:disabled:hover{
+    background-color: grey;
+}
+
+.update-submit-review-button:hover {
+    background-color: #6fa297;
+} */
+
+.update-buttons-div {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.update-buttons-div button {
+    height: 35px;
+    background-color: #C9E4DE;
+    /* color: white; */
+    padding: 7px 15px;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.update-buttons-div button:disabled:hover{
+    background-color: grey;
+}
+
+.update-buttons-div button:hover {
+    background-color: #6fa297;
+}
