@@ -10,6 +10,7 @@ import OpenModalButton from "../OpenModalButton";
 import UpdateReviewModal from "../UpdateReviewModal";
 import DeleteReviewModal from "../DeleteReviewModal";
 import { IoMdStar } from "react-icons/io";
+import DeleteBookModal from '../DeleteBookModal';
 // import '../../../dist/images/profile-icons/'
 
 
@@ -149,7 +150,19 @@ function BookPage() {
             onClick={() => navigate(`/books/${book.id}/edit`)}>
               Edit
             </button>
+            
           )}
+
+          {/* Conditional "Delete" button */}
+          <div className="book-page-delete-book-modal-button">
+            {currentUserId && currentUserId === book.userId && (
+              <OpenModalButton
+              className="book-page-delete-book-modal-button"
+              buttonText="Delete"
+              modalComponent={<DeleteBookModal book={book} isFromBookPage={true} />}
+              />
+            )}
+          </div>
 
           {/* User rating stars */}
           {/* <div className="user-rating">

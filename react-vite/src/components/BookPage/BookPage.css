@@ -48,6 +48,16 @@
   background-color: grey;
 }
 
+.book-page-delete-book-modal-button button {
+  background-color: rgb(230, 167, 167);
+  border-radius: 3px;
+  border: 2px solid rgb(230, 167, 167);
+}
+
+.book-page-delete-book-modal-button button:hover {
+  background-color: grey;
+}
+
 .star-rating {
     display: flex;
     font-size: 24px; /* Adjust size of the stars */

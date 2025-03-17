@@ -55,7 +55,7 @@ function ManageBooksAdded() {
                             <OpenModalButton
                                 className="delete-book-modal-button"
                                 buttonText="Delete"
-                                modalComponent={<DeleteBookModal book={book} />}
+                                modalComponent={<DeleteBookModal book={book} isFromBookPage={false}/>}
                             />
                             </div>
 

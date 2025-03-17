@@ -2,15 +2,24 @@ import './DeleteBookModal.css'
 import { useModal } from '../../context/Modal';
 import { useDispatch } from 'react-redux';
 import { deleteBook, getBooks } from '../../redux/books';
+import { useNavigate } from "react-router-dom";
 
-function DeleteBookModal({ book }) {
+function DeleteBookModal({ book, isFromBookPage }) {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
   
     const handleDelete = async () => {
-      await dispatch(deleteBook(book.id)); // Deletes the book
-      closeModal(); // Close the modal after deletion
-      dispatch(getBooks());
+      if (isFromBookPage) {
+        // Redirect to homepage if deletion is from BookPage
+        await dispatch(deleteBook(book.id));
+        closeModal(); 
+        navigate('/');
+      } else {
+        await dispatch(deleteBook(book.id)); // Deletes the book
+        closeModal(); // Close the modal after deletion
+        dispatch(getBooks());
+      }
     };
   
     const handleCancel = async () => {
