@@ -75,7 +75,7 @@ function BookshelfPage() {
   return (
     <div>
       <h1>{bookshelf.name}</h1>
-      <p>Change shelf order here</p>
+      {/* <p>Change shelf order here</p> */}
 
       <DndContext onDragEnd={handleDragEnd} onDragMove={handleDragMove} coordinates={sortableKeyboardCoordinates}>
         <SortableContext items={books.map((book) => book.id)} strategy={verticalListSortingStrategy}>
@@ -117,7 +117,7 @@ function SortableItem({ id, book }) {
       <div className="shelf-book-details">
         <h3>{book.title}</h3>
         <p>by {book.author}</p>
-        <p>Rating: {book.avgRating}</p>
+        {/* <p>Rating: {book.avgRating}</p> */}
         {/* <p>Order: {book.orderInShelf}</p> */}
       </div>
     </div>

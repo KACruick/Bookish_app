@@ -59,7 +59,7 @@ function HomePage() {
         dispatch(getBookshelfDetails(currentBookshelf.id));
       }
       setLoading(false);
-    }, [dispatch, sessionUser, currentBookshelf]);
+    }, [dispatch, sessionUser]);
 
 
 
