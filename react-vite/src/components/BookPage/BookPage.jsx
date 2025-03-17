@@ -129,11 +129,11 @@ function BookPage() {
       <div className="book-left-div">
         <div className="book-cover">
           {/* Book cover image */}
-          {book?.coverPicture ? (
-            <img src={book.coverPicture} alt={book.title} />
-          ) : (
-            <div>No cover available</div>
-          )}
+          <img
+            src={book?.coverPicture || "/images/cover_coming_soon.jpeg"} // Use placeholder if coverPicture is missing
+            alt={book?.title || "Book cover"}
+            onError={(e) => e.target.src = "/images/cover_coming_soon.jpeg"} // Fallback to placeholder if image fails to load
+          />
         </div>
 
         <div className="want-rating-div">
