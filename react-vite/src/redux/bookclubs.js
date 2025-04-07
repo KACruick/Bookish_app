@@ -205,6 +205,7 @@ const initialState = {
 const bookclubsReducer = (state = initialState, action) => {
     switch (action.type) {
       case GET_BOOKCLUBS:
+        console.log('GET_BOOKCLUBS action payload:', action.payload);
         return { ...state, bookclubs: { ...action.payload } };
   
       case GET_BOOKCLUB: {
@@ -217,6 +218,7 @@ const bookclubsReducer = (state = initialState, action) => {
       }
   
       case CREATE_BOOKCLUB: {
+        console.log('CREATE_BOOKCLUB payload:', action.payload);
         const newBookclubs = { ...state.bookclubs, [action.payload.id]: action.payload };
         return {
           ...state,

@@ -17,6 +17,7 @@ function YourBookclubs() {
       }, [dispatch]);
     
       const bookclubs = useSelector(state => state.bookclubs.bookclubs);
+      console.log('Fetched bookclubs:', bookclubs); 
       const userId = useSelector(state => state.session.user?.id);
     
       // Filter bookclubs: those where the user is the owner (moderator) and those where the user is just a member

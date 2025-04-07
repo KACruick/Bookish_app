@@ -48,8 +48,8 @@ function StartBookclubModal() {
         try {
             const newClub = await dispatch(createBookclub(newBookclub));  // Pass newBookclub to action
             console.log("Created bookclub: ", newClub);
-            closeModal();  // Close the modal after submitting the form
             dispatch(getBookclubs());
+            closeModal();  
         } catch (error) {
             console.error("Error creating bookclub: ", error);
         }
