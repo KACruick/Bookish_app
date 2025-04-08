@@ -42,6 +42,13 @@ function HomePage() {
       )
     );
 
+    const [localCurrentlyReading, setLocalCurrentlyReading] = useState(null);
+    useEffect(() => {
+      if (currentlyReadingShelf) {
+        setLocalCurrentlyReading(currentlyReadingShelf);
+      }
+    }, [currentlyReadingShelf]);
+
     const readShelf = useSelector(
       createSelector(
         (state) => Object.values(state.bookshelves.allBookshelves),
@@ -89,6 +96,10 @@ function HomePage() {
     // Handle mark as read button click
   const handleMarkAsRead = async (bookId) => {
     try {
+      setLocalCurrentlyReading(prev => ({
+        ...prev,
+        Books: prev?.Books?.filter(book => book.id !== bookId)
+      }));
       // Remove from "Currently reading"
     await dispatch(removeBookFromShelf(currentlyReadingShelf.id, bookId));
 
