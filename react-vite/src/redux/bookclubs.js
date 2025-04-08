@@ -5,6 +5,7 @@ const GET_BOOKCLUBS = 'bookclubs/GET_BOOKCLUBS';
 const GET_BOOKCLUB = 'bookclubs/GET_BOOKCLUB';
 const CREATE_BOOKCLUB = 'bookclubs/CREATE_BOOKCLUB';
 const UPDATE_BOOKCLUB = 'bookclubs/UPDATE_BOOKCLUB';
+const CHANGE_BOOK = 'bookclubs/CHANGE_BOOK';
 const DELETE_BOOKCLUB = 'bookclubs/DELETE_BOOKCLUB';
 const ADD_MEMBER_TO_BOOKCLUB = 'bookclubs/ADD_MEMBER_TO_BOOKCLUB';
 const REMOVE_MEMBER_FROM_BOOKCLUB = 'bookclubs/REMOVE_MEMBER_FROM_BOOKCLUB';
@@ -30,6 +31,11 @@ const createBookclubAction = (bookclub) => ({
 const updateBookclubAction = (bookclub) => ({
   type: UPDATE_BOOKCLUB,
   payload: bookclub,
+});
+
+const changeBookAction = (bookclub) => ({
+  type: CHANGE_BOOK,
+  payload: bookclub
 });
 
 const deleteBookclubAction = (bookclubId) => ({
@@ -119,6 +125,23 @@ export const updateBookclub = (bookclubId, updatedData) => async (dispatch) => {
   } else {
     const errorData = await response.json();
     throw errorData;
+  }
+};
+
+export const changeBook = (bookclubId, bookId) => async (dispatch) => {
+  // console.log("gone into change book thunk")
+  const response = await csrfFetch(`/api/bookclubs/${bookclubId}/change-book`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ bookId })
+  });
+  // console.log("response: ", response.json())
+  if (response.ok) {
+    const updatedBookclub = await response.json();
+    // console.log("Sending PATCH request to: ", `/api/bookclubs/${bookclubId}/change-book`);
+    dispatch(changeBookAction(updatedBookclub));
+    dispatch(getBookclub(bookclubId)); // Re-fetch full data including new book and chapters
+    return updatedBookclub;
   }
 };
 
@@ -243,6 +266,15 @@ const bookclubsReducer = (state = initialState, action) => {
           currentBookclub: action.payload,
         };
       }
+
+      case CHANGE_BOOK:
+      return {
+        ...state,
+        currentBookclub: {
+          ...state.currentBookclub,
+          bookId: action.payload.bookId 
+        }
+      };
   
       case DELETE_BOOKCLUB: {
         const updatedBookclubs = { ...state.bookclubs };

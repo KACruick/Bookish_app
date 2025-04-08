@@ -8,6 +8,7 @@ import { useModal } from '../../context/Modal';
 import AddMemberModal from '../AddMemberModal';
 import RemoveMemberModal from '../RemoveMemberModal';
 import DeleteBookclubModal from '../DeleteBookclubModal';
+import ChangeBookModal from '../ChangeBookModal';
 
 function BookclubDetails() {
     const { bookclubId } = useParams();
@@ -63,9 +64,13 @@ function BookclubDetails() {
     const openChapterComments = (chapterId) => {
         setModalContent(<ChapterComments chapterId={chapterId} bookclubId={bookclubId} />);
     };
-
+    console.log(bookclubId)
     const openDeleteBookclubModal = (bookclubId) => {
         setModalContent(< DeleteBookclubModal bookclubId={bookclubId}/>)
+    }
+
+    const openChangeBookModal = (bookclubId) => {
+        setModalContent(<ChangeBookModal bookclubId={bookclubId}/>)
     }
 
     return (
@@ -77,7 +82,7 @@ function BookclubDetails() {
 
                 <div className='book-details-cover'>
                     <img src={bookclub.book.coverPicture} alt={bookclub.book.title} />
-                    <button>Change book</button>
+                    <button onClick={() => openChangeBookModal(bookclubId)}>Change book</button>
                 </div>
 
                 <div className='club-and-book-info'>

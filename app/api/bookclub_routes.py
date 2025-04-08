@@ -297,7 +297,41 @@ def edit_bookclub(id):
     }), 200
 
 
+@bookclub_routes.route('/<int:bookclub_id>/change-book', methods=['PATCH'])
+@login_required
+def change_book(bookclub_id):
+    """
+    Change the current book of a bookclub.
+    """
+    print("PATCH route hit")
+    bookclub = Bookclub.query.get(bookclub_id)
+    data = request.get_json()
 
+    if not bookclub:
+        return jsonify({"message": "Bookclub not found"}), 404
+
+    if bookclub.ownerId != current_user.id:
+        return jsonify({"message": "Unauthorized"}), 401
+
+    new_book_id = data.get('bookId')
+    new_book = Book.query.get(new_book_id)
+    if not new_book:
+        return jsonify({"message": "Book not found"}), 404
+
+    # Update the book
+    bookclub.bookId = new_book_id
+    bookclub.updatedAt = datetime.utcnow()
+
+    # Optionally delete comments from previous chapters if your data model allows
+    # ChapterComment.query.filter_by(bookclubId=bookclub_id).delete()
+
+    db.session.commit()
+
+    return jsonify({
+        "id": bookclub.id,
+        "name": bookclub.name,
+        "bookId": bookclub.bookId
+    }), 200
 
 # Delete a Bookclub
 @bookclub_routes.route('/<int:id>', methods=['DELETE'])
