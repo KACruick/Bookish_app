@@ -7,6 +7,7 @@ import ChapterComments from '../ChapterComments/ChapterComments';
 import { useModal } from '../../context/Modal';
 import AddMemberModal from '../AddMemberModal';
 import RemoveMemberModal from '../RemoveMemberModal';
+import DeleteBookclubModal from '../DeleteBookclubModal';
 
 function BookclubDetails() {
     const { bookclubId } = useParams();
@@ -63,6 +64,10 @@ function BookclubDetails() {
         setModalContent(<ChapterComments chapterId={chapterId} bookclubId={bookclubId} />);
     };
 
+    const openDeleteBookclubModal = (bookclubId) => {
+        setModalContent(< DeleteBookclubModal bookclubId={bookclubId}/>)
+    }
+
     return (
         <div className="bookclub-details-page">
             {/* <h1>Bookclub</h1> */}
@@ -97,10 +102,17 @@ function BookclubDetails() {
                     <div className="moderator-info">
                         {isModerator ? (
                             <div>
+                                
                                 <p>You moderate this bookclub</p>
-                                <button onClick={openAddMemberModal}>Add Another Member</button>
-                                <button onClick={openRemoveMemberModal}>Remove a Member</button>
+                                <div>
+                                    <button onClick={openAddMemberModal}>Add Another Member</button>
+                                    <button onClick={openRemoveMemberModal}>Remove a Member</button>
+                                </div>
+                                <div className='delete-bookclub-div'>
+                                    <button onClick={openDeleteBookclubModal}>Delete Bookclub</button>
+                                </div>
                             </div>
+                            
                         ) : (
                             <p>{ownerFirstName} moderates this club</p>
                         )}

@@ -73,6 +73,8 @@ h3, h4 {
 }
 
 
+
+
 .moderator-info button {
     margin-right: 10px;
     padding: 5px 10px;
@@ -85,6 +87,20 @@ h3, h4 {
 
 .moderator-info button:hover {
     background-color: #b59ed7;
+}
+
+.delete-bookclub-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.delete-bookclub-div button {
+    background-color: #efaca4;
+}
+
+.delete-bookclub-div button:hover {
+    background-color: #eb8b81;
 }
 
 .chapter-links:hover {
