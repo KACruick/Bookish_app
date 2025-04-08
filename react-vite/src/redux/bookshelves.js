@@ -236,7 +236,15 @@ const initialState = {
       }
   
       case GET_BOOKSHELF_DETAILS: {
-        return { ...state, currentBookshelf: action.payload };
+        const updatedAllBookshelves = {
+          ...state.allBookshelves,
+          [action.payload.id]: action.payload
+        };
+        return {
+          ...state,
+          currentBookshelf: action.payload,
+          allBookshelves: updatedAllBookshelves
+        };
       }
   
       case CREATE_BOOKSHELF: {
@@ -261,9 +269,9 @@ const initialState = {
   
       case REMOVE_BOOK_FROM_SHELF: {
         const updatedBookshelf = { ...state.currentBookshelf };
-        updatedBookshelf.books = updatedBookshelf.books.filter(
+        updatedBookshelf.Books = updatedBookshelf.Books?.filter(
           (book) => book.id !== action.payload
-        );
+        ) || [];
         return { ...state, currentBookshelf: updatedBookshelf };
       }
   

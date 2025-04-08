@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBookclubs } from '../../redux/bookclubs'
-import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
+import { getBookshelves, getBookshelfDetails, removeBookFromShelf, addBookToShelf } from "../../redux/bookshelves";
 // import { thunkAuthenticate } from "../../redux/session";
 import { createSelector } from 'reselect';
 
@@ -38,6 +38,16 @@ function HomePage() {
         (allBookshelves) =>
           allBookshelves.find(
             (shelf) => shelf.name === "Currently reading" && shelf.userId === sessionUser?.id
+          )
+      )
+    );
+
+    const readShelf = useSelector(
+      createSelector(
+        (state) => Object.values(state.bookshelves.allBookshelves),
+        (allBookshelves) =>
+          allBookshelves.find(
+            (shelf) => shelf.name === "Read" && shelf.userId === sessionUser?.id
           )
       )
     );
@@ -77,9 +87,20 @@ function HomePage() {
     };
 
     // Handle mark as read button click
-  // const handleMarkAsRead = (bookId) => {
-  //   // Dispatch action to remove book from "Currently Reading" shelf and add it to "read" shelf
-  // };
+  const handleMarkAsRead = async (bookId) => {
+    try {
+      // Remove from "Currently reading"
+    await dispatch(removeBookFromShelf(currentlyReadingShelf.id, bookId));
+
+    // Add to "Read"
+    await dispatch(addBookToShelf(readShelf.id, bookId));
+
+    // Refresh bookshelves
+    await dispatch(getBookshelfDetails(currentlyReadingShelf.id))
+    } catch (err) {
+      console.error("Error marking as read:", err);
+    }
+  };
 
   return (
     <div className="home-page">
@@ -166,7 +187,11 @@ function HomePage() {
                       className="currently-reading-book-cover"
                     />
                   </Link>
-                  <button className="mark-as-read">Mark as Read</button>
+                  <button 
+                  className="mark-as-read" 
+                  onClick={() => handleMarkAsRead(book.id)}>
+                    Mark as Read
+                    </button>
                 </div>
               ))
             ) : (
