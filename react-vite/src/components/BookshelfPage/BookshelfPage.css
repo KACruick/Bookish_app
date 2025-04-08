@@ -22,12 +22,13 @@
     display: flex; 
     width: 50%;
     height: 240px; 
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: move; 
     transition: transform 0.2s ease;
     z-index: 1;
+    position: relative;
 }
 
 .shelf-name-and-delete {
@@ -48,6 +49,12 @@
     background-color: #fff;
     transition: transform 0.2s ease;
 } */
+
+.shelf-book-tile {
+    /* border: 1px solid red; */
+    width: 440px;
+    height: 235px;
+}
   
 .shelf-book-tile img.shelf-book-cover {
     margin-top: 20px;
@@ -75,4 +82,25 @@
     font-size: 14px;
     margin: 5px 0;
 }
-  
+
+.book-checkbox {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 2; /* Ensure checkbox is above other elements */
+}
+
+.delete-books-button {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-books-button:hover {
+    background-color: #d32f2f;
+}

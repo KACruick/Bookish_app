@@ -2,13 +2,13 @@ import "./BookshelfPage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getBookshelfDetails, changeBookOrder } from "../../redux/bookshelves"; 
+import { getBookshelfDetails, changeBookOrder, removeBookFromShelf } from "../../redux/bookshelves"; 
 import { DndContext } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, useSortable, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { arrayMove } from "@dnd-kit/sortable";
-import OpenModalButton from "../OpenModalButton";
-import DeleteBookshelfModal from '../DeleteBookshelfModal';
-import EditBookshelfNameModal from "../EditBookshelfNameModal/EditBookshelfNameModal";
+// import OpenModalButton from "../OpenModalButton";
+// import DeleteBookshelfModal from '../DeleteBookshelfModal';
+// import EditBookshelfNameModal from "../EditBookshelfNameModal/EditBookshelfNameModal";
 
 
 function BookshelfPage() {
@@ -18,6 +18,7 @@ function BookshelfPage() {
   
     const bookshelf = useSelector((state) => state.bookshelves.allBookshelves[bookshelfId]);
     const [books, setBooks] = useState([]);
+    const [selectedBooks, setSelectedBooks] = useState([]);
     const [transform, setTransform] = useState({ x: 0, y: 0 });
     console.log(transform)
     
@@ -32,6 +33,29 @@ function BookshelfPage() {
         console.log('Books:', bookshelf.Books); 
       }
     }, [bookshelf]);
+
+    // Handle book selection
+    const handleSelectBook = (bookId) => {
+    setSelectedBooks((prevSelectedBooks) =>
+      prevSelectedBooks.includes(bookId)
+      ? prevSelectedBooks.filter((id) => id !== bookId)  // Deselect if already selected
+      : [...prevSelectedBooks, bookId]  // Select if not selected
+        );
+    };
+
+    // Handle delete selected books
+    const handleDeleteSelectedBooks = async () => {
+      try {
+          for (const bookId of selectedBooks) {
+              await dispatch(removeBookFromShelf(bookshelfId, bookId));
+          }
+          // Trigger a fresh fetch of bookshelf details after deletion
+          await dispatch(getBookshelfDetails(bookshelfId));
+          setSelectedBooks([]); // Clear selected books after deletion
+      } catch (err) {
+          console.error("Error in deleting selected books:", err);
+      }
+  };
   
 
     // Handle drag end
@@ -80,7 +104,7 @@ function BookshelfPage() {
       <div className="shelf-name-and-delete">
         <h1>{bookshelf.name}</h1>
 
-        <div className="change-shelf-name">
+        {/* <div className="change-shelf-name">
           {bookshelfId !== 1 && bookshelfId !== 2 && bookshelfId !== 3 && (
             <OpenModalButton
             buttonText="Change Name"
@@ -88,17 +112,15 @@ function BookshelfPage() {
             className="delete-modal"
             />
           )}
-        </div>
+        </div> */}
 
         <div className='shelf-delete-button'>
-          {/* Conditionally render the delete button */}
-          {bookshelfId !== 1 && bookshelfId !== 2 && bookshelfId !== 3 && (
-          <OpenModalButton
-          buttonText="Delete"
-          modalComponent={<DeleteBookshelfModal bookshelfId={bookshelfId}/>}
-          className="delete-modal"
-          />
-          )}
+          <button 
+            className="delete-books-button"
+            onClick={handleDeleteSelectedBooks}
+            >
+            Remove Books
+          </button>
         </div>
 
       </div>
@@ -110,7 +132,15 @@ function BookshelfPage() {
           <div className="bookshelf-books-container">
             {books.length > 0 ? (
               books.map((book) => (
-                <SortableItem key={book.id} id={book.id} book={book} />
+                <div key={book.id} className="shelf-book-tile">
+                  <SortableItem id={book.id} book={book} />
+                    <input 
+                      type="checkbox" 
+                      checked={selectedBooks.includes(book.id)} 
+                      onChange={() => handleSelectBook(book.id)} 
+                      className="book-checkbox"
+                      />
+                </div>
               ))
             ) : (
               <p>No books in this shelf.</p>
