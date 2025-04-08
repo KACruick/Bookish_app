@@ -8,6 +8,7 @@ import { sortableKeyboardCoordinates, useSortable, SortableContext, verticalList
 import { arrayMove } from "@dnd-kit/sortable";
 import OpenModalButton from "../OpenModalButton";
 import DeleteBookshelfModal from '../DeleteBookshelfModal';
+import EditBookshelfNameModal from "../EditBookshelfNameModal/EditBookshelfNameModal";
 
 
 function BookshelfPage() {
@@ -80,7 +81,13 @@ function BookshelfPage() {
         <h1>{bookshelf.name}</h1>
 
         <div className="change-shelf-name">
-        
+          {bookshelfId !== 1 && bookshelfId !== 2 && bookshelfId !== 3 && (
+            <OpenModalButton
+            buttonText="Change Name"
+            modalComponent={<EditBookshelfNameModal bookshelfId={bookshelfId}/>}
+            className="delete-modal"
+            />
+          )}
         </div>
 
         <div className='shelf-delete-button'>
