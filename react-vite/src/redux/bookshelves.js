@@ -31,10 +31,10 @@ const updateBookshelfAction = (updatedBookshelf) => ({
   payload: updatedBookshelf,
 });
 
-// const deleteBookshelfAction = (bookshelfId) => ({
-//   type: DELETE_BOOKSHELF,
-//   payload: bookshelfId,
-// });
+const deleteBookshelfAction = (bookshelfId) => ({
+  type: DELETE_BOOKSHELF,
+  payload: bookshelfId,
+});
 
 const removeBookFromShelfAction = (bookId) => ({
   type: REMOVE_BOOK_FROM_SHELF,
@@ -187,6 +187,25 @@ export const addBookToShelf = (bookshelfId, bookId) => async (dispatch) => {
     dispatch(addBookToShelfAction(bookshelfId, bookId));
   } else {
     const error = await response.json();
+    throw error;
+  }
+};
+
+export const deleteBookshelf = (bookshelfId) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/bookshelves/${bookshelfId}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      dispatch(deleteBookshelfAction(bookshelfId));
+    } else {
+      const error = await response.json();
+      console.error('Error deleting bookshelf:', error);
+      throw error;
+    }
+  } catch (error) {
+    console.error('Unexpected error deleting bookshelf:', error);
     throw error;
   }
 };

@@ -6,6 +6,7 @@ import { getBookshelves, getBookshelfDetails } from "../../redux/bookshelves";
 import { thunkAuthenticate } from "../../redux/session";
 import OpenModalButton from "../OpenModalButton";
 import CreateBookshelf from '../CreateBookshelf';
+import DeleteBookshelfModal from '../DeleteBookshelfModal';
 // import "../../../dist/images/cover_coming_soon.jpeg"
 
 function YourLibrary() {
@@ -56,7 +57,7 @@ function YourLibrary() {
   });
 
   return (
-    <div>
+    <div className='your-library-page'>
       <h1>Your Library </h1>
 
       {!sessionUser && (
@@ -80,6 +81,22 @@ function YourLibrary() {
                   <div className='shelf-name-and-edit'>
                     <h2>{shelf.name}</h2> 
                     <button onClick={() => navigate(`/bookshelves/${shelf.id}`)} className="reorder-button">Edit shelf</button>
+                    <div className='shelf-delete-button'>
+                      {/* Conditionally render the delete button */}
+                        {shelf.id !== 1 && shelf.id !== 2 && shelf.id !== 3 && (
+                          // <button 
+                          //   onClick={() => handleDelete(shelf.id)} // open a modal to delete the bookshelf
+                          //   className="shelf-delete-button"
+                          // >
+                          //   Delete shelf
+                          // </button>
+                          <OpenModalButton
+                          buttonText="Delete"
+                          modalComponent={<DeleteBookshelfModal bookshelfId={shelf.id}/>}
+                          className="delete-modal"
+                          />
+                        )}
+                      </div>
                   </div>
                   {/* <h2>{shelf.name}</h2>  */}
                   {/* <Link to={`/bookshelves/${shelf.id}`} className="reorder-button">

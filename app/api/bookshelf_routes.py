@@ -367,6 +367,10 @@ def delete_bookshelf(id):
     """
     Deletes a specific bookshelf from the system.
     """
+    default_shelf_ids = {1, 2, 3} 
+    if id in default_shelf_ids:
+        return jsonify({"message": "Cannot delete a default bookshelf"}), 403
+
     bookshelf = Bookshelf.query.get(id)
     if not bookshelf:
         return jsonify({"message": "Bookshelf not found"}), 404
