@@ -193,9 +193,11 @@ export const addBookToShelf = (bookshelfId, bookId) => async (dispatch) => {
 
 export const deleteBookshelf = (bookshelfId) => async (dispatch) => {
   try {
+    console.log("going into delete bookshelf thunk")
     const response = await csrfFetch(`/api/bookshelves/${bookshelfId}`, {
       method: 'DELETE',
     });
+    console.log("response: ", response.json());
 
     if (response.ok) {
       dispatch(deleteBookshelfAction(bookshelfId));

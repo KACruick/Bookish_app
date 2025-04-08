@@ -18,7 +18,7 @@ class Bookshelf(db.Model):
     books = db.relationship(
         'Book',
         secondary=add_prefix_for_prod('bookshelf_books'), 
-        back_populates='bookshelves',  
+        back_populates='bookshelves',
     )
     community_posts = db.relationship('CommunityPost', back_populates='bookshelf')
 

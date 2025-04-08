@@ -367,9 +367,6 @@ def delete_bookshelf(id):
     """
     Deletes a specific bookshelf from the system.
     """
-    default_shelf_ids = {1, 2, 3} 
-    if id in default_shelf_ids:
-        return jsonify({"message": "Cannot delete a default bookshelf"}), 403
 
     bookshelf = Bookshelf.query.get(id)
     if not bookshelf:
@@ -378,6 +375,13 @@ def delete_bookshelf(id):
     # Only the bookshelf owner can delete it
     if bookshelf.userId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
+
+    # Manually clear the association between books and this bookshelf
+    for book in bookshelf.books:
+        bookshelf.books.remove(book)
+
+    # Ensure changes to the relationship are flushed to the database
+    db.session.flush()
 
     db.session.delete(bookshelf)
     db.session.commit()

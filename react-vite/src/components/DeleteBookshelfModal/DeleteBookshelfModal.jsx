@@ -1,4 +1,4 @@
-import React from 'react'
+
 import "./DeleteBookshelfModal.css"
 import { useModal } from '../../context/Modal';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ function DeleteBookshelfModal({ bookshelfId }) {
     
       const handleDelete = async () => {
         // Redirect to homepage if deletion is from BookPage
+        console.log("going to delete bookshelf ", bookshelfId)
         await dispatch(deleteBookshelf(bookshelfId)); //delete bookshelf
         closeModal(); 
         navigate('/bookshelves/current'); 
