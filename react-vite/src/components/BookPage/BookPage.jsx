@@ -11,6 +11,7 @@ import UpdateReviewModal from "../UpdateReviewModal";
 import DeleteReviewModal from "../DeleteReviewModal";
 import { IoMdStar } from "react-icons/io";
 import DeleteBookModal from '../DeleteBookModal';
+import AddBookToShelfModal from "../AddBookToShelfModal";
 // import '../../../dist/images/profile-icons/'
 
 
@@ -148,7 +149,7 @@ function BookPage() {
             <button 
             className="book-page-edit-book-button" 
             onClick={() => navigate(`/books/${book.id}/edit`)}>
-              Edit
+              Edit Book
             </button>
             
           )}
@@ -168,6 +169,13 @@ function BookPage() {
           {/* <div className="user-rating">
             {rating === 0 ? renderStars(0) : renderStars(rating)}
           </div> */}
+        </div>
+
+        <div>
+            <OpenModalButton
+            buttonText="Add to a Bookshelf"
+            modalComponent={<AddBookToShelfModal book={book}/>}
+            />
         </div>
 
       </div>
