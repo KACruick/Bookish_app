@@ -6,7 +6,7 @@ from datetime import datetime
 bookclub_routes = Blueprint('bookclubs', __name__)
 
 # Create a Bookclub
-@bookclub_routes.route('/', methods=['POST'])
+@bookclub_routes.route('/new', methods=['POST'])
 @login_required
 def create_bookclub():
     """
@@ -44,6 +44,10 @@ def create_bookclub():
     db.session.add(new_bookclub)
     db.session.commit()
 
+    new_member = BookclubMember(bookclubId=new_bookclub.id, userId=current_user.id)
+    db.session.add(new_member)
+    db.session.commit()
+
     return jsonify({
         "id": new_bookclub.id,
         "name": new_bookclub.name,
@@ -71,15 +75,34 @@ def get_owned_bookclubs():
     if not owned_bookclubs:
         return jsonify({"message": "No bookclubs found for this user."}), 404
 
-    # Prepare the list of bookclubs to return
-    bookclub_list = [{
-        "id": bookclub.id,
-        "name": bookclub.name,
-        "description": bookclub.description,
-        "ownerId": bookclub.ownerId,
-        "createdAt": bookclub.createdAt,
-        "updatedAt": bookclub.updatedAt
-    } for bookclub in owned_bookclubs]
+    bookclub_list = []
+    for bookclub in owned_bookclubs:
+        # Fetch the book associated with the bookclub
+        book = Book.query.get(bookclub.bookId)
+        
+        if book:
+            # Prepare book details
+            book_details = {
+                "id": book.id,
+                "title": book.title,
+                "author": book.author,
+                "coverPicture": book.coverPicture,  # Add coverPicture to the book details
+            }
+        
+        # Get the members for the current bookclub
+        members = User.query.join(BookclubMember).filter(BookclubMember.bookclubId == bookclub.id).all()
+
+        # Append the bookclub details along with book and member information
+        bookclub_list.append({
+            "id": bookclub.id,
+            "name": bookclub.name,
+            "description": bookclub.description,
+            "ownerId": bookclub.ownerId,
+            "createdAt": bookclub.createdAt,
+            "updatedAt": bookclub.updatedAt,
+            "book": book_details,  # Include the associated book's details
+            "members": [{"id": member.id, "firstName": member.firstName, "lastName": member.lastName} for member in members]
+        })
 
     return jsonify({"bookclubs": bookclub_list}), 200
 

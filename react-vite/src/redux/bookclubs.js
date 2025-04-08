@@ -80,7 +80,8 @@ export const getBookclub = (bookclubId) => async (dispatch) => {
 };
 
 export const createBookclub = (bookclubData) => async (dispatch) => {
-  const response = await csrfFetch('/api/bookclubs/', {
+  console.log("inside createbookclub action")
+  const response = await csrfFetch('/api/bookclubs/new', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -89,8 +90,12 @@ export const createBookclub = (bookclubData) => async (dispatch) => {
   });
   console.log("response: ", response)
   if (response.ok) {
+    console.log("response is OK")
     const newBookclub = await response.json();
     dispatch(createBookclubAction(newBookclub));
+    console.log("after dispatch (createBookclubAction(newBookclub)")
+    // Fetch the updated list of book clubs
+    dispatch(getBookclubs());
     return newBookclub;
   } else {
     const errorData = await response.json();
