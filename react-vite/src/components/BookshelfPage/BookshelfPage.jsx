@@ -6,6 +6,8 @@ import { getBookshelfDetails, changeBookOrder } from "../../redux/bookshelves";
 import { DndContext } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, useSortable, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { arrayMove } from "@dnd-kit/sortable";
+import OpenModalButton from "../OpenModalButton";
+import DeleteBookshelfModal from '../DeleteBookshelfModal';
 
 
 function BookshelfPage() {
@@ -74,7 +76,26 @@ function BookshelfPage() {
 
   return (
     <div>
-      <h1>{bookshelf.name}</h1>
+      <div className="shelf-name-and-delete">
+        <h1>{bookshelf.name}</h1>
+
+        <div className="change-shelf-name">
+        
+        </div>
+
+        <div className='shelf-delete-button'>
+          {/* Conditionally render the delete button */}
+          {bookshelfId !== 1 && bookshelfId !== 2 && bookshelfId !== 3 && (
+          <OpenModalButton
+          buttonText="Delete"
+          modalComponent={<DeleteBookshelfModal bookshelfId={bookshelfId}/>}
+          className="delete-modal"
+          />
+          )}
+        </div>
+
+      </div>
+
       {/* <p>Change shelf order here</p> */}
 
       <DndContext onDragEnd={handleDragEnd} onDragMove={handleDragMove} coordinates={sortableKeyboardCoordinates}>

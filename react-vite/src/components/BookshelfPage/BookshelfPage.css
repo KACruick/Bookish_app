@@ -30,6 +30,13 @@
     z-index: 1;
 }
 
+.shelf-name-and-delete {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
 
 
 /* .shelf-book-tile {
