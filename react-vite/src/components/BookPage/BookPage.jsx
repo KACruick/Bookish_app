@@ -22,20 +22,21 @@ function BookPage() {
   const bookshelves = useSelector((state) => state.bookshelves.allBookshelves);
   const currentUserId = useSelector((state) => state.session.user?.id);
 
-  const [isRead, setIsRead] = useState(false);  // Track if the user has marked the book as read
+  // const [isRead, setIsRead] = useState(false);  // Track if the user has marked the book as read
   // const [rating, setRating] = useState(0);  // Track the user's rating
   // console.log("rating", rating);
   // Fetch book details from Redux store
   const book = useSelector((state) => state.books.bookDetails); 
   const reviews = useSelector((state) => Object.values(state.reviews)) || [];
-  // Handle the case where the reviews array has the unexpected structure
+
   const reviewList = Array.isArray(reviews) && reviews[0] ? Object.values(reviews[0]) : [];
   const userReview = currentUserId
   ? reviewList.find((review) => review.userId === currentUserId)
   : null;
-  console.log("userReview: ", userReview)
-  console.log("book: ", book)
-  console.log("reviewList: ", reviewList)
+
+  // console.log("userReview: ", userReview)
+  // console.log("book: ", book)
+  // console.log("reviewList: ", reviewList)
   
   // Get reviews and ratings
   const avgRating = book?.avgRating || 0;
@@ -52,31 +53,6 @@ function BookPage() {
     dispatch(getBookshelves());
   }, [dispatch, bookId]);
 
-  const handleReadButton = async () => {
-    const currentlyReadingBookshelf = Object.values(bookshelves).find(
-      (shelf) => shelf.name === "Currently reading"
-    );
-
-    console.log("currentlyReadingBookshelf", currentlyReadingBookshelf)
-    if (currentlyReadingBookshelf) {
-      try {
-        // Add the book to the "Currently Reading" bookshelf
-        await dispatch(addBookToShelf(currentlyReadingBookshelf.id, book.id));
-        setIsRead(true);  // Update button text to "Mark as Unread"
-      } catch (error) {
-        console.error("Error adding book to bookshelf:", error);
-      }
-    } else {
-      console.error("Currently Reading bookshelf not found.");
-    }
-  };
-
-
-  // Function to handle star rating (setRating)
-  // const handleRating = (newRating) => {
-  //   setRating(newRating);
-  //   // Dispatch action to update the user's rating for this book
-  // };
 
   const renderStars = (ratingValue) => {
     const filledStars = Math.floor(ratingValue);
@@ -96,25 +72,32 @@ function BookPage() {
     );
   };
 
-
-  const currentlyReadingBookshelf = Object.values(bookshelves).find(
-    (shelf) => shelf.name === "Currently Reading"
+    // Find user's "Currently Reading" and "Read" shelves
+  const currentlyReadingShelf = Object.values(bookshelves).find(
+    (shelf) => shelf.name === "Currently reading"
   );
-  console.log("currentlyReadingBookshelf: ", currentlyReadingBookshelf)
-  
-  // const currentlyReadingBookshelfId = currentlyReadingBookshelf ? currentlyReadingBookshelf.id : null;
-  
-  
+  const readShelf = Object.values(bookshelves).find(
+    (shelf) => shelf.name === "Read"
+  );
 
-  // const handleUpdateReview = (reviewId) => {
-  //   // Logic to show an update form or navigate to a page where the user can update their review
-  //   console.log("Update review with id:", reviewId);
-  // };
+  console.log("currently reading: ", currentlyReadingShelf)
+  console.log("read: ", readShelf)
 
-  // console.log("reviewList: ", reviewList)
-  // console.log("reviewList[0]: ", reviewList[0])
-  // console.log("reviewList[0].user.profilePicture: ", reviewList[0].user.profilePicture)
-  // console.log("profile pic src: ", `../../../dist/images/profile-icons/${reviewList[0].user.profilePicture}`)
+  // Check if the current book is in either shelf
+  const isCurrentlyReading = currentlyReadingShelf?.Books?.some((b) => b.id === book.id);
+  const isRead = readShelf?.Books?.some((b) => b.id === book.id);
+
+  console.log("isCurrentlyReading? ", isCurrentlyReading)
+  console.log("isRead? ", isRead)
+
+  // Decide status message
+  let readingStatusMessage = "You have not read this book yet.";
+  if (isRead) {
+    readingStatusMessage = "You have read this book.";
+  } else if (isCurrentlyReading) {
+    readingStatusMessage = "You are currently reading this book.";
+  }
+
 
   // Make sure book is defined before rendering
   if (!book) {
@@ -123,6 +106,8 @@ function BookPage() {
   if (!reviews) {
     return <div>Loading...</div>;
   }
+
+  
 
   return (
     <div className="book-page">
@@ -140,9 +125,15 @@ function BookPage() {
 
         <div className="want-rating-div">
             {/* "Want to Read" or "Read" Button */}
-          <button className="want-to-read" onClick={handleReadButton}>
-            {isRead ? "Mark as Unread" : "Want to Read"}
-          </button>
+          {/* <button className="want-to-read" onClick={handleReadButton}>
+            Add to a Bookshelf
+          </button> */}
+          <div className="add-to-shelf-button">
+          <OpenModalButton
+            buttonText="Add to a Bookshelf"
+            modalComponent={<AddBookToShelfModal book={book}/>}
+            />
+          </div>
 
           {/* Conditional "Edit" button */}
           {currentUserId && currentUserId === book.userId && (
@@ -171,11 +162,15 @@ function BookPage() {
           </div> */}
         </div>
 
-        <div>
+        {/* <div>
             <OpenModalButton
             buttonText="Add to a Bookshelf"
             modalComponent={<AddBookToShelfModal book={book}/>}
             />
+        </div> */}
+
+        <div className="has-read-or">
+          <p>{readingStatusMessage}</p>
         </div>
 
       </div>

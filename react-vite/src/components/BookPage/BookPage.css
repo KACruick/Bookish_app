@@ -34,6 +34,20 @@
     border: 2px solid #DBCDF0;
 }
 
+/* .add-to-shelf-button {
+
+} */
+
+.add-to-shelf-button button {
+  background-color: #DBCDF0;
+  border-radius: 3px;
+  border: 2px solid #DBCDF0;
+}
+
+.add-to-shelf-button button:hover{
+  background-color: #c8adf1;
+}
+
 .want-to-read:hover{
     background-color: grey;
 }
@@ -56,6 +70,13 @@
 
 .book-page-delete-book-modal-button button:hover {
   background-color: grey;
+}
+
+.has-read-or {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+  /* border: 1px solid red; */
 }
 
 .star-rating {
