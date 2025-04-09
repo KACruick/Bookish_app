@@ -34,12 +34,31 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: solid 2px #C9E4DE;
   border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;    
+  gap: 20px;      
+  overflow-x: auto;   
+  padding: 10px;    
+  justify-content: center; 
+  max-height: 300px;      
+  /* scroll-behavior: smooth;  */
 }
+/* 
+.your-bookclub-list {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px;
+  justify-content: center; 
+  max-height: 300px; 
+  overflow-y: auto; 
+} */
 
 .your-bookclub-tile {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 0 0 auto; 
   padding: 10px;
   /* border: 1px solid #ddd; */
   margin: 10px;
@@ -79,14 +98,7 @@
   justify-content: center;
 } */
 
-.your-bookclub-list {
-  display: flex;
-  flex-wrap: wrap; /* Allow wrapping of tiles within each list */
-  gap: 20px;
-  justify-content: center; /* Center the tiles */
-  max-height: 300px; /* Limit the height of the list */
-  overflow-y: auto; /* Allow scrolling if there are more items than the max height */
-}
+
 
 .moderate, .member {
   /* Both sections will take up full width */
