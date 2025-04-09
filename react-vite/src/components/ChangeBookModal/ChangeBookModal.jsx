@@ -48,30 +48,52 @@ function ChangeBookModal({ bookclubId }) {
     };
 
   return (
-    <div className="change-book-modal">
-      <h1>Finished with your book?</h1>
-      <h2>Select a new one!</h2>
+    <div className="modal-container">
+
+      <div className="change-book-headers">
+        <h1>Finished with your book?</h1>
+        <h2>Select a new one!</h2>
+      </div>
+
+      <div className="change-book-warning">
       <p className="warning-text">Warning: all chapter comments will be lost after selecting a new book.</p>
-      <form onSubmit={handleSubmit}>
-        <label>Search for a new book:</label>
-        <input
-          type="text"
-          value={bookSearch}
-          onChange={handleBookSearch}
-          placeholder="Search for a book"
-        />
-        {searchResults.length > 0 && (
-          <ul className="search-results">
-            {searchResults.map((book) => (
-              <li key={book.id} onClick={() => handleBookSelect(book)}>
-                {book.title}
-              </li>
-            ))}
-          </ul>
-        )}
-        <button type="submit" disabled={!selectedBook}>Change Book</button>
-      </form>
-      <button onClick={closeModal}>Cancel</button>
+      </div>
+
+      <div>
+        <form onSubmit={handleSubmit}>
+          
+          {/* <label>Search for a new book:</label> */}
+
+          <div className="search-container">
+            <div className="label-andsearch">
+              <label>Search for a new book:</label>
+              <input
+                type="text"
+                value={bookSearch}
+                onChange={handleBookSearch}
+                placeholder="Search for a book"
+              />
+            </div>
+
+            {searchResults.length > 0 && (
+              <ul className="search-results">
+                {searchResults.map((book) => (
+                  <li key={book.id} onClick={() => handleBookSelect(book)}>
+                    {book.title} by {book.author}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="change-book-buttons">
+            <button type="submit" disabled={!selectedBook}>Change Book</button>
+            <button onClick={closeModal}>Cancel</button>
+          </div>
+
+        </form>
+      </div>
+      
     </div>
   );
 }

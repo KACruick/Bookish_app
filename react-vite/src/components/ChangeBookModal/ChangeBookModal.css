@@ -1,0 +1,74 @@
+
+
+
+.change-book-headers h1 {
+    margin-bottom: 0;
+}
+
+.change-book-headers h2 {
+    margin-bottom: 20px;
+}
+
+.change-book-warning p {
+    margin-bottom: 10px;
+    color: red;
+}
+
+.label-andsearch {
+    /* border: 1px solid red; */
+    display: flex;
+    align-self: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+    /* border: 1px solid red; */
+  }
+  
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 999;
+    padding: 0;
+    margin: 4px 0 0 0;
+    list-style: none;
+  }
+  
+  .search-results li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .search-results li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .change-book-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .change-book-buttons button {
+    background-color: #DBCDF0;
+    padding: 5px 10px;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .change-book-buttons button:hover {
+    background-color: #b59ed7;
+  }
