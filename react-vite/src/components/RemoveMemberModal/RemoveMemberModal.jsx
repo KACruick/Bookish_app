@@ -23,19 +23,20 @@ function RemoveMemberModal({ bookclubId }) {
   };
 
   return (
-    <div className="remove-member-modal">
+    <div className="modal-container">
       <h2>Which member would you like to remove?</h2>
 
       <ul className="members-list">
         {bookclubMembers.length > 0 ? (
           bookclubMembers.map((member) => (
             <li key={member.id} className="member-item">
-              {member.firstName} {member.lastName}
+              
               <button
                 onClick={() => handleRemoveMember(member.id)} // Remove member on click
               >
                 Remove
               </button>
+              {member.firstName} {member.lastName}
             </li>
           ))
         ) : (
@@ -43,7 +44,7 @@ function RemoveMemberModal({ bookclubId }) {
         )}
       </ul>
 
-      <div>
+      <div className='cancel-remove-member'>
         <button onClick={closeModal}>Cancel</button>
       </div>
     </div>

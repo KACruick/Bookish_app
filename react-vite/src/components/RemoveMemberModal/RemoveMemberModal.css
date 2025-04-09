@@ -1,0 +1,45 @@
+
+.members-list {
+    list-style-type: none; /* Removes bullet points */
+
+}
+  
+.member-item {
+    margin-bottom: 10px;
+    margin-left: 90px;
+    display: flex;
+    justify-content: flex-start; /* Pushes name to left, button to right */
+    gap: 20px;
+    align-items: center;
+}
+
+.member-item button {
+    background-color: #DBCDF0;
+    padding: 5px 10px;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.member-item button:hover {
+    background-color: #b59ed7;
+}
+
+.cancel-remove-member {
+    display: flex;
+    justify-content: center;
+}
+
+.cancel-remove-member button {
+    background-color: #DBCDF0;
+    padding: 5px 10px;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-remove-member button:hover {
+    background-color: #b59ed7;
+}
