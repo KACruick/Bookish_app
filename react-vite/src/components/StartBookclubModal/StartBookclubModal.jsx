@@ -81,7 +81,7 @@ function StartBookclubModal() {
               />
             </div>
 
-            <div>
+            <div className='start-club-book-search' style={{ position: 'relative' }}>
               <label>Search for a Book:</label>
               <input
                 type="text"
