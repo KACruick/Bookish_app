@@ -96,7 +96,7 @@
     height: 50%;  /* Set to take up half the height of the screen */
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     /* border: solid 1px red; */
     /* overflow-x: hidden;   */
     /* padding: 20px; */
@@ -123,7 +123,7 @@
   .bookclub-list {
     display: flex;
     flex-direction: row; /* Align items horizontally */
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: nowrap; /* Prevent wrapping, force horizontal scrolling */
     overflow-x: auto; /* Enable horizontal scrolling */
     margin-bottom: 10px;
