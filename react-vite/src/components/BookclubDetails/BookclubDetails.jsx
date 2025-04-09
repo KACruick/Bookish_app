@@ -64,7 +64,7 @@ function BookclubDetails() {
     const openChapterComments = (chapterId) => {
         setModalContent(<ChapterComments chapterId={chapterId} bookclubId={bookclubId} />);
     };
-    console.log(bookclubId)
+    // console.log(bookclubId)
     const openDeleteBookclubModal = (bookclubId) => {
         setModalContent(< DeleteBookclubModal bookclubId={bookclubId}/>)
     }
@@ -114,7 +114,7 @@ function BookclubDetails() {
                                     <button onClick={openRemoveMemberModal}>Remove a Member</button>
                                 </div>
                                 <div className='delete-bookclub-div'>
-                                    <button onClick={openDeleteBookclubModal}>Delete Bookclub</button>
+                                    <button onClick={() => openDeleteBookclubModal(bookclubId)}>Delete Bookclub</button>
                                 </div>
                             </div>
                             
