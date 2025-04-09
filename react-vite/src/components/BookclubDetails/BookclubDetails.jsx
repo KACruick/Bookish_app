@@ -2,7 +2,7 @@ import './BookclubDetails.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import { getBookclub } from '../../redux/bookclubs';  
+import { getBookclub, getChapterComments } from '../../redux/bookclubs';  
 import ChapterComments from '../ChapterComments/ChapterComments';
 import { useModal } from '../../context/Modal';
 import AddMemberModal from '../AddMemberModal';
@@ -27,6 +27,18 @@ function BookclubDetails() {
         // Fetch bookclub details
         dispatch(getBookclub(bookclubId)).finally(() => setLoading(false));
     }, [dispatch, bookclubId]);
+
+    const existingComments = useSelector(state => state.bookclubs.currentBookclub.chapterComments);
+
+useEffect(() => {
+  if (bookclub?.book?.chapters) {
+    for (let chapterId = 1; chapterId <= bookclub.book.chapters; chapterId++) {
+      if (!existingComments?.[chapterId]) {
+        dispatch(getChapterComments(bookclubId, chapterId));
+      }
+    }
+  }
+}, [bookclubId, bookclub?.book?.chapters, existingComments, dispatch]);
 
     // useEffect(() => {
     //     // Only dispatch getChapterComments once the bookclub is loaded and valid
