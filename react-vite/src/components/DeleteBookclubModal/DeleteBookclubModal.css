@@ -1,0 +1,27 @@
+.delete-bookclub-headers {
+margin-bottom: 15px;
+}
+
+.delete-bookclub-headers h1{
+margin-bottom: 0;
+}
+
+
+.delete-bookclub-buttons {
+    display: flex;
+    justify-content: center;
+    gap:20px;
+}
+
+.delete-bookclub-buttons button {
+    background-color: #DBCDF0;
+    padding: 5px 10px;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-bookclub-buttons button:hover {
+    background-color: #b59ed7;
+}

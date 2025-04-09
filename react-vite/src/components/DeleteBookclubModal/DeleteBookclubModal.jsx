@@ -1,4 +1,4 @@
-import "./DeleteBookclubModal"
+import "./DeleteBookclubModal.css"
 import { useModal } from '../../context/Modal';
 import { useDispatch } from 'react-redux';
 import { deleteBookclub } from '../../redux/bookclubs';
@@ -22,15 +22,15 @@ function DeleteBookclubModal({ bookclubId }) {
 
   return (
     <div className='modal-container'>
-      <h1 className="delete-product-header">Confirm Delete</h1>
 
-      <div className='h4-container'>
+      <div className='delete-bookclub-headers'>
+        <h1 className="delete-product-header">Confirm Delete</h1>
         <h4>Are you sure you want to delete this bookclub?</h4>
       </div>
 
-      <div className="action-buttons">
-        <button onClick={handleDelete} className='yes'>Yes (Delete bookclub)</button>
-        <button onClick={handleCancel} className='no'>No (Keep bookclub)</button>
+      <div className="delete-bookclub-buttons">
+        <button onClick={handleDelete}>Delete</button>
+        <button onClick={handleCancel}>Cancel</button>
       </div>
     </div>
   );
