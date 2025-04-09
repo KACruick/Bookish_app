@@ -8,6 +8,7 @@ function RemoveMemberModal({ bookclubId }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const bookclubMembers = useSelector((state) => state.bookclubs.currentBookclub.members);
+    const sessionUser = useSelector((state) => state.session.user);
 
     // Remove a member
   const handleRemoveMember = async (userId) => {
@@ -27,16 +28,16 @@ function RemoveMemberModal({ bookclubId }) {
       <h2>Which member would you like to remove?</h2>
 
       <ul className="members-list">
-        {bookclubMembers.length > 0 ? (
-          bookclubMembers.map((member) => (
+      {bookclubMembers.length > 0 ? (
+        bookclubMembers
+          .filter((member) => member.id !== sessionUser.id)
+          .map((member) => (
             <li key={member.id} className="member-item">
-              
-              <button
-                onClick={() => handleRemoveMember(member.id)} // Remove member on click
-              >
+              {member.firstName} {member.lastName}
+              <button onClick={() => handleRemoveMember(member.id)}>
                 Remove
               </button>
-              {member.firstName} {member.lastName}
+           
             </li>
           ))
         ) : (
