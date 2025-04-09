@@ -376,12 +376,12 @@ def delete_bookshelf(id):
     if bookshelf.userId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
 
-    # Manually clear the association between books and this bookshelf
-    for book in bookshelf.books:
-        bookshelf.books.remove(book)
-
-    # Ensure changes to the relationship are flushed to the database
+    # Flush any pending changes to make sure session is in sync
     db.session.flush()
+
+    # Remove the associations (clear the bookshelf_books relationship)
+    for bookshelf_book in bookshelf.bookshelf_books:
+        db.session.delete(bookshelf_book)  # This removes the association without deleting the book
 
     db.session.delete(bookshelf)
     db.session.commit()
