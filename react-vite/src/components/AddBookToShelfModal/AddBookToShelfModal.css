@@ -1,0 +1,29 @@
+
+
+
+.select-shelf-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.add-book-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.add-book-buttons button {
+    background-color: #DBCDF0;
+    padding: 5px 10px;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-book-buttons button:hover {
+    background-color: #b59ed7;
+}

@@ -30,27 +30,35 @@ function AddBookToShelfModal({ book }) {
       }
     };
 
+    const handleCancel = () => {
+      closeModal();
+    };
+
   return (
-    <div className="add-book-to-shelf-modal">
+    <div className="modal-container">
       <h2>Add "{book.title}" to a Bookshelf</h2>
 
       <form onSubmit={handleAddToShelf}>
-        <label htmlFor="bookshelf">Select a Bookshelf:</label>
-        <select
-          id="bookshelf"
-          value={selectedShelfId}
-          onChange={(e) => setSelectedShelfId(e.target.value)}
-        >
-          <option value="" disabled>Select one</option>
-          {userBookshelves.map((shelf) => (
-            <option key={shelf.id} value={shelf.id}>
-              {shelf.name}
-            </option>
-          ))}
-        </select>
 
-        <div className="modal-actions">
+        <div className='select-shelf-div'>
+          <label htmlFor="bookshelf">Select a Bookshelf:</label>
+          <select
+            id="bookshelf"
+            value={selectedShelfId}
+            onChange={(e) => setSelectedShelfId(e.target.value)}
+          >
+            <option value="" disabled>Select one</option>
+            {userBookshelves.map((shelf) => (
+              <option key={shelf.id} value={shelf.id}>
+                {shelf.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="add-book-buttons">
           <button type="submit" disabled={!selectedShelfId}>Add Book</button>
+          <button onClick={handleCancel}>Cancel</button>
         </div>
       </form>
     </div>
