@@ -1,0 +1,97 @@
+.chapter-comments {
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 500px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chapter-comments h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .chapter-comments ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .chapter-comments li {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .chapter-comments li p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  .chapter-comments li p:nth-child(2) {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  .chapter-comments li p:nth-child(3) {
+    font-size: 0.8rem;
+    color: #999;
+  }
+  
+  .chapter-comments form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .chapter-comments textarea {
+    resize: vertical;
+    padding: 10px;
+    font-size: 1rem;
+    min-height: 80px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+  }
+
+  .club-comment-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .chapter-comments button {
+    align-self: flex-end;
+    padding: 8px 16px;
+    background-color: #DBCDF0;
+    border: none;
+    /* border-radius: 6px; */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .chapter-comments button:hover {
+    background-color: #b59ed7;
+  }
+
+  .comment-edit-delete {
+    /* border: solid 1px red; */
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .comment-edit-delete span {
+    color: #b59ed7; /* Soft purple */
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .comment-edit-delete span:hover {
+    color: #5e337d; /* Darker purple on hover */
+  }

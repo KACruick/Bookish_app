@@ -6,6 +6,7 @@ import { getChapterComments, addChapterComment } from '../../redux/bookclubs';
 
 function ChapterComments({ chapterId, bookclubId }) {
     const dispatch = useDispatch();
+    const sessionUser = useSelector((state) => state.session.user);
     const comments = useSelector((state) => state.bookclubs.currentBookclub.chapterComments?.[chapterId] || []);
     console.log("comments", comments)
     // const { closeModal } = useModal();
@@ -47,17 +48,26 @@ function ChapterComments({ chapterId, bookclubId }) {
           <h3>Chapter Comments</h3>
 
           <ul>
-            {/* Render comments safely if they exist */}
-            {comments.length > 0 ? (
-              comments.map((comment) => (
-                <li key={comment.id}>
-                  <p>{comment.comment}</p>
-                  <p>by {comment.user.firstName} {comment.user.lastName}</p>
-                  <p>{new Date(comment.createdAt).toLocaleString()}</p>
-                </li>
-              ))
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <li key={comment.id}>
+                <p>{comment.comment}</p>
+                <div className="comment-meta">
+                  <p>
+                    by {comment.user.firstName} {comment.user.lastName} ·{" "}
+                    {new Date(comment.createdAt).toLocaleString()}
+                  </p>
+                  {sessionUser?.id === comment.user.id && (
+                    <div className="comment-edit-delete">
+                      <span onClick={() => handleEdit(comment)}>Edit</span>
+                      <span onClick={() => handleDelete(comment.id)}>Delete</span>
+                    </div>
+                  )}
+                </div>
+              </li>
+            ))
             ) : (
-              <p>No comments yet.</p>
+            <p>No comments yet.</p>
             )}
           </ul>
 
@@ -69,7 +79,10 @@ function ChapterComments({ chapterId, bookclubId }) {
                     placeholder="Add a comment..."
                     required
                 />
+                <div className='club-comment-buttons'>
                 <button type="submit">Submit Comment</button>
+                <button>Close</button>
+                </div>
             </form>
         </div>
     );

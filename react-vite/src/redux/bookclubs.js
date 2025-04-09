@@ -213,7 +213,7 @@ export const addChapterComment = (bookclubId, chapterId, commentText) => async (
 
   if (response.ok) {
       const data = await response.json();
-      dispatch(addCommentAction(data.comment)); // Dispatch the new comment
+      dispatch(addCommentAction({ chapterId, comment: data.comment })); // Dispatch with chapterId and comment
       return response; // Return the response for further handling
   } else {
       const errorData = await response.json();
@@ -322,15 +322,20 @@ const bookclubsReducer = (state = initialState, action) => {
       }
 
       case ADD_COMMENT: {
+        const { chapterId, comment } = action.payload;
+      
         return {
-            ...state,
-            currentBookclub: {
-                ...state.currentBookclub,
-                chapterComments: [
-                    ...state.currentBookclub.chapterComments,
-                    action.payload,
-                ],
+          ...state,
+          currentBookclub: {
+            ...state.currentBookclub,
+            chapterComments: {
+              ...state.currentBookclub.chapterComments,
+              [chapterId]: [
+                ...(state.currentBookclub.chapterComments?.[chapterId] || []),
+                comment,
+              ],
             },
+          },
         };
       }
 
