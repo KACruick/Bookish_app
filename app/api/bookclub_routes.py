@@ -349,8 +349,9 @@ def delete_bookclub(id):
     if bookclub.ownerId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
     
-    # Manually delete all BookclubMember associations
+    # Manually delete all associated records
     BookclubMember.query.filter_by(bookclubId=id).delete()
+    BookclubComment.query.filter_by(bookclubId=id).delete()
 
     db.session.delete(bookclub)
     db.session.commit()
