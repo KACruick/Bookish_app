@@ -57,10 +57,12 @@ function StartBookclubModal() {
     
 
     return (
-        <div className="start-bookclub-modal">
-          <h2>Start a Bookclub!</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
+        <div className="modal-container">
+          <h2 className='start-bookclub-header'>Start a Bookclub!</h2>
+
+          <form className="start-club-form" onSubmit={handleSubmit}>
+
+            <div className='start-club-name'>
               <label>Bookclub Name:</label>
               <input
                 type="text"
@@ -69,7 +71,8 @@ function StartBookclubModal() {
                 required
               />
             </div>
-            <div>
+
+            <div className='start-club-desc'>
               <label>Description:</label>
               <textarea
                 value={description}
@@ -77,6 +80,7 @@ function StartBookclubModal() {
                 required
               />
             </div>
+
             <div>
               <label>Search for a Book:</label>
               <input
@@ -95,11 +99,14 @@ function StartBookclubModal() {
                 </ul>
               )}
             </div>
+
+          <div className='start-club-buttons'>
             <button type="submit">Create Bookclub</button>
-          </form>
-          <div>
-            <button onClick={closeModal}>Close</button>
+            <button onClick={closeModal}>Cancel</button>
           </div>
+
+          </form>
+
         </div>
     );
 }
