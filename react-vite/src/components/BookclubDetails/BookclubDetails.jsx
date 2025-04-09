@@ -82,7 +82,9 @@ function BookclubDetails() {
 
                 <div className='book-details-cover'>
                     <img src={bookclub.book.coverPicture} alt={bookclub.book.title} />
-                    <button onClick={() => openChangeBookModal(bookclubId)}>Change book</button>
+                    {isModerator && (
+                        <button onClick={() => openChangeBookModal(bookclubId)}>Change book</button>
+                    )}
                 </div>
 
                 <div className='club-and-book-info'>
