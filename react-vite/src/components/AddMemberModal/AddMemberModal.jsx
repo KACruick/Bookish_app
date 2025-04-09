@@ -50,45 +50,46 @@ function AddMemberModal({ bookclubId }) {
     };
   
     return (
-      <div className="add-member-modal">
-        <h2>Which friend would you like to add as a member?</h2>
+      <div className="modal-container">
+        <h2 className='add-friend-bookclub-header'>Which friend would you like to add as a member?</h2>
         
-        {/* Search Input */}
+        <div className="friend-search-container">
         <input
           type="text"
-          value={searchQuery}
+          value={selectedFriend ? `${selectedFriend.firstName} ${selectedFriend.lastName}` : searchQuery}
           onChange={handleSearchChange}
           placeholder="Search for friends"
         />
-        
-        {/* Dropdown List of Friends */}
-        <ul className="friends-dropdown">
-          {availableFriends.length > 0 ? (
-            availableFriends.map(friend => (
-              <li
-                key={friend.id}
-                onClick={() => setSelectedFriend(friend)}  // Set the selected friend on click
-                className="friend-item"
-              >
-                {friend.firstName} {friend.lastName}
-              </li>
-            ))
-          ) : (
-            <li>No available friends to add</li>
+          {searchQuery && !selectedFriend && (
+            <ul className="friends-dropdown">
+              {availableFriends.length > 0 ? (
+                availableFriends.map(friend => (
+                  <li
+                    key={friend.id}
+                    onClick={() => setSelectedFriend(friend)}
+                    className="friend-item"
+                  >
+                    {friend.firstName} {friend.lastName}
+                  </li>
+                ))
+              ) : (
+                <li className="no-results">No available friends to add</li>
+              )}
+            </ul>
           )}
-        </ul>
+        </div>
   
         {/* Display Selected Friend */}
-        {selectedFriend && (
+        {/* {selectedFriend && (
           <div>
             <p>Selected Friend: {selectedFriend.firstName} {selectedFriend.lastName}</p>
           </div>
-        )}
+        )} */}
   
         {/* Modal Buttons */}
-        <div>
-          <button onClick={closeModal}>Cancel</button>
+        <div className='add-friend-bookclub-buttons'>
           <button onClick={handleAddMember}>Add Member</button>
+          <button onClick={closeModal}>Cancel</button>
         </div>
       </div>
     );
