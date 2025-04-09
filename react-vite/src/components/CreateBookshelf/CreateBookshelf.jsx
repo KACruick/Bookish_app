@@ -37,21 +37,24 @@ function CreateBookshelf() {
     }
 
     return (
-        <div>
-            <h1>Create a new bookshelf</h1>
+        <div className='modal-container'>
+            <h1 className='create-shelf-header'>Create a new bookshelf</h1>
 
-            <label>
-                Bookshelf Name:
-                <input
-                type="text"
-                value={bookshelfName}
-                onChange={(e) => setBookshelfName(e.target.value)}
-                />
-            </label>
+            <div className="shelf-name-input">
+                <label>
+                    Bookshelf Name:
+                </label>
+                    <input
+                    type="text"
+                    value={bookshelfName}
+                    onChange={(e) => setBookshelfName(e.target.value)}
+                    />
+                
+            </div>
 
-            <div className="action-buttons">
-                <button onClick={handleCreate} className='create-bookshelf'>Create</button>
-                <button onClick={handleCancel} className='cancel-bookshlef'>Cancel</button>
+            <div className="create-bookshelf-buttons">
+                <button onClick={handleCreate} >Create</button>
+                <button onClick={handleCancel} >Cancel</button>
             </div>
         
         </div>

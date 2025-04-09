@@ -1,0 +1,29 @@
+
+.create-shelf-header {
+    margin-bottom: 10px;
+}
+
+.shelf-name-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.create-bookshelf-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.create-bookshelf-buttons button{
+    background-color: #C9E4DE;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-bookshelf-buttons button:hover{
+    background-color: #98d2c5;
+}
