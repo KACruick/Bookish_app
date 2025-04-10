@@ -11,6 +11,9 @@ const ADD_MEMBER_TO_BOOKCLUB = 'bookclubs/ADD_MEMBER_TO_BOOKCLUB';
 const REMOVE_MEMBER_FROM_BOOKCLUB = 'bookclubs/REMOVE_MEMBER_FROM_BOOKCLUB';
 const GET_COMMENTS = 'bookclubs/GET_COMMENTS';
 const ADD_COMMENT = 'bookclubs/ADD_COMMENT';
+const EDIT_COMMENT = 'bookclubs/EDIT_COMMENT';
+const DELETE_COMMENT = 'bookclubs/DELETE_COMMENT';
+const CLEAR_COMMENTS = 'bookclubs/CLEAR_COMMENTS';
 
 // Action Creators
 const getBookclubsAction = (bookclubs) => ({
@@ -61,6 +64,21 @@ const getCommentsAction = (comments) => ({
 const addCommentAction = (comment) => ({
   type: ADD_COMMENT,
   payload: comment,
+});
+
+const editCommentAction = (chapterId, commentId, updatedComment) => ({
+  type: EDIT_COMMENT,
+  payload: { chapterId, commentId, updatedComment },
+});
+
+const deleteCommentAction = (chapterId, commentId) => ({
+  type: DELETE_COMMENT,
+  payload: { chapterId, commentId },
+});
+
+const clearCommentsAction = (bookclubId) => ({
+  type: CLEAR_COMMENTS,
+  payload: bookclubId,
 });
 
 // Thunks
@@ -221,6 +239,51 @@ export const addChapterComment = (bookclubId, chapterId, commentText) => async (
   }
 };
 
+export const editComment = (bookclubId, chapterId, commentId, newCommentText) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookclubs/${bookclubId}/${chapterId}/comments/${commentId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ comment: newCommentText }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(editCommentAction(chapterId, commentId, data.comment));
+    return data.comment;
+  } else {
+    const errorData = await response.json();
+    throw errorData;
+  }
+};
+
+export const deleteComment = (bookclubId, chapterId, commentId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookclubs/${bookclubId}/${chapterId}/comments/${commentId}`, {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    dispatch(deleteCommentAction(chapterId, commentId));
+  } else {
+    const errorData = await response.json();
+    throw errorData;
+  }
+};
+
+export const clearComments = (bookclubId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/bookclubs/${bookclubId}/clear-comments`, {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    dispatch(clearCommentsAction(bookclubId));
+  } else {
+    const errorData = await response.json();
+    throw errorData;
+  }
+};
+
 // Initial State
 const initialState = {
     bookclubs: {},
@@ -339,6 +402,51 @@ const bookclubsReducer = (state = initialState, action) => {
         };
       }
 
+      case CLEAR_COMMENTS: {
+        return {
+          ...state,
+          currentBookclub: {
+            ...state.currentBookclub,
+            chapterComments: {},
+          },
+        };
+      }
+  
+      case EDIT_COMMENT: {
+        const { chapterId, commentId, updatedComment } = action.payload;
+        const updatedComments = state.currentBookclub.chapterComments[chapterId].map((comment) =>
+          comment.id === commentId ? updatedComment : comment
+        );
+  
+        return {
+          ...state,
+          currentBookclub: {
+            ...state.currentBookclub,
+            chapterComments: {
+              ...state.currentBookclub.chapterComments,
+              [chapterId]: updatedComments,
+            },
+          },
+        };
+      }
+  
+      case DELETE_COMMENT: {
+        const { chapterId, commentId } = action.payload;
+        const updatedComments = state.currentBookclub.chapterComments[chapterId].filter(
+          (comment) => comment.id !== commentId
+        );
+  
+        return {
+          ...state,
+          currentBookclub: {
+            ...state.currentBookclub,
+            chapterComments: {
+              ...state.currentBookclub.chapterComments,
+              [chapterId]: updatedComments,
+            },
+          },
+        };
+      }
   
       default:
         return state;
