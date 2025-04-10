@@ -2,10 +2,12 @@ import './ChapterComments.css'
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getChapterComments, addChapterComment } from '../../redux/bookclubs'; 
+import { useModal } from '../../context/Modal';
 // import { useModal } from '../../context/Modal';
 
 function ChapterComments({ chapterId, bookclubId }) {
     const dispatch = useDispatch();
+    const {closeModal} = useModal();
     const sessionUser = useSelector((state) => state.session.user);
     const comments = useSelector((state) => state.bookclubs.currentBookclub.chapterComments?.[chapterId] || []);
     console.log("comments", comments)
@@ -45,31 +47,42 @@ function ChapterComments({ chapterId, bookclubId }) {
 
     return (
         <div className="chapter-comments">
-          <h3>Chapter Comments</h3>
+          <h3>Chapter {chapterId}</h3>
 
           <ul>
-          {comments.length > 0 ? (
-            comments.map((comment) => (
-              <li key={comment.id}>
-                <p>{comment.comment}</p>
-                <div className="comment-meta">
-                  <p>
-                    by {comment.user.firstName} {comment.user.lastName} ·{" "}
-                    {new Date(comment.createdAt).toLocaleString()}
-                  </p>
+            {comments.length > 0 ? (
+              comments.map((comment) => (
+                <li key={comment.id}>
+                  {/* User Info on the Left */}
+                  <div className="comment-user">
+                    <p>
+                      {comment.user.firstName} {comment.user.lastName}
+                    </p>
+                    <p className="comment-meta">
+                      {new Date(comment.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+
+                  <div className='comment-and-edit-delete'>
+                  {/* Comment Text in the Center */}
+                  <div className="comment-text">
+                    <p>{comment.comment}</p>
+                  </div>
+
+                  {/* Edit/Delete buttons placed underneath the comment text */}
                   {sessionUser?.id === comment.user.id && (
                     <div className="comment-edit-delete">
                       <span onClick={() => handleEdit(comment)}>Edit</span>
                       <span onClick={() => handleDelete(comment.id)}>Delete</span>
                     </div>
                   )}
-                </div>
-              </li>
-            ))
-            ) : (
-            <p>No comments yet.</p>
-            )}
-          </ul>
+                  </div>
+                </li>
+              ))
+              ) : (
+                <p>No comments yet.</p>
+              )}
+            </ul>
 
             {/* Comment input form */}
             <form onSubmit={handleCommentSubmit}>
@@ -81,7 +94,7 @@ function ChapterComments({ chapterId, bookclubId }) {
                 />
                 <div className='club-comment-buttons'>
                 <button type="submit">Submit Comment</button>
-                <button>Close</button>
+                <button onClick={closeModal}>Close</button>
                 </div>
             </form>
         </div>

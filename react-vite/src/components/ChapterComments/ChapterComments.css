@@ -22,24 +22,61 @@
   }
   
   .chapter-comments li {
-    padding: 12px;
+    display: flex;
+    padding: 12px 8px;
     border-bottom: 1px solid #eee;
+    gap: 10px;
   }
   
-  .chapter-comments li p {
-    margin: 4px 0;
-    font-size: 0.95rem;
-    color: #444;
+  .comment-user {
+    /* width: 25%; User info on the left */
+    font-size: 0.9rem;
+    color: #555;
+    /* border: 1px solid red; */
+    min-width: 100px;
+    max-width: 100px;
+  }
+
+  .comment-and-edit-delete {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
   }
   
-  .chapter-comments li p:nth-child(2) {
-    font-weight: bold;
-    color: #2c3e50;
+  .comment-text {
+    width: 100%; /* Comment takes up 50% of the width */
+    /* border: 1px solid red; */
+    font-size: 1rem;
+    color: #333;
+    word-wrap: break-word; /* Ensure text wraps within container */
   }
   
-  .chapter-comments li p:nth-child(3) {
+  .comment-meta {
     font-size: 0.8rem;
-    color: #999;
+    color: #888;
+    margin-top: 5px;
+  }
+  
+  .comment-edit-delete {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    /* border: 1px solid red; */
+  }
+  
+  .comment-edit-delete span {
+    color: #8e44ad;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .comment-edit-delete span:hover {
+    color: black;
   }
   
   .chapter-comments form {
@@ -57,7 +94,7 @@
     border: 1px solid #ccc;
     font-family: inherit;
   }
-
+  
   .club-comment-buttons {
     display: flex;
     justify-content: center;
@@ -65,11 +102,9 @@
   }
   
   .chapter-comments button {
-    align-self: flex-end;
     padding: 8px 16px;
     background-color: #DBCDF0;
     border: none;
-    /* border-radius: 6px; */
     cursor: pointer;
     transition: background-color 0.2s ease;
   }
@@ -77,21 +112,7 @@
   .chapter-comments button:hover {
     background-color: #b59ed7;
   }
-
-  .comment-edit-delete {
-    /* border: solid 1px red; */
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .comment-edit-delete span {
-    color: #b59ed7; /* Soft purple */
-    cursor: pointer;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .comment-edit-delete span:hover {
-    color: #5e337d; /* Darker purple on hover */
+  
+  .chapter-comments button:focus {
+    outline: none;
   }
