@@ -1,6 +1,6 @@
 import './BookclubDetails.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from "react-router-dom";
 import { getBookclub, getChapterComments } from '../../redux/bookclubs';  
 import ChapterComments from '../ChapterComments/ChapterComments';
@@ -30,15 +30,18 @@ function BookclubDetails() {
 
     const existingComments = useSelector(state => state.bookclubs.currentBookclub.chapterComments);
 
-useEffect(() => {
-  if (bookclub?.book?.chapters) {
-    for (let chapterId = 1; chapterId <= bookclub.book.chapters; chapterId++) {
-      if (!existingComments?.[chapterId]) {
-        dispatch(getChapterComments(bookclubId, chapterId));
+    const fetchedChaptersRef = useRef(new Set());
+
+    useEffect(() => {
+      if (bookclub?.book?.chapters) {
+        for (let chapterId = 1; chapterId <= bookclub.book.chapters; chapterId++) {
+          if (!fetchedChaptersRef.current.has(chapterId)) {
+            fetchedChaptersRef.current.add(chapterId);
+            dispatch(getChapterComments(bookclubId, chapterId));
+          }
+        }
       }
-    }
-  }
-}, [bookclubId, bookclub?.book?.chapters, existingComments, dispatch]);
+    }, [bookclub?.book?.chapters, bookclubId, dispatch]);
 
     // useEffect(() => {
     //     // Only dispatch getChapterComments once the bookclub is loaded and valid
